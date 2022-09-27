@@ -3,15 +3,14 @@ import { StyleSheet, View, Text, Image, Button } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function SleepScreen({navigation}){
+export default function ListScreen({navigation}){
     return (
          <View style={styles.container}>
-            <Text style={styles.dummyText}>Record Sleep</Text>
+            <Text style={styles.dummyText}>Weekly Food and Sleep data</Text>
 
          <Button
-            title="Sleep Summary"
+            title="Summary"
             onPress={() => alert("Link to summary charts")}/>
-
          </View>
     )
 }

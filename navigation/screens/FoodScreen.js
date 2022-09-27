@@ -9,12 +9,9 @@ export default function FoodScreen({navigation}){
             <Text style={styles.dummyText}>Record Feeding</Text>
 
          <Button
-            title="Feeding Summary"
-            onPress={() => alert("Link to summary charts")}/>
+            title="Add food"
+            onPress={() => alert("Form to add feed data")}/>
 
-         <Button
-            title="Baby"
-            onPress={() => navigation.navigate('Baby')}/>
          </View>
     )
 }
