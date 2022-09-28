@@ -13,8 +13,6 @@ export default function BabyScreen({navigation}) {
     try{
     getBabies().then((result)=>{
       setData(result);
-      console.log(result[0].feeds)
-
     
     })}catch(err){
       console.lot("nope")
