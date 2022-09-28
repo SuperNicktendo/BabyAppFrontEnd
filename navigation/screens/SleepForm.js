@@ -18,28 +18,22 @@ export default function SleepForm({navigation}){
     const [openEnd, setEndOpen] = useState(false);
     const [items, setItems] = useState([{label: 'Night', value: 'NIGHT'}, {label: 'Nap', value: 'NAP'}]);
     const [openDropDown, setOpenDropDown] = useState(false);
-    const [value, setValue] = useState(null);
-    const [sleep, setSleep] = useState(
-      {
-        "startTime":null ,
-        "endTime":null ,
-        "sleepType":null ,
-        "baby": {
-          "id":null ,
-      }
-    }
-    )
+    const [sleepValue, setSleepValue] = useState(null);
+ 
+  
 
-    const saveSleep = () => {
-      setSleep({
+    const  saveSleep =async () => {
+       tempSleep = {
         "startTime": startDate ,
         "endTime": endDate,
-        "sleepType": value,
+        "sleepType": sleepValue,
         "baby": {
           "id": 1,
       }
-    })
-    postSleep(sleep);
+    }
+
+    console.log(tempSleep)
+    postSleep(tempSleep);
     navigation.navigate('List')
     }
 
@@ -65,7 +59,7 @@ export default function SleepForm({navigation}){
                }}
              />
            
-           <Text style={styles.dummyText}>Start Time is : {moment(startDate).format('MMM Do, h:mm a')}</Text>
+           <Text style={styles.dummyText}>Start Time is : {moment(startDate).utcOffset("+0100").format('MMM Do, h:mm a')}</Text>
 
          
 
@@ -83,15 +77,15 @@ export default function SleepForm({navigation}){
                }}
              />
            </>
-           <Text style={styles.dummyText}>End Time is : {moment(endDate).format('MMM Do, h:mm a')}
+           <Text style={styles.dummyText}>End Time is : {moment(endDate).utcOffset("+0100").format('MMM Do, h:mm a')}
            </Text>
 
            <DropDownPicker
                     open={openDropDown}
-                    value={value}
+                    value={sleepValue}
                     items={items}
                     setOpen={setOpenDropDown}
-                    setValue={setValue}
+                    setValue={setSleepValue}
                     setItems={setItems}
              />
 
