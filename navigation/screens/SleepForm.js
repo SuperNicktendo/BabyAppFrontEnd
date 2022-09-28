@@ -5,17 +5,37 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker'
 import moment from 'moment'
+import {postSleep} from '../SleepService.js'
+import ListScreen from './ListScreen';
 
 
+const listName = "List";
 
-export default function SleepForm(){
+export default function SleepForm({navigation}){
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [openStart, setStartOpen] = useState(false);
     const [openEnd, setEndOpen] = useState(false);
-    const [items, setItems] = useState([{label: 'Night', value: 'night'}, {label: 'Nap', value: 'nap'}]);
+    const [items, setItems] = useState([{label: 'Night', value: 'NIGHT'}, {label: 'Nap', value: 'NAP'}]);
     const [openDropDown, setOpenDropDown] = useState(false);
-    const [value, setValue] = useState(null);
+    const [sleepValue, setSleepValue] = useState(null);
+ 
+  
+
+    const  saveSleep =async () => {
+       tempSleep = {
+        "startTime": startDate ,
+        "endTime": endDate,
+        "sleepType": sleepValue,
+        "baby": {
+          "id": 1,
+      }
+    }
+
+    console.log(tempSleep)
+    postSleep(tempSleep);
+    navigation.navigate('List')
+    }
 
 
 
@@ -39,7 +59,7 @@ export default function SleepForm(){
                }}
              />
            
-           <Text style={styles.dummyText}>Start Time is : {moment(startDate).format('MMM Do, h:mm a')}</Text>
+           <Text style={styles.dummyText}>Start Time is : {moment(startDate).utcOffset("+0100").format('MMM Do, h:mm a')}</Text>
 
          
 
@@ -57,15 +77,15 @@ export default function SleepForm(){
                }}
              />
            </>
-           <Text style={styles.dummyText}>End Time is : {moment(endDate).format('MMM Do, h:mm a')}
+           <Text style={styles.dummyText}>End Time is : {moment(endDate).utcOffset("+0100").format('MMM Do, h:mm a')}
            </Text>
 
            <DropDownPicker
                     open={openDropDown}
-                    value={value}
+                    value={sleepValue}
                     items={items}
                     setOpen={setOpenDropDown}
-                    setValue={setValue}
+                    setValue={setSleepValue}
                     setItems={setItems}
              />
 
@@ -74,6 +94,7 @@ export default function SleepForm(){
 
            <Button
                title="Save"
+               onPress={saveSleep}
             />
 
 
