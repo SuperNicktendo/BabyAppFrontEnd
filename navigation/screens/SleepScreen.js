@@ -8,7 +8,7 @@ export default function SleepScreen({navigation}){
     return (
          <View style={styles.container}>
             <Text style={styles.dummyText}>Record Sleep</Text>
-            <SleepForm/>
+            <SleepForm navigation={navigation}/>
          </View>
     )
 }

@@ -5,17 +5,43 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker'
 import moment from 'moment'
+import {postSleep} from '../SleepService.js'
+import ListScreen from './ListScreen';
 
 
+const listName = "List";
 
-export default function SleepForm(){
+export default function SleepForm({navigation}){
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [openStart, setStartOpen] = useState(false);
     const [openEnd, setEndOpen] = useState(false);
-    const [items, setItems] = useState([{label: 'Night', value: 'night'}, {label: 'Nap', value: 'nap'}]);
+    const [items, setItems] = useState([{label: 'Night', value: 'NIGHT'}, {label: 'Nap', value: 'NAP'}]);
     const [openDropDown, setOpenDropDown] = useState(false);
     const [value, setValue] = useState(null);
+    const [sleep, setSleep] = useState(
+      {
+        "startTime":null ,
+        "endTime":null ,
+        "sleepType":null ,
+        "baby": {
+          "id":null ,
+      }
+    }
+    )
+
+    const saveSleep = () => {
+      setSleep({
+        "startTime": startDate ,
+        "endTime": endDate,
+        "sleepType": value,
+        "baby": {
+          "id": 1,
+      }
+    })
+    postSleep(sleep);
+    navigation.navigate('List')
+    }
 
 
 
@@ -74,6 +100,7 @@ export default function SleepForm(){
 
            <Button
                title="Save"
+               onPress={saveSleep}
             />
 
 
