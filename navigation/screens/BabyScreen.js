@@ -1,13 +1,33 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, Image, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {getBabies} from '../BabyService.js'
 
 export default function BabyScreen({navigation}) {
+
+
+  const [data, setData ] = useState(null);
+
+  useEffect(()=>{
+    try{
+    getBabies().then((result)=>{
+      setData(result);
+      console.log(result[0].feeds)
+
+    
+    })}catch(err){
+      console.lot("nope")
+    }
+  }, []);
+
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.dummyText}>Baby Screen</Text>
-
+    {data ? <Text>{data[0].name}</Text> :<Text> loading </Text> } 
+      
       <Button
         style={styles.button}
         title="Food"
