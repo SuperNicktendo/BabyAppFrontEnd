@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, Image, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {getBabies} from '../BabyService.js'
+import SelectDropdown from 'react-native-select-dropdown'
 
 export default function BabyScreen({navigation}) {
 
@@ -20,9 +21,24 @@ export default function BabyScreen({navigation}) {
   }, []);
 
 
+  const babies = ['baby1', 'baby2'];
 
   return (
     <View style={styles.container}>
+
+<SelectDropdown
+	data={babies}
+	onSelect={(selectedItem, index) => {
+		console.log(selectedItem, index)
+	}}
+	buttonTextAfterSelection={(selectedItem, index) => {
+		return selectedItem
+	}}
+	rowTextForSelection={(item, index) => {
+		return item
+	}}
+/>
+
       <Text style={styles.dummyText}>Baby Screen</Text>
     {data ? <Text>{data[0].name}</Text> :<Text> loading </Text> } 
       
