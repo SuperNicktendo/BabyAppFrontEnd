@@ -12,6 +12,7 @@ import SleepScreen from './screens/SleepScreen';
 import BabyScreen from './screens/BabyScreen';
 import ListScreen from './screens/ListScreen';
 import {HomeScreenNavigator, BabyScreenNavigator} from './StackNavigation';
+import SummaryScreen from './screens/SummaryScreen';
 
 //Screen names
 const homeName = "Home";
@@ -19,6 +20,7 @@ const foodName = "Food";
 const sleepName = "Sleep";
 const babyName = "Baby";
 const listName = "List";
+const summaryName = "Summary";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -67,6 +69,10 @@ export default function MainContainer(){
                }}/>
                <Tab.Screen name={babyName} component={BabyScreen} />
                <Tab.Screen name={listName} component={ListScreen} />
+               <Tab.Screen name={summaryName} component={SummaryScreen} options={{
+                tabBarButton: ()=> null,
+                tabBarVisible: false,
+               }}/>
              </Tab.Navigator>
              
        </NavigationContainer>
