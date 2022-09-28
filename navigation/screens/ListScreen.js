@@ -10,7 +10,7 @@ export default function ListScreen({navigation}){
 
          <Button
             title="Summary"
-            onPress={() => alert("Link to summary charts")}/>
+            onPress={() => navigation.navigate("Summary")}/>
          </View>
     )
 }
