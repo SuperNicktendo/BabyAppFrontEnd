@@ -10,49 +10,67 @@ import HomeScreen from './screens/HomeScreen';
 import FoodScreen from './screens/FoodScreen';
 import SleepScreen from './screens/SleepScreen';
 import BabyScreen from './screens/BabyScreen';
+import ListScreen from './screens/ListScreen';
+import {HomeScreenNavigator, BabyScreenNavigator} from './StackNavigation';
 
 //Screen names
-const homeName = 'Home';
-const foodName = 'Food';
-const sleepName = 'Sleep';
-const babyName = 'Baby';
+const homeName = "Home";
+const foodName = "Food";
+const sleepName = "Sleep";
+const babyName = "Baby";
+const listName = "List";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-export default function MainContainer() {
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName={homeName}
-        screenOptions={({route}) => ({
-          tabBarIcon: ({focused, color, size}) => {
-            let iconName;
-            let rn = route.name;
+export default function MainContainer(){
+    return(
+       <NavigationContainer>
+             
+             <Tab.Navigator
+               initialRouteName={homeName}
+               screenOptions={({ route }) => ({
+                 tabBarIcon: ({ focused, color, size }) => {
+                   let iconName;
+                   let rn = route.name;
 
-            if (rn === homeName) {
-              iconName = focused ? 'home' : 'home-outline';
-            } else if (rn === babyName) {
-              iconName = focused ? 'list' : 'list-outline';
-            } else if (rn === foodName) {
-              iconName = focused ? 'settings' : 'settings-outline';
-            } else if (rn === sleepName) {
-              iconName = focused ? 'settings' : 'settings-outline';
-            }
+                   if (rn === babyName) {
+                     iconName = focused ? 'list' : 'list-outline';
 
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        screenOptions={{
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'grey',
-          tabBarLabelStyle: {paddingBottom: 10, fontSize: 10},
-          style: {padding: 10, height: 70},
-        }}>
-        <Tab.Screen name={babyName} component={BabyScreen} />
-        <Tab.Screen name={homeName} component={HomeScreen} />
-        <Tab.Screen name={foodName} component={FoodScreen} />
-        <Tab.Screen name={sleepName} component={SleepScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+                   } else if (rn === listName) {
+                     iconName = focused ? 'settings' : 'settings-outline';
+
+                   } 
+
+                   return <Ionicons name={iconName} size={size} color={color} />;
+                 },
+               })}
+               screenOptions={{
+                headerShown: false,
+                 tabBarActiveTintColor: 'tomato',
+                 tabBarInactiveTintColor: 'grey',
+                 tabBarLabelStyle: { paddingBottom: 10, fontSize: 10 },
+                 style: { padding: 10, height: 70}
+               }}>
+
+                <Tab.Screen name={homeName} component={HomeScreen} options={{
+                  tabBarButton: ()=> null,
+                  tabBarVisible: false,
+                }}/>
+               <Tab.Screen name={foodName} component={FoodScreen} options={{
+                tabBarButton: ()=> null,
+                tabBarVisible: false,
+               }}/>
+               <Tab.Screen name={sleepName} component={SleepScreen} options={{
+                tabBarButton: ()=> null,
+                tabBarVisible: false,
+               }}/>
+               <Tab.Screen name={babyName} component={BabyScreen} />
+               <Tab.Screen name={listName} component={ListScreen} />
+             </Tab.Navigator>
+             
+       </NavigationContainer>
+
+    )
+
 }
