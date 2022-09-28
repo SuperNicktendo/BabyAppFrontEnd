@@ -4,11 +4,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SleepForm from './SleepForm.js'
 
-export default function SleepScreen({navigation}){
+export default function SleepScreen({route, navigation}){
+  const { baby } = route.params;
     return (
          <View style={styles.container}>
             <Text style={styles.dummyText}>Record Sleep</Text>
-            <SleepForm navigation={navigation}/>
+            <SleepForm navigation={navigation} baby={baby}/>
          </View>
     )
 }

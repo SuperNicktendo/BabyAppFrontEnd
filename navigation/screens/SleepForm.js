@@ -11,7 +11,7 @@ import ListScreen from './ListScreen';
 
 const listName = "List";
 
-export default function SleepForm({navigation}){
+export default function SleepForm({navigation, baby}){
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [openStart, setStartOpen] = useState(false);
@@ -20,7 +20,7 @@ export default function SleepForm({navigation}){
     const [openDropDown, setOpenDropDown] = useState(false);
     const [sleepValue, setSleepValue] = useState(null);
  
-  
+  console.log(baby)
 
     const  saveSleep =async () => {
        tempSleep = {
@@ -28,7 +28,7 @@ export default function SleepForm({navigation}){
         "endTime": endDate,
         "sleepType": sleepValue,
         "baby": {
-          "id": 1,
+          "id": baby.id,
       }
     }
 

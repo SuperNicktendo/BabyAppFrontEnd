@@ -1,57 +1,69 @@
+
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, Image, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {getBabies} from '../BabyService.js'
 import SelectDropdown from 'react-native-select-dropdown'
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function BabyScreen({navigation}) {
 
 
   const [data, setData ] = useState(null);
-
+  const [babies, setBabies] = useState(null);
+  const [babyName, setBabyName] = useState(null);
+  const [baby, setBaby] = useState(null);
+  const [items, setItems] = useState(null)
+  const [openDropDown, setOpenDropDown] = useState(false);
+ 
+  
+  
   useEffect(()=>{
     try{
     getBabies().then((result)=>{
       setData(result);
-    
+      tempBabies = result.map(baby => {
+        return {label: baby.name, value: baby} })
+      setItems(tempBabies)
+      console.log(tempBabies)
     })}catch(err){
       console.lot("nope")
     }
   }, []);
 
-
-  const babies = ['baby1', 'baby2'];
-
+console.log(baby)
   return (
     <View style={styles.container}>
 
-<SelectDropdown
-	data={babies}
-	onSelect={(selectedItem, index) => {
-		console.log(selectedItem, index)
-	}}
-	buttonTextAfterSelection={(selectedItem, index) => {
-		return selectedItem
-	}}
-	rowTextForSelection={(item, index) => {
-		return item
-	}}
-/>
+
+{items ?<DropDownPicker
+                    open={openDropDown}
+                    value={baby}
+                    items={items}
+                    setOpen={setOpenDropDown}
+                    setValue={setBaby}
+                    setItems={setItems}
+             />: <Text>loading</Text>}
+
+             
+
+
+
+
 
       <Text style={styles.dummyText}>Baby Screen</Text>
-    {data ? <Text>{data[0].name}</Text> :<Text> loading </Text> } 
       
       <Button
         style={styles.button}
         title="Food"
-        onPress={() => navigation.navigate('Food')}
+        onPress={() => navigation.navigate('Food', {baby})}
       />
 
       <Button
         style={styles.button}
         title="Sleep"
-        onPress={() => navigation.navigate('Sleep')}
+        onPress={() => navigation.navigate('Sleep' , {baby})}
       />
     </View>
   );

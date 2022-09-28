@@ -10,12 +10,14 @@ import {postFeed} from '../FeedService.js'
 
 
 
-export default function FoodScreen({navigation}){
+export default function FoodScreen({route, navigation}){
     const [date, setDate] = useState(new Date())
     const [open, setOpen] = useState(false)
     const [finalValue, setFinalValue] = useState(0)
 
+    const { baby } = route.params;
 
+  console.log(baby)
 
     const saveFeed = async () => {
         console.log("set time on press ", date)
@@ -25,7 +27,7 @@ export default function FoodScreen({navigation}){
            "time": date,
            "volume": finalValue,
            "baby": {
-             "id": 1,
+             "id": baby.id,
                    }
           }
         console.log(newFeed);
