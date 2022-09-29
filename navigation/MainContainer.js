@@ -37,14 +37,15 @@ export default function MainContainer(){
                    let rn = route.name;
 
                    if (rn === babyName) {
-                     iconName = focused ? 'list' : 'list-outline';
+                     iconName = focused ? 'home' : 'home-outline';
 
                    } else if (rn === listName) {
-                     iconName = focused ? 'settings' : 'settings-outline';
+                     iconName = focused ? 'list' : 'list-outline';
 
                    } 
 
                    return <Ionicons name={iconName} size={size} color={color} />;
+                   
                  },
                })}
                screenOptions={{
