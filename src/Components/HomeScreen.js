@@ -7,6 +7,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {postBaby} from '../Services/BabyService.js';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
+import renderIf from "./renderIf.js";
 
 
 export default function HomeScreen({navigation}) {
@@ -14,7 +15,7 @@ export default function HomeScreen({navigation}) {
   const [dob, setDob] = React.useState(null);
   const [date, setDate] = useState(new Date())
   const [open, setOpen] = useState(false)
-
+  const [showContent, setShowContent] = useState(null)
 
   const createBaby = async () => {
     const newBaby = {
@@ -22,14 +23,8 @@ export default function HomeScreen({navigation}) {
       birthdate: moment(date).format('YYYY-MM-DD'),
     };
     await postBaby(newBaby);
-
-
     navigation.navigate('Baby')
- 
   };
-
-
-
 
   return (
     <View style={styles.container}>
@@ -42,8 +37,14 @@ export default function HomeScreen({navigation}) {
                 <Text style={styles.buttonText}>Home</Text>
               </TouchableOpacity>
 
-      <Text style={styles.homeText}>Add a child</Text>
+      <TouchableOpacity style={styles.buttonContainer} onPress={()=> setShowContent(!showContent)}>
+                      <Text style={styles.buttonText}>Add New Baby</Text>
+                    </TouchableOpacity>
+
+      {renderIf(showContent,
       <View>
+      <Text style={styles.homeText}>Add a child</Text>
+
         <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff'}}>
           First Name:
         </Text>
@@ -94,7 +95,8 @@ export default function HomeScreen({navigation}) {
           <Text style={styles.buttonText}>Add Baby</Text>
         </TouchableOpacity>
 
-      </View>
+      </View>)}
+      {renderIf(!showContent, null)}
     </View>
   );
 }
