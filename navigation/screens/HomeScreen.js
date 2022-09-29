@@ -13,13 +13,13 @@ import DatePicker from 'react-native-date-picker';
 export default function HomeScreen({navigation}) {
   const [name, setName] = React.useState(null);
   const [dob, setDob] = React.useState(null);
-
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
   const createBaby = async () => {
     // console.log('name on press ', name);
     // console.log('dob on press: ', dob);
 
-  const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
+
 
     const newBaby = {
       name: name,
