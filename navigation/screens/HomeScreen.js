@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image, Button} from 'react-native';
+import {StyleSheet, View, Text, Image, Button, TouchableOpacity} from 'react-native';
 import logo from './baby-logo.jpeg';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -7,10 +7,12 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 export default function HomeScreen({navigation}) {
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('Baby')}>
       <Image source={logo} style={styles.logo} />
-      <Text style={styles.dummyText}>Home Screen</Text>
+      </TouchableOpacity>
+      {/* <Text style={styles.dummyText}>Home Screen</Text> */}
 
-      <Button title="Enter" onPress={() => navigation.navigate('Baby')} />
+      {/* <Button title="Enter" onPress={() => navigation.navigate('Baby')} /> */}
     </View>
   );
 }
@@ -33,5 +35,10 @@ const styles = StyleSheet.create({
     width: 305,
     height: 159,
     marginBottom: 10,
+    padding: 100,
+    borderColor: 'black',
+    borderWidth: 5,
+    borderRadius: 305 /2
+
   },
 });
