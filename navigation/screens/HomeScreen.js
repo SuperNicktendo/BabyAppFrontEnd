@@ -1,24 +1,29 @@
 
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, Text, TextInput, Image, Button, TouchableOpacity} from 'react-native';
 import logo from './baby-logo.jpeg';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {postBaby} from '../BabyService.js';
 import moment from 'moment';
+import DatePicker from 'react-native-date-picker';
+
 
 
 export default function HomeScreen({navigation}) {
   const [name, setName] = React.useState(null);
   const [dob, setDob] = React.useState(null);
 
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
+
   const createBaby = () => {
     console.log('name on press ', name);
-    console.log('dob on press: ', dob);
+    console.log('dob on press: ', date);
 
     const newBaby = {
       name: name,
-      birthdate: moment(dob).format('YYYY-MM-DD'),
+      birthdate: moment(date).format('YYYY-MM-DD'),
     };
     console.log('baby to be posted: ', newBaby);
     postBaby(newBaby);
@@ -32,7 +37,10 @@ export default function HomeScreen({navigation}) {
       <Image source={logo} style={styles.logo} />
       </TouchableOpacity>
 
-      
+      <TouchableOpacity style={styles.buttonContainer} onPress={()=> navigation.navigate('Baby')}>
+                <Text style={styles.buttonText}>Home</Text>
+              </TouchableOpacity>
+
       <Text style={styles.homeText}>Add a child</Text>
       <View>
         <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff'}}>
@@ -60,32 +68,31 @@ export default function HomeScreen({navigation}) {
         <Text style={{textAlign: 'center', fontWeight: 'bold',  color: '#fff'}}>
           Date of Birth:
         </Text>
-        <TextInput
-          style={{
-            backgroundColor: '#BAE6F2',
-            color: '#fff',
-            height: 40,
-            width: 200,
-            borderColor: '#081b4f',
-            borderWidth: 2,
-            borderRadius: 10,
-            marginBottom: 20,
-            fontSize: 14,
-          }}
-          onChangeText={value => setDob(value)}
-          value={dob}
-          maxLength={8}
-          keyboardType="numeric"
-          placeholder="Enter D.O.B (yyyy-mm-dd) :"
-          activeUnderlineColor="green"
-          underlineColor="purple"
-        />
+
+        <>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => setOpen(true)} >
+                        <Text style={styles.buttonText}>Start Time</Text>
+                        </TouchableOpacity>
+            <DatePicker
+                modal
+                mode="date"
+                open={open}
+                date={date}
+                onConfirm={(date) => {
+                  setOpen(false)
+                  setDate(date)
+                  console.log("set time: ", date)
+                }}
+                onCancel={() => {
+                  setOpen(false)
+                }}
+              />
+        </>
+
         <TouchableOpacity style={styles.buttonContainer} onPress={createBaby} >
-          <Text style={styles.buttonText}>Create</Text>
+          <Text style={styles.buttonText}>Add Baby</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer} onPress={()=> navigation.navigate('Baby')}>
-          <Text style={styles.buttonText}>Home</Text>
-        </TouchableOpacity>
+
       </View>
     </View>
   );
@@ -146,8 +153,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   buttons: {
-    backgroundColor: '#FA7921',
-    color: '#FA7921',
+    alignItems: "center",
+        backgroundColor: "#DDDDDD",
+        padding: 10
   },
+  buttonText: {
+      fontSize: 18,
+      color: "#fff",
+      fontWeight: "bold",
+      alignSelf: "center",
+      textTransform: "uppercase"
+    }
 });
 

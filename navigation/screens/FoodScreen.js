@@ -56,6 +56,7 @@ export default function FoodScreen({route, navigation}){
                   setOpen(false)
                 }}
               />
+
             </>
 
             <Text style={styles.dummyText}>Time Entered is : {moment(date).utcOffset('+0100').format('MMM Do, h:mm a')}</Text>
