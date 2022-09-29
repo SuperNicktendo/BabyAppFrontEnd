@@ -4,7 +4,6 @@ const baseURL = 'http://10.14.234.211:8080/babies'
 
 
 
-
 // gets all babies
 export const getBabies = () => {
     return fetch(baseURL)
