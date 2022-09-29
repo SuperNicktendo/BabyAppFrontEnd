@@ -32,34 +32,30 @@ export default function HomeScreen({navigation}) {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.headertext}>App Name</Text>
       <TouchableOpacity onPress={() => navigation.navigate('Baby')}>
       <Image source={logo} style={styles.logo} />
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.buttons}
+      <TouchableOpacity style={styles.buttonContainer} onPress={()=> navigation.navigate('Baby')}>
+                <Text style={styles.buttonText}>Home</Text>
+              </TouchableOpacity>
 
-        onPress={() => navigation.navigate('Baby')}
-      >
-      <Text>Enter</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.dummyText}> Create Baby</Text>
+      <Text style={styles.homeText}>Add a child</Text>
       <View>
-        <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
-
+        <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff'}}>
           First Name:
         </Text>
         <TextInput
           style={{
-            backgroundColor: '#DA4167',
+            backgroundColor: '#BAE6F2',
             height: 40,
             width: 200,
             borderColor: '#081b4f',
-            color: '#081b4f',
+            color: '#fff',
             borderWidth: 2,
             borderRadius: 10,
-            marginBottom: 20,
+            marginBottom: 5,
             fontSize: 14,
           }}
           onChangeText={value => setName(value)}
@@ -69,7 +65,7 @@ export default function HomeScreen({navigation}) {
           activeUnderlineColor="green"
           underlineColor="red"
         />
-        <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+        <Text style={{textAlign: 'center', fontWeight: 'bold',  color: '#fff'}}>
           Date of Birth:
         </Text>
 
@@ -93,13 +89,10 @@ export default function HomeScreen({navigation}) {
               />
         </>
 
-        <TouchableOpacity
-                style={styles.buttons}
+        <TouchableOpacity style={styles.buttonContainer} onPress={createBaby} >
+          <Text style={styles.buttonText}>Add Baby</Text>
+        </TouchableOpacity>
 
-                onPress={createBaby}
-              >
-              <Text>Add Baby</Text>
-              </TouchableOpacity>
       </View>
     </View>
   );
@@ -108,26 +101,50 @@ export default function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7e4b0',
+    backgroundColor: '#4F6C73',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dummyText: {
-    color: '#081b4f',
+  headertext: {
+    color: '#fff',
     fontWeight: 'bold',
-    marginTop: 15,
+    marginTop: 5,
     fontSize: 30,
     textAlign: 'center',
+    paddingBottom: 7,
+  },
+  homeText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginTop: 10,
+    fontSize: 22,
+    textAlign: 'center',
+    paddingBottom: 5,
   },
   logo: {
-    width: 305,
-    height: 159,
+    width: 355,
+    height: 341,
     marginBottom: 10,
     padding: 100,
     borderColor: 'black',
     borderWidth: 5,
-    borderRadius: 305 /2
+    borderRadius: 355 /2
 
+  },
+  buttonContainer: {
+    elevation: 8,
+    backgroundColor: "#FE8E0D",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginBottom: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
   },
   input: {
     margin: 15,
