@@ -36,8 +36,10 @@ export default function BabyScreen({navigation}) {
 console.log(baby)
   return (
     <View style={styles.container}>
-
-   <Image source={logo} style={styles.logo} />
+    
+    <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
+        <Image source={logo} style={styles.logo} />
+   </TouchableOpacity>
    <Text style={styles.babyText}>Select child and log a feed or sleep entry</Text>
 
 {items ?<DropDownPicker
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FE8E0D",
     borderRadius: 10,
     paddingVertical: 10,
-    paddingHorizontal: 108,
+    paddingHorizontal: 102,
     marginBottom: 10,
     marginTop: 25,
   },
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#18C0EA",
     borderRadius: 10,
     paddingVertical: 10,
-    paddingHorizontal: 100,
+    paddingHorizontal: 95,
     marginBottom: 10,
   },
   buttonText: {
