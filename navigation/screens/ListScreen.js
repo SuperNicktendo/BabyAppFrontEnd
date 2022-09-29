@@ -8,6 +8,8 @@ export default function ListScreen({navigation}){
          <View style={styles.container}>
             <Text style={styles.dummyText}>Weekly Food and Sleep data</Text>
 
+            
+
          <Button
             title="Summary"
             onPress={() => navigation.navigate("Summary")}/>
