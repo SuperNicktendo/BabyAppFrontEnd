@@ -1,10 +1,7 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 import SleepForm from './SleepForm.js'
 import logo from './baby-logo.jpeg'
-import { shouldUseActivityState } from 'react-native-screens';
 
 export default function SleepScreen({route, navigation}){
   const { baby } = route.params;

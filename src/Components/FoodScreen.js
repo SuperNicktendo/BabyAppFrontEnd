@@ -1,7 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import VerticalSlider from 'rn-vertical-slider';
@@ -21,9 +19,6 @@ export default function FoodScreen({route, navigation}){
   console.log(baby)
 
     const saveFeed = async () => {
-        console.log("set time on press ", date)
-        console.log("set time on press: ", finalValue)
-
         newFeed = {
            "time": date,
            "volume": finalValue,
@@ -31,7 +26,6 @@ export default function FoodScreen({route, navigation}){
              "id": baby.id,
                    }
           }
-        console.log(newFeed);
         postFeed(newFeed)
         navigation.navigate('List')
     }
@@ -45,7 +39,7 @@ export default function FoodScreen({route, navigation}){
 
             <>
               <TouchableOpacity style={styles.buttonContainer} onPress={() => setOpen(true)} >
-                <Text style={styles.buttonText}>Start Time</Text>
+                <Text style={styles.buttonText}>Enter Time</Text>
                 </TouchableOpacity>
               <DatePicker
                 modal
@@ -54,7 +48,6 @@ export default function FoodScreen({route, navigation}){
                 onConfirm={(date) => {
                   setOpen(false)
                   setDate(date)
-                  console.log("set time: ", date)
                 }}
                 onCancel={() => {
                   setOpen(false)
@@ -72,7 +65,6 @@ export default function FoodScreen({route, navigation}){
                       max={12}
                       onChange={(value: number) => {
                          setFinalValue(value);
-                         console.log("set amount: ", finalValue)
 
                       }}
                       width={50}

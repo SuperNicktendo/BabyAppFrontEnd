@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image, Button} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+//import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -11,7 +11,7 @@ import FoodScreen from '../Components/FoodScreen';
 import SleepScreen from '../Components/SleepScreen';
 import BabyScreen from '../Components/BabyScreen';
 import ListScreen from '../Components/ListScreen';
-import {HomeScreenNavigator, BabyScreenNavigator} from './StackNavigation';
+//import {HomeScreenNavigator, BabyScreenNavigator} from './StackNavigation';
 import SummaryScreen from '../Components/SummaryScreen';
 
 //Screen names
@@ -23,7 +23,7 @@ const listName = "List";
 const summaryName = "Summary";
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+//const Stack = createNativeStackNavigator();
 
 export default function MainContainer(){
     return(
@@ -50,9 +50,9 @@ export default function MainContainer(){
                })}
                screenOptions={{
                 headerShown: false,
-                 tabBarActiveTintColor: 'tomato',
-                 tabBarInactiveTintColor: 'grey',
-                 tabBarLabelStyle: { paddingBottom: 10, fontSize: 10 },
+                 tabBarActiveTintColor: 'orange',
+                 tabBarInactiveTintColor: 'black',
+                 tabBarLabelStyle: { paddingBottom: 10, fontSize: 15 },
                  style: { padding: 10, height: 70}
                }}>
 

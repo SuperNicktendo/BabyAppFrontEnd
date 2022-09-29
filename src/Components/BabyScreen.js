@@ -1,8 +1,7 @@
 
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, Image, Button, TouchableOpacity} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+
 import {useIsFocused} from "@react-navigation/native";
 import {getBabies} from '../Services/BabyService.js'
 import SelectDropdown from 'react-native-select-dropdown'
