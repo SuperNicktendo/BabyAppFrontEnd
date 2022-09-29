@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, Button } from 'react-native'
+import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -8,9 +8,16 @@ export default function ListScreen({navigation}){
          <View style={styles.container}>
             <Text style={styles.dummyText}>Weekly Food and Sleep data</Text>
 
-         <Button
-            title="Summary"
-            onPress={() => navigation.navigate("Summary")}/>
+            
+
+         <TouchableOpacity 
+            style={styles.buttonContainer}
+            onPress={() => navigation.navigate("Summary")}>
+              <Text style={styles.buttonText}>
+                  Summary
+              </Text>
+          </TouchableOpacity>
+          
          </View>
     )
 }
@@ -29,9 +36,18 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center'
   },
-  logo: {
-    width: 305,
-    height: 159,
-    marginBottom: 10,
+  buttonContainer: {
+    elevation: 8,
+    backgroundColor: "#009688",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
   }
 });

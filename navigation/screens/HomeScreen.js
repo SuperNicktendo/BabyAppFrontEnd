@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, TextInput, Image, Button} from 'react-native';
+
+import React from 'react';
+import {StyleSheet, View, Text, Image, Button, TouchableOpacity} from 'react-native';
 import logo from './baby-logo.jpeg';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -26,8 +27,10 @@ export default function HomeScreen({navigation}) {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('Baby')}>
       <Image source={logo} style={styles.logo} />
-      <Text style={styles.dummyText}>Home Screen</Text>
+      </TouchableOpacity>
+
       <Button
         style={styles.buttons}
         title="Enter"
@@ -59,7 +62,6 @@ export default function HomeScreen({navigation}) {
           underlineColor="red"
         />
         <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
-          {' '}
           Date of Birth:
         </Text>
         <TextInput
@@ -106,6 +108,11 @@ const styles = StyleSheet.create({
     width: 305,
     height: 159,
     marginBottom: 10,
+    padding: 100,
+    borderColor: 'black',
+    borderWidth: 5,
+    borderRadius: 305 /2
+
   },
   input: {
     margin: 15,
