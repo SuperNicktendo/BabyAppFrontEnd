@@ -43,7 +43,7 @@ export default function HomeScreen({navigation}) {
 
       {renderIf(showContent,
       <View>
-      <Text style={styles.homeText}>Add a child</Text>
+ 
 
         <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff'}}>
           First Name:
@@ -54,11 +54,13 @@ export default function HomeScreen({navigation}) {
             height: 40,
             width: 200,
             borderColor: '#081b4f',
-            color: '#fff',
+            color: '#000',
             borderWidth: 2,
             borderRadius: 10,
             marginBottom: 5,
-            fontSize: 14,
+            fontSize: 18,
+            textAlign:'center',
+            fontWeight:'bold'
           }}
           onChangeText={value => setName(value)}
           value={name}
@@ -72,8 +74,8 @@ export default function HomeScreen({navigation}) {
         </Text>
 
         <>
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => setOpen(true)} >
-                        <Text style={styles.buttonText}>Pick Birth Date</Text>
+        <TouchableOpacity style={styles.buttonContainerDate} onPress={() => setOpen(true)} >
+                        <Text style={styles.buttonTextDate}>{moment(date).format('Do MMM YYYY')}</Text>
                         </TouchableOpacity>
             <DatePicker
                 modal
@@ -166,6 +168,29 @@ const styles = StyleSheet.create({
       fontWeight: "bold",
       alignSelf: "center",
       textTransform: "uppercase"
-    }
+    },
+       buttonTextDate: {
+           fontSize: 18,
+           color: "grey",
+           fontWeight: "bold",
+           alignSelf: "center",
+         },
+         buttonContainerDate: {
+              elevation: 8,
+              backgroundColor: "#BAE6F2",
+              paddingVertical: 5,
+              paddingHorizontal: 12,
+              marginBottom: 5,
+
+                          height: 40,
+                          width: 200,
+                          borderColor: '#081b4f',
+                          color: '#E0E0E0',
+                          borderWidth: 2,
+                          borderRadius: 10,
+                          fontSize: 18,
+                          textAlign:'center',
+                          fontWeight:'bold'
+            },
 });
 
