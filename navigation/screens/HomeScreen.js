@@ -12,18 +12,23 @@ export default function HomeScreen({navigation}) {
   const [name, setName] = React.useState(null);
   const [dob, setDob] = React.useState(null);
 
-  const createBaby = () => {
-    console.log('name on press ', name);
-    console.log('dob on press: ', dob);
+  const createBaby = async () => {
+    // console.log('name on press ', name);
+    // console.log('dob on press: ', dob);
 
     const newBaby = {
       name: name,
       birthdate: moment(dob).format('YYYY-MM-DD'),
     };
-    console.log('baby to be posted: ', newBaby);
-    postBaby(newBaby);
-    navigation.navigate('Baby');
+    await postBaby(newBaby);
+
+
+    navigation.navigate('Baby')
+ 
   };
+
+
+
 
   return (
     <View style={styles.container}>
