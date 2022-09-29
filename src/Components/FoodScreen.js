@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import VerticalSlider from 'rn-vertical-slider';
-import {postFeed} from '../FeedService.js'
+import {postFeed} from '../Services/FeedService.js'
 import logo from './baby-logo.jpeg'
 
 

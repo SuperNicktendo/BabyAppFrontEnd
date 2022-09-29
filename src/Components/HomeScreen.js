@@ -4,7 +4,7 @@ import {StyleSheet, View, Text, TextInput, Image, Button, TouchableOpacity} from
 import logo from './baby-logo.jpeg';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {postBaby} from '../BabyService.js';
+import {postBaby} from '../Services/BabyService.js';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
 
@@ -72,7 +72,7 @@ export default function HomeScreen({navigation}) {
 
         <>
         <TouchableOpacity style={styles.buttonContainer} onPress={() => setOpen(true)} >
-                        <Text style={styles.buttonText}>Start Time</Text>
+                        <Text style={styles.buttonText}>Pick Birth Date</Text>
                         </TouchableOpacity>
             <DatePicker
                 modal

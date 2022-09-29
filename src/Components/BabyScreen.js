@@ -4,7 +4,7 @@ import {StyleSheet, View, Text, Image, Button, TouchableOpacity} from 'react-nat
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useIsFocused} from "@react-navigation/native";
-import {getBabies} from '../BabyService.js'
+import {getBabies} from '../Services/BabyService.js'
 import SelectDropdown from 'react-native-select-dropdown'
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg'

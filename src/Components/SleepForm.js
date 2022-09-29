@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker'
 import moment from 'moment'
-import {postSleep} from '../SleepService.js'
+import {postSleep} from '../Services/SleepService.js'
 import ListScreen from './ListScreen';
 
 
