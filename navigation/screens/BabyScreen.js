@@ -3,12 +3,15 @@ import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, Image, Button, TouchableOpacity} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useIsFocused} from "@react-navigation/native";
 import {getBabies} from '../BabyService.js'
 import SelectDropdown from 'react-native-select-dropdown'
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg'
 
 export default function BabyScreen({navigation}) {
+  
+  const isFocused = useIsFocused()
 
 
   const [data, setData ] = useState(null);
@@ -21,23 +24,28 @@ export default function BabyScreen({navigation}) {
   
   
   useEffect(()=>{
+
     try{
+      // console.log("this page send a fetch request")
     getBabies().then((result)=>{
       setData(result);
+      console.log(result)
       tempBabies = result.map(baby => {
         return {label: baby.name, value: baby} })
       setItems(tempBabies)
-      console.log(tempBabies)
+      // console.log(tempBabies)
     })}catch(err){
-      console.lot("nope")
+      console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
     }
-  }, []);
+  }, [isFocused]);
 
-console.log(baby)
+// console.log(baby)
   return (
     <View style={styles.container}>
-
-   <Image source={logo} style={styles.logo} />
+    
+    <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
+        <Image source={logo} style={styles.logo} />
+   </TouchableOpacity>
    <Text style={styles.babyText}>Select child and log a feed or sleep entry</Text>
 
 {items ?<DropDownPicker
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FE8E0D",
     borderRadius: 10,
     paddingVertical: 10,
-    paddingHorizontal: 108,
+    paddingHorizontal: 102,
     marginBottom: 10,
     marginTop: 25,
   },
@@ -105,7 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#18C0EA",
     borderRadius: 10,
     paddingVertical: 10,
-    paddingHorizontal: 100,
+    paddingHorizontal: 95,
     marginBottom: 10,
   },
   buttonText: {

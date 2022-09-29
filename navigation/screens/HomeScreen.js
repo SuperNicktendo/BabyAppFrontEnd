@@ -1,57 +1,62 @@
 
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, Text, TextInput, Image, Button, TouchableOpacity} from 'react-native';
 import logo from './baby-logo.jpeg';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {postBaby} from '../BabyService.js';
 import moment from 'moment';
+import DatePicker from 'react-native-date-picker';
 
 
 export default function HomeScreen({navigation}) {
   const [name, setName] = React.useState(null);
   const [dob, setDob] = React.useState(null);
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
 
-  const createBaby = () => {
-    console.log('name on press ', name);
-    console.log('dob on press: ', dob);
 
+  const createBaby = async () => {
     const newBaby = {
       name: name,
-      birthdate: moment(dob).format('YYYY-MM-DD'),
+      birthdate: moment(date).format('YYYY-MM-DD'),
     };
-    console.log('baby to be posted: ', newBaby);
-    postBaby(newBaby);
-    navigation.navigate('Baby');
+    await postBaby(newBaby);
+
+
+    navigation.navigate('Baby')
+ 
   };
+
+
+
 
   return (
     <View style={styles.container}>
+      <Text style={styles.headertext}>App Name</Text>
       <TouchableOpacity onPress={() => navigation.navigate('Baby')}>
       <Image source={logo} style={styles.logo} />
       </TouchableOpacity>
 
-      <Button
-        style={styles.buttons}
-        title="Enter"
-        onPress={() => navigation.navigate('Baby')}
-      />
-      <Text style={styles.dummyText}> Create Baby</Text>
-      <View>
-        <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={()=> navigation.navigate('Baby')}>
+                <Text style={styles.buttonText}>Home</Text>
+              </TouchableOpacity>
 
+      <Text style={styles.homeText}>Add a child</Text>
+      <View>
+        <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff'}}>
           First Name:
         </Text>
         <TextInput
           style={{
-            backgroundColor: '#DA4167',
+            backgroundColor: '#BAE6F2',
             height: 40,
             width: 200,
             borderColor: '#081b4f',
-            color: '#081b4f',
+            color: '#fff',
             borderWidth: 2,
             borderRadius: 10,
-            marginBottom: 20,
+            marginBottom: 5,
             fontSize: 14,
           }}
           onChangeText={value => setName(value)}
@@ -61,30 +66,34 @@ export default function HomeScreen({navigation}) {
           activeUnderlineColor="green"
           underlineColor="red"
         />
-        <Text style={{textAlign: 'center', fontWeight: 'bold'}}>
+        <Text style={{textAlign: 'center', fontWeight: 'bold',  color: '#fff'}}>
           Date of Birth:
         </Text>
-        <TextInput
-          style={{
-            backgroundColor: '#70A0AF',
-            color: '#081b4f',
-            height: 40,
-            width: 200,
-            borderColor: '#081b4f',
-            borderWidth: 2,
-            borderRadius: 10,
-            marginBottom: 20,
-            fontSize: 14,
-          }}
-          onChangeText={value => setDob(value)}
-          value={dob}
-          maxLength={8}
-          keyboardType="numeric"
-          placeholder="Enter D.O.B (yyyy-mm-dd) :"
-          activeUnderlineColor="green"
-          underlineColor="purple"
-        />
-        <Button title="Create" onPress={createBaby} />
+
+        <>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => setOpen(true)} >
+                        <Text style={styles.buttonText}>Start Time</Text>
+                        </TouchableOpacity>
+            <DatePicker
+                modal
+                mode="date"
+                open={open}
+                date={date}
+                onConfirm={(date) => {
+                  setOpen(false)
+                  setDate(date)
+                  console.log("set time: ", date)
+                }}
+                onCancel={() => {
+                  setOpen(false)
+                }}
+              />
+        </>
+
+        <TouchableOpacity style={styles.buttonContainer} onPress={createBaby} >
+          <Text style={styles.buttonText}>Add Baby</Text>
+        </TouchableOpacity>
+
       </View>
     </View>
   );
@@ -93,26 +102,50 @@ export default function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7e4b0',
+    backgroundColor: '#4F6C73',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dummyText: {
-    color: '#081b4f',
+  headertext: {
+    color: '#fff',
     fontWeight: 'bold',
-    marginTop: 15,
+    marginTop: 5,
     fontSize: 30,
     textAlign: 'center',
+    paddingBottom: 7,
+  },
+  homeText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginTop: 10,
+    fontSize: 22,
+    textAlign: 'center',
+    paddingBottom: 5,
   },
   logo: {
-    width: 305,
-    height: 159,
+    width: 355,
+    height: 341,
     marginBottom: 10,
     padding: 100,
     borderColor: 'black',
     borderWidth: 5,
-    borderRadius: 305 /2
+    borderRadius: 355 /2
 
+  },
+  buttonContainer: {
+    elevation: 8,
+    backgroundColor: "#FE8E0D",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginBottom: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
   },
   input: {
     margin: 15,
@@ -121,8 +154,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   buttons: {
-    backgroundColor: '#FA7921',
-    color: '#FA7921',
+    alignItems: "center",
+        backgroundColor: "#DDDDDD",
+        padding: 10
   },
+  buttonText: {
+      fontSize: 18,
+      color: "#fff",
+      fontWeight: "bold",
+      alignSelf: "center",
+      textTransform: "uppercase"
+    }
 });
 
