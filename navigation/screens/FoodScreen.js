@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, View, Text, Image, Button } from 'react-native';
+import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DatePicker from 'react-native-date-picker';
@@ -40,7 +40,9 @@ export default function FoodScreen({route, navigation}){
             <Text style={styles.dummyText}>Time of Feed: </Text>
 
             <>
-              <Button title="Start Time" onPress={() => setOpen(true)} />
+              <TouchableOpacity style={styles.buttonContainer} onPress={() => setOpen(true)} >
+                <Text style={styles.buttonText}>Start Time</Text>
+                </TouchableOpacity>
               <DatePicker
                 modal
                 open={open}
@@ -78,13 +80,11 @@ export default function FoodScreen({route, navigation}){
             <Text style={styles.dummyText}>Amount Selected is : {finalValue}</Text>
 
 
-            <Button
-                title="Save"
-
-                onPress={saveFeed}
-
-
-/>
+            <TouchableOpacity
+                style={styles.buttonContainer}
+                onPress={saveFeed}>
+                <Text style={styles.buttonText}>Save</Text>
+            </TouchableOpacity>
 
          </View>
     )
@@ -105,5 +105,19 @@ const styles = StyleSheet.create({
     marginTop: 15,
     fontSize: 30,
     textAlign: 'center'
+  },
+  buttonContainer: {
+    elevation: 8,
+    backgroundColor: "#009688",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
   }
 });

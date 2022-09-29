@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, Image, Button } from 'react-native'
+import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -45,7 +45,9 @@ export default function SleepForm({navigation, baby}){
            <Text style={styles.dummyText}>Time of Sleep: </Text>
 
            <>
-             <Button title="Start Time" onPress={() => setStartOpen(true)} />
+             <TouchableOpacity style={styles.buttonContainer} onPress={() => setStartOpen(true)}>
+                <Text style={styles.buttonText}>Start Time</Text>
+             </TouchableOpacity> 
              <DatePicker
                modal
                open={openStart}
@@ -63,7 +65,9 @@ export default function SleepForm({navigation, baby}){
 
          
 
-<Button title="End Time" onPress={() => setEndOpen(true)} />
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => setEndOpen(true)}>
+              <Text style={styles.buttonText}>End Time</Text>
+            </TouchableOpacity>
              <DatePicker
                modal
                open={openEnd}
@@ -89,14 +93,11 @@ export default function SleepForm({navigation, baby}){
                     setItems={setItems}
              />
 
-
-
-
-           <Button
-               title="Save"
-               onPress={saveSleep}
-            />
-
+           <TouchableOpacity
+               style={styles.buttonContainer}
+               onPress={saveSleep}>
+                <Text style={styles.buttonText}>Save</Text>
+          </TouchableOpacity>
 
         </View>
    )
@@ -107,5 +108,19 @@ export default function SleepForm({navigation, baby}){
 const styles = StyleSheet.create({
     sleepForm:{
         alignSelf: 'stretch',
+    },
+    buttonContainer: {
+      elevation: 8,
+      backgroundColor: "#009688",
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 12
+    },
+    buttonText: {
+      fontSize: 18,
+      color: "#fff",
+      fontWeight: "bold",
+      alignSelf: "center",
+      textTransform: "uppercase"
     }
 })
