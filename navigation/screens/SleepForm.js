@@ -42,11 +42,10 @@ export default function SleepForm({navigation, baby}){
 
     return (
         <View style={styles.container}>
-           <Text style={styles.dummyText}>Time of Sleep: </Text>
 
            <>
              <TouchableOpacity style={styles.buttonContainer} onPress={() => setStartOpen(true)}>
-                <Text style={styles.buttonText}>Start Time</Text>
+                <Text style={styles.buttonText}>Went down at...</Text>
              </TouchableOpacity> 
              <DatePicker
                modal
@@ -61,12 +60,10 @@ export default function SleepForm({navigation, baby}){
                }}
              />
            
-           <Text style={styles.dummyText}>Start Time is : {moment(startDate).utcOffset("+0100").format('MMM Do, h:mm a')}</Text>
-
-         
+           <Text style={styles.sleepFormText}> {moment(startDate).utcOffset("+0100").format('MMM Do, h:mm a')}</Text>
 
             <TouchableOpacity style={styles.buttonContainer} onPress={() => setEndOpen(true)}>
-              <Text style={styles.buttonText}>End Time</Text>
+              <Text style={styles.buttonText}>Woke up at...</Text>
             </TouchableOpacity>
              <DatePicker
                modal
@@ -81,7 +78,10 @@ export default function SleepForm({navigation, baby}){
                }}
              />
            </>
-           <Text style={styles.dummyText}>End Time is : {moment(endDate).utcOffset("+0100").format('MMM Do, h:mm a')}
+           <Text style={styles.sleepFormText2}>{moment(endDate).utcOffset("+0100").format('MMM Do, h:mm a')}
+           </Text>
+           <Text style={styles.sleepFormText3}>
+              What type of sleep was it?
            </Text>
 
            <DropDownPicker
@@ -94,7 +94,7 @@ export default function SleepForm({navigation, baby}){
              />
 
            <TouchableOpacity
-               style={styles.buttonContainer}
+               style={styles.saveButtonContainer}
                onPress={saveSleep}>
                 <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
@@ -107,14 +107,49 @@ export default function SleepForm({navigation, baby}){
 
 const styles = StyleSheet.create({
     sleepForm:{
-        alignSelf: 'stretch',
+      flex: 1,
+      alignItems: 'center',
+    },
+    sleepFormText: {
+      color: '#fff',
+      fontWeight: 'bold',
+      marginTop: 10,
+      fontSize: 22,
+      textAlign: 'center',
+      paddingBottom: 5,
+    },
+    sleepFormText2: {
+      color: '#fff',
+      fontWeight: 'bold',
+      marginTop: 10,
+      marginBottom: 10,
+      fontSize: 22,
+      textAlign: 'center',
+      paddingBottom: 5,
+    },
+    sleepFormText3: {
+      color: '#fff',
+      fontWeight: 'bold',
+      marginTop: 10,
+      marginBottom: 0,
+      fontSize: 22,
+      textAlign: 'center',
+      paddingBottom: 5,
     },
     buttonContainer: {
       elevation: 8,
-      backgroundColor: "#009688",
+      backgroundColor: "#FE8E0D",
       borderRadius: 10,
       paddingVertical: 10,
-      paddingHorizontal: 12
+      paddingHorizontal: 10
+    },
+    saveButtonContainer: {
+      elevation: 8,
+      backgroundColor: "#FE8E0D",
+      marginTop: 10,
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 10
     },
     buttonText: {
       fontSize: 18,

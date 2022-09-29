@@ -1,14 +1,19 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, Button } from 'react-native'
+import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SleepForm from './SleepForm.js'
+import logo from './baby-logo.jpeg'
+import { shouldUseActivityState } from 'react-native-screens';
 
 export default function SleepScreen({route, navigation}){
   const { baby } = route.params;
     return (
          <View style={styles.container}>
-            <Text style={styles.dummyText}>Record Sleep</Text>
+            <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
+              <Image source={logo} style={styles.logo} />
+            </TouchableOpacity>
+            <Text style={styles.sleepText}>Record Sleep</Text>
             <SleepForm navigation={navigation} baby={baby}/>
          </View>
     )
@@ -17,22 +22,27 @@ export default function SleepScreen({route, navigation}){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#18C0EA',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 50
   },
-
-  dummyText: {
-    color: 'black',
+  logo: {
+    width: 15,
+    height: 5,
+    marginBottom: 7,
+    padding: 60,
+    borderColor: 'black',
+    borderWidth: 2.5,
+    borderRadius: 200 /2
+  },
+  sleepText: {
+    color: '#fff',
     fontWeight: 'bold',
     marginTop: 15,
+    marginBottom: 15,
     fontSize: 30,
     textAlign: 'center'
   },
 
-  logo: {
-    width: 305,
-    height: 159,
-    marginBottom: 10,
-  }
 });
