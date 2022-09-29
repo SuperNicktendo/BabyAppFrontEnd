@@ -43,25 +43,13 @@ export default function HomeScreen({navigation}) {
 
       {renderIf(showContent,
       <View>
- 
 
-        <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff'}}>
+
+        <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff', fontSize: 18}}>
           First Name:
         </Text>
         <TextInput
-          style={{
-            backgroundColor: '#BAE6F2',
-            height: 40,
-            width: 200,
-            borderColor: '#081b4f',
-            color: '#000',
-            borderWidth: 2,
-            borderRadius: 10,
-            marginBottom: 5,
-            fontSize: 18,
-            textAlign:'center',
-            fontWeight:'bold'
-          }}
+          style={styles.textInputName}
           onChangeText={value => setName(value)}
           value={name}
           placeholder="Enter First Name: "
@@ -69,7 +57,7 @@ export default function HomeScreen({navigation}) {
           activeUnderlineColor="green"
           underlineColor="red"
         />
-        <Text style={{textAlign: 'center', fontWeight: 'bold',  color: '#fff'}}>
+        <Text style={{textAlign: 'center', fontWeight: 'bold',  color: '#fff', fontSize: 18}}>
           Date of Birth:
         </Text>
 
@@ -192,5 +180,19 @@ const styles = StyleSheet.create({
                           textAlign:'center',
                           fontWeight:'bold'
             },
+
+            textInputName: {
+                        backgroundColor: '#BAE6F2',
+                        height: 40,
+                        width: 200,
+                        borderColor: '#081b4f',
+                        color: '#000',
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        marginBottom: 5,
+                        fontSize: 18,
+                        textAlign:'center',
+                        fontWeight:'bold'
+                      }
 });
 
