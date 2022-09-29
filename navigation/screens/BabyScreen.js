@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, Image, Button} from 'react-native';
+import {StyleSheet, View, Text, Image, Button, TouchableOpacity} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {getBabies} from '../BabyService.js'
@@ -54,17 +54,17 @@ console.log(baby)
 
       <Text style={styles.dummyText}>Baby Screen</Text>
       
-      <Button
-        style={styles.button}
-        title="Food"
-        onPress={() => navigation.navigate('Food', {baby})}
-      />
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => navigation.navigate('Food', {baby})}>
+          <Text style={styles.buttonText}>Food</Text>
+      </TouchableOpacity>
 
-      <Button
-        style={styles.button}
-        title="Sleep"
-        onPress={() => navigation.navigate('Sleep' , {baby})}
-      />
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => navigation.navigate('Sleep' , {baby})}>
+          <Text style={styles.buttonText}>Sleep</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -83,14 +83,19 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
   },
-  logo: {
-    width: 305,
-    height: 159,
-    marginBottom: 10,
+  buttonContainer: {
+    elevation: 8,
+    backgroundColor: "#009688",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginBottom: 5,
   },
-  button: {
-    margin: 10,
-    width: 80,
-    color: '#f34fg6',
-  },
+  buttonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
+  }
 });
