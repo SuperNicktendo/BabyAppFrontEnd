@@ -56,7 +56,7 @@ export default function BabyScreen({navigation}) {
                     setOpen={setOpenDropDown}
                     setValue={setBaby}
                     setItems={setItems}
-             />: <Text>loading</Text>}
+             />: <Text style={styles.loadingText}>Loading...</Text>}
 
       
       
@@ -91,13 +91,19 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 5,
     borderRadius: 305 /2
-
+  },
+  loadingText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginTop: 15,
+    fontSize: 18,
+    textAlign: 'center',
   },
   babyText: {
     color: '#fff',
     fontWeight: 'bold',
     marginTop: 15,
-    fontSize: 18,
+    fontSize: 14,
     textAlign: 'center',
   },
   buttonContainer1: {
@@ -119,7 +125,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 25,
-    padding: 45,
+    padding: 32,
     color: "#fff",
     fontWeight: "bold",
     alignSelf: "center",
