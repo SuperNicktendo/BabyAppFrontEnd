@@ -1,11 +1,10 @@
 import React, { useState, useCallback } from 'react';
-import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import VerticalSlider from 'rn-vertical-slider';
-import {postFeed} from '../FeedService.js'
+import {postFeed} from '../Services/FeedService.js'
+import logo from './baby-logo.jpeg'
 
 
 
@@ -20,9 +19,6 @@ export default function FoodScreen({route, navigation}){
   console.log(baby)
 
     const saveFeed = async () => {
-        console.log("set time on press ", date)
-        console.log("set time on press: ", finalValue)
-
         newFeed = {
            "time": date,
            "volume": finalValue,
@@ -30,18 +26,20 @@ export default function FoodScreen({route, navigation}){
              "id": baby.id,
                    }
           }
-        console.log(newFeed);
         postFeed(newFeed)
         navigation.navigate('List')
     }
 
     return (
          <View style={styles.container}>
-            <Text style={styles.dummyText}>Time of Feed: </Text>
+            <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
+              <Image source={logo} style={styles.logo} />
+            </TouchableOpacity>
+            <Text style={styles.foodText1}>Time of Feed: </Text>
 
             <>
               <TouchableOpacity style={styles.buttonContainer} onPress={() => setOpen(true)} >
-                <Text style={styles.buttonText}>Start Time</Text>
+                <Text style={styles.buttonText}>Enter Time</Text>
                 </TouchableOpacity>
               <DatePicker
                 modal
@@ -50,15 +48,15 @@ export default function FoodScreen({route, navigation}){
                 onConfirm={(date) => {
                   setOpen(false)
                   setDate(date)
-                  console.log("set time: ", date)
                 }}
                 onCancel={() => {
                   setOpen(false)
                 }}
               />
+
             </>
 
-            <Text style={styles.dummyText}>Time Entered is : {moment(date).utcOffset('+0100').format('MMM Do, h:mm a')}</Text>
+            <Text style={styles.foodText2}>{moment(date).utcOffset('+0100').format('MMM Do, h:mm a')} oz</Text>
 
             <VerticalSlider
                       value={0}
@@ -67,17 +65,16 @@ export default function FoodScreen({route, navigation}){
                       max={12}
                       onChange={(value: number) => {
                          setFinalValue(value);
-                         console.log("set amount: ", finalValue)
 
                       }}
                       width={50}
                       height={300}
                       step={0.5}
                       borderRadius={5}
-                      minimumTrackTintColor={"blue"}
-                      maximumTrackTintColor={"white"}
+                      minimumTrackTintColor={"#4F6C73"}
+                      maximumTrackTintColor={"#BAE6F2"}
                     />
-            <Text style={styles.dummyText}>Amount Selected is : {finalValue}</Text>
+            <Text style={styles.foodText3}>Amount: {finalValue} oz</Text>
 
 
             <TouchableOpacity
@@ -95,20 +92,45 @@ export default function FoodScreen({route, navigation}){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FE8E0D',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dummyText: {
-    color: 'black',
+  logo: {
+    width: 15,
+    height: 5,
+    marginBottom: 7,
+    padding: 60,
+    borderColor: 'black',
+    borderWidth: 2.5,
+    borderRadius: 200 /2
+  },
+  foodText1: {
+    color: '#fff',
     fontWeight: 'bold',
-    marginTop: 15,
     fontSize: 30,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: 5,
+  },
+  foodText2: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginTop: 10,
+    fontSize: 30,
+    textAlign: 'center',
+    marginBottom: 15,
+  },
+  foodText3: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginTop: 10,
+    fontSize: 30,
+    textAlign: 'center',
+    marginBottom: 5,
   },
   buttonContainer: {
     elevation: 8,
-    backgroundColor: "#009688",
+    backgroundColor: "#18C0EA",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12

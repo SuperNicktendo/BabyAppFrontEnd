@@ -1,12 +1,17 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+//import { NavigationContainer } from '@react-navigation/native';
+//import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import logo from './baby-logo.jpeg'
+
 
 export default function ListScreen({navigation}){
     return (
          <View style={styles.container}>
-            <Text style={styles.dummyText}>Weekly Food and Sleep data</Text>
+            <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
+              <Image source={logo} style={styles.logo} />
+            </TouchableOpacity>
+            <Text style={styles.listText}>Weekly Food and Sleep data</Text>
 
             
 
@@ -25,12 +30,21 @@ export default function ListScreen({navigation}){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#4F6C73',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dummyText: {
-    color: 'black',
+  logo: {
+    width: 15,
+    height: 5,
+    marginBottom: 7,
+    padding: 60,
+    borderColor: 'black',
+    borderWidth: 2.5,
+    borderRadius: 200 /2
+  },
+  listText: {
+    color: '#fff',
     fontWeight: 'bold',
     marginTop: 15,
     fontSize: 30,
@@ -38,7 +52,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     elevation: 8,
-    backgroundColor: "#009688",
+    backgroundColor: "#FE8E0D",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12
