@@ -11,7 +11,6 @@ import FoodScreen from '../Components/FoodScreen';
 import SleepScreen from '../Components/SleepScreen';
 import BabyScreen from '../Components/BabyScreen';
 import ListScreen from '../Components/ListScreen';
-//import {HomeScreenNavigator, BabyScreenNavigator} from './StackNavigation';
 import SummaryScreen from '../Components/SummaryScreen';
 
 //Screen names
@@ -23,7 +22,6 @@ const listName = "List";
 const summaryName = "Summary";
 
 const Tab = createBottomTabNavigator();
-//const Stack = createNativeStackNavigator();
 
 export default function MainContainer(){
     return(

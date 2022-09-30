@@ -3,15 +3,19 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 //import { NavigationContainer } from '@react-navigation/native';
 //import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import logo from './baby-logo.jpeg'
+import Dropdown from './Dropdown.js';
+
 
 
 export default function ListScreen({navigation}){
+
     return (
          <View style={styles.container}>
             <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
               <Image source={logo} style={styles.logo} />
             </TouchableOpacity>
             <Text style={styles.listText}>Weekly Food and Sleep data</Text>
+                       <Dropdown/>
 
             
 
