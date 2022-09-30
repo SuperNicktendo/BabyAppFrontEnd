@@ -5,7 +5,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Timetable from 'react-native-calendar-timetable';
 import moment from 'moment';
-import MyItemCard from '../CardComponent';
+import SleepCard from './SleepCard';
+import FeedCard from './FeedCard';
 import { getSleeps } from '../SleepService';
 import { showBaby } from '../BabyService';
 
@@ -86,7 +87,7 @@ export default function SummaryScreen({navigation}){
           <Timetable 
             style={styles.timeContainer}
             items={items}
-            cardComponent={MyItemCard}
+            cardComponent={SleepCard}
 
             // date={date}
             range={range}
