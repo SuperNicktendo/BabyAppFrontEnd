@@ -69,7 +69,7 @@ export default function FoodScreen({route, navigation}){
                       height={300}
                       step={0.5}
                       borderRadius={5}
-                      minimumTrackTintColor={"#4F6C73"}
+                      minimumTrackTintColor={"#18C0EA"}
                       maximumTrackTintColor={"#BAE6F2"}
                     />
             <Text style={styles.foodText3}>Amount: {finalValue} oz</Text>
@@ -90,7 +90,7 @@ export default function FoodScreen({route, navigation}){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FE8E0D',
+    backgroundColor: '#4F6C73',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     elevation: 8,
-    backgroundColor: "#18C0EA",
+    backgroundColor: "#FE8E0D",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12
