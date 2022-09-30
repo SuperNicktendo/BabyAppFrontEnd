@@ -1,7 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, Image, Button} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
+import {StyleSheet, View, Text} from 'react-native';
 
 export default function SummaryScreen({navigation}){
     return (
@@ -26,15 +24,5 @@ const styles = StyleSheet.create({
       marginTop: 15,
       fontSize: 30,
       textAlign: 'center',
-    },
-    logo: {
-      width: 305,
-      height: 159,
-      marginBottom: 10,
-    },
-    button: {
-      margin: 10,
-      width: 80,
-      color: '#f34fg6',
     },
   });

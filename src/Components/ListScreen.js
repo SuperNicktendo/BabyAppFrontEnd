@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+//import { NavigationContainer } from '@react-navigation/native';
+//import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import logo from './baby-logo.jpeg'
 
 

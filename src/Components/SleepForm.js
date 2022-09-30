@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, Image, Button, TouchableOpacity } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker'
 import moment from 'moment'
-import {postSleep} from '../SleepService.js'
+import {postSleep} from '../Services/SleepService.js'
 import ListScreen from './ListScreen';
 
 
@@ -32,13 +30,9 @@ export default function SleepForm({navigation, baby}){
       }
     }
 
-    console.log(tempSleep)
     postSleep(tempSleep);
     navigation.navigate('List')
     }
-
-
-
 
     return (
         <View style={styles.container}>

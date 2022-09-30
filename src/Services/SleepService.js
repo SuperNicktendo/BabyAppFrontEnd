@@ -1,24 +1,20 @@
-
-const baseURL = 'http://192.168.0.55:8080/babies'
-
-
-
+const baseURL = 'http://192.168.0.65:8080/sleeps'
 
 
 // gets all babies
-export const getBabies = () => {
+export const getSleeps = () => {
     return fetch(baseURL)
     .then(res => res.json())
 }
 
 // gets baby by id
-export const showBaby = (id) => {
+export const showSleeps = (id) => {
     return fetch(baseURL + id)
     .then(res => res.json())
 }
 
 // creates new baby
-export const postBaby = (payload) => {
+export const postSleep = (payload) => {
     return fetch(baseURL, {
         method: 'POST',
         body: JSON.stringify(payload),
