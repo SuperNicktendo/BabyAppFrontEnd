@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, Image, Button, ScrollView, useWindowDimensions, Dimensions} from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableOpacity, ScrollView, useWindowDimensions, Dimensions} from 'react-native';
 import logo from './baby-logo.jpeg'
 import Dropdown from './Dropdown.js';
 
@@ -55,7 +55,7 @@ export default function ListScreen({navigation}){
 
         <ScrollView>
           <Timetable
-            hourHeight={50}
+            hourHeight={20}
             columnWidth={120}
             items={items}
             cardComponent={SleepCard}

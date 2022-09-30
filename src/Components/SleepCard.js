@@ -15,7 +15,7 @@ export default function SleepCard({style, item, dayIndex, daysTotal}) {
             elevation: 5
         }}>
             <Text>{item.title}</Text>
-            <Text>{dayIndex} of {daysTotal}</Text>
+            {/* <Text>{dayIndex} of {daysTotal}</Text> */}
         </View>
     )
 }
