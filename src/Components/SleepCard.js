@@ -9,7 +9,7 @@ export default function SleepCard({style, item, dayIndex, daysTotal}) {
             ...style,
             backgroundColor: '#FE8E0D',
             borderRadius: 10,
-            elevation: 5,
+            elevation: 5
         }}>
             <Text>{item.title}</Text>
             <Text>{dayIndex} of {daysTotal}</Text>

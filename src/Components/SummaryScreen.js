@@ -7,51 +7,20 @@ import Timetable from 'react-native-calendar-timetable';
 import moment from 'moment';
 import SleepCard from './SleepCard';
 import FeedCard from './FeedCard';
-import { getSleeps } from '../SleepService';
-import { showBaby } from '../BabyService';
-
-const window = Dimensions.get("window");
-const screen = Dimensions.get("screen");
+import { getSleeps, showSleeps } from '../Services/SleepService';
 
 
 export default function SummaryScreen({navigation}){
 
-  const [dimensions, setDimensions] = useState({ window, screen });
-
-  useEffect(() => {
-    const subscription = Dimensions.addEventListener(
-      "change",
-      ({ window, scree }) => {
-        setDimensions({ window, screen });
-      }
-    );
-    return () => subscription?.remove();
-  });
-
-  // const [date] = React.useState(new Date());
-  // const [from] = React.useState(moment().subtract(3, 'days').toDate());
-  // const [till] = React.useState(moment().add(3, 'days').toISOString());
   const [from] = React.useState(moment().subtract(3, 'days').toDate());
   const [till] = React.useState(moment().toDate());
   const range = {from, till};
 
-  // const [baby, setBaby] = React.useState(showBaby(2));
-  // console.log(baby.name);
-
-  // const [sleeps] = React.useState(getSleeps);
-  // console.log(JSON.stringify(sleeps)); 
+  const [babySleeps] = React.useState(getSleeps);
+  console.log(babySleeps);
+  console.log(JSON.stringify(babySleeps));
 
   const [items] = React.useState([
-    // {
-    //   title: 'Test Sleep',
-    //   startDate: moment().subtract(1, 'hour').toDate(),
-    //   endDate: moment().add(1, 'hour').toDate(),
-    // },
-    // {
-    //   title: 'Test Sleep',
-    //   startDate: new Date("2022-09-24 08:55:00"),
-    //   endDate: new Date("2022-09-24 09:55:00")
-    // },
     {
       title: 'Test Sleep',
       startDate: moment('2022-09-29 08:55:00').toDate(),
@@ -69,14 +38,6 @@ export default function SummaryScreen({navigation}){
     },
   ]);
 
-  console.log(items);
-
-  // const dimensions = useWindowDimensions();
-  // const windowWidth = Dimensions.get('window').width;
-  // const windowHeight = Dimensions.get('window').height;
-
-  
-
     return (
         <View style={styles.container}>
         <Text style={styles.dummyText}>
@@ -84,8 +45,10 @@ export default function SummaryScreen({navigation}){
         </Text>
 
         <ScrollView>
-          <Timetable 
-            style={styles.timeContainer}
+          <Timetable
+            hourHeight={50}
+            columnWidth={120}
+            // style={styles.timeContainer}
             items={items}
             cardComponent={SleepCard}
 
@@ -120,9 +83,5 @@ const styles = StyleSheet.create({
       margin: 10,
       width: 80,
       color: '#f34fg6',
-    },
-    timeContainer: {
-      timeWidth: 5,
-      hourHeight: 10
     }
   });
