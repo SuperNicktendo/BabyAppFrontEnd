@@ -1,62 +1,77 @@
+import {StyleSheet, View, Text} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, Image, Button, ScrollView, useWindowDimensions, Dimensions} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useIsFocused} from "@react-navigation/native";
+import {getBabies} from '../Services/BabyService.js'
+import Dropdown from './Dropdown.js';
 
-import Timetable from 'react-native-calendar-timetable';
-import moment from 'moment';
-import SleepCard from './SleepCard';
-import FeedCard from './FeedCard';
-import { getSleeps, showSleeps } from '../Services/SleepService';
+
 
 export default function SummaryScreen({navigation}){
 
-  const [from] = React.useState(moment().subtract(3, 'days').toDate());
-  const [till] = React.useState(moment().toDate());
-  const range = {from, till};
+  const isFocused = useIsFocused()
+  const [data, setData ] = useState(null);
+  const [babies, setBabies] = useState(null);
+  const [babyName, setBabyName] = useState(null);
+  const [feed, setFeed] = useState(null);
 
-  const [babySleeps] = React.useState(getSleeps);
-  console.log(babySleeps);
-  console.log(JSON.stringify(babySleeps));
 
-  const [items] = React.useState([
-    {
-      title: 'sleep',
-      startDate: moment('2022-09-29 08:55:00').toDate(),
-      endDate: moment('2022-09-29 09:55:00').toDate()
-    },
-    {
-      title: 'sleep',
-      startDate: moment('2022-09-28 20:06:00').toDate(),
-      endDate: moment('2022-09-29 06:30:00').toDate()
-    },
-    {
-      title: 'sleep',
-      startDate: moment('2022-09-26 18:25:00').toDate(),
-      endDate: moment('2022-09-27 04:53:00').toDate()
-    },
-    {
-      title: 'feed',
-      startDate: moment('2022-09-29 10:24:00').toDate(),
-      endDate: moment('2022-09-29 10:26:00').toDate()
+
+
+    const getTotalFeeds=()=>{
+    try{
+            getBabies().then((result)=>{
+              setData(result);
+              console.log("results", result)
+              feedData = result.feeds.map(feed => {
+              console.log("feedData",feedData)
+              console.log("feed", feed)
+                return feed
+                setFeed(feedData)})
+            })}catch(err){
+              console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary screen")
+            }
+
     }
-  ]);
+
+    useEffect(()=>{
+        getTotalFeeds()
+
+      }, [isFocused]);
+
 
     return (
         <View style={styles.container}>
+          <Dropdown/>
         <Text style={styles.dummyText}>
-            Summary Screen
+            7 Day Sleep Summary
+        </Text>
+        <Text >
+                    Total Average Sleep per Day:
+        </Text>
+        <Text >
+                    Total Nap Time per Day:
+        </Text>
+        <Text >
+           Total Night Sleep per Day:
         </Text>
 
-        <ScrollView>
-          <Timetable
-            hourHeight={50}
-            columnWidth={120}
-            items={items}
-            cardComponent={SleepCard}
-            range={range}
-          />
-        </ScrollView>
+
+        <Text style={styles.dummyText}>
+                    7 Day Feed Summary
+                </Text>
+
+                <Text >
+                            Average Bottles per Day:
+                </Text>
+                <Text >
+                            Average Amount per Day:
+                </Text>
+                <Text >
+                   Average Amount per Bottle
+                </Text>
+                <Text >
+                  Average Time Between Bottle
+                </Text>
         </View>
     )
 }
@@ -75,17 +90,4 @@ const styles = StyleSheet.create({
       fontSize: 30,
       textAlign: 'center',
     },
-    logo: {
-      width: 305,
-      height: 159,
-      marginBottom: 10,
-    },
-    button: {
-      margin: 10,
-      width: 80,
-      color: '#f34fg6',
-    },
-    redStyle: {
-      backgroundColor: 'red'
-    }
   });
