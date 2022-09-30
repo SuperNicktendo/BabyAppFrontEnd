@@ -51,6 +51,7 @@ export default function HomeScreen({navigation}) {
           onChangeText={value => setName(value)}
           value={name}
           placeholder="Enter First Name: "
+          placeholderTextColor="grey"
           autoCapitalize="sentences"
           activeUnderlineColor="green"
           underlineColor="red"
@@ -71,7 +72,6 @@ export default function HomeScreen({navigation}) {
                 onConfirm={(date) => {
                   setOpen(false)
                   setDate(date)
-                  console.log("set time: ", date)
                 }}
                 onCancel={() => {
                   setOpen(false)
