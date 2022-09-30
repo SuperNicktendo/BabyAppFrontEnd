@@ -17,15 +17,15 @@ export default function SummaryScreen({navigation}){
 
 
     const getTotalVolumeFeeds= ()=>{
-             getFeeds().then((result) =>{
+            getFeeds().then((result) =>{
             tempFeeds = result.map(feeds => {
             return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
-            console.log(moment().subtract(7,"days").toDate())
+
             filteredFeeds = tempFeeds.filter(feed => feed.babyId === 1 )
             .reduce((previousValue, currentValue) => { return previousValue + currentValue.volume},0)
 
             setFeeds(filteredFeeds)
-            console.log("filtered",feeds)
+
             })
 }
 
