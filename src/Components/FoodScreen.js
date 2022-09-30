@@ -16,8 +16,6 @@ export default function FoodScreen({route, navigation}){
 
     const { baby } = route.params;
 
-  console.log(baby)
-
     const saveFeed = async () => {
         newFeed = {
            "time": date,

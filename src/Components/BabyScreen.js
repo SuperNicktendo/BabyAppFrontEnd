@@ -7,52 +7,23 @@ import {getBabies} from '../Services/BabyService.js'
 import SelectDropdown from 'react-native-select-dropdown'
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg'
+import Dropdown from './Dropdown.js';
 
 export default function BabyScreen({navigation}) {
-  
-  const isFocused = useIsFocused()
-  const [data, setData ] = useState(null);
-  const [babies, setBabies] = useState(null);
-  const [babyName, setBabyName] = useState(null);
-  const [baby, setBaby] = useState(null);
-  const [items, setItems] = useState(null)
-  const [openDropDown, setOpenDropDown] = useState(false);
 
-  
-  useEffect(()=>{
 
-    try{
-    getBabies().then((result)=>{
-      setData(result);
-      console.log(result)
-      tempBabies = result.map(baby => {
-        return {label: baby.name, value: baby} })
-      setItems(tempBabies)
-    })}catch(err){
-      console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
-    }
-  }, [isFocused]);
+
 
   return (
     <View style={styles.container}>
+
+
     
     <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
         <Image source={logo} style={styles.logo} />
     </TouchableOpacity>
-    <Text style={styles.babyText}>Select child and log a feed or sleep entry</Text>
 
-    {items ?<DropDownPicker
-                    style={styles.selector}
-                    open={openDropDown}
-                    value={baby}
-                    items={items}
-                    setOpen={setOpenDropDown}
-                    setValue={setBaby}
-                    setItems={setItems}
-             />: <Text style={styles.loadingText}>Loading...</Text>}
-
-      
-      
+        <Dropdown/>
       <TouchableOpacity
         style={styles.buttonContainer1}
         onPress={() => navigation.navigate('Food', {baby})}>
