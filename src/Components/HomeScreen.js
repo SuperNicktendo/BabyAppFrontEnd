@@ -1,12 +1,11 @@
 
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TextInput, Image, Button, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import logo from './baby-logo.jpeg';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {postBaby} from '../BabyService.js';
+import {postBaby} from '../Services/BabyService.js';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
+import renderIf from "./renderIf.js";
 
 
 export default function HomeScreen({navigation}) {
@@ -14,7 +13,7 @@ export default function HomeScreen({navigation}) {
   const [dob, setDob] = React.useState(null);
   const [date, setDate] = useState(new Date())
   const [open, setOpen] = useState(false)
-
+  const [showContent, setShowContent] = useState(null)
 
   const createBaby = async () => {
     const newBaby = {
@@ -22,14 +21,8 @@ export default function HomeScreen({navigation}) {
       birthdate: moment(date).format('YYYY-MM-DD'),
     };
     await postBaby(newBaby);
-
-
     navigation.navigate('Baby')
- 
   };
-
-
-
 
   return (
     <View style={styles.container}>
@@ -42,23 +35,19 @@ export default function HomeScreen({navigation}) {
                 <Text style={styles.buttonText}>Home</Text>
               </TouchableOpacity>
 
-      <Text style={styles.homeText}>Add a child</Text>
+      <TouchableOpacity style={styles.buttonContainer} onPress={()=> setShowContent(!showContent)}>
+                      <Text style={styles.buttonText}>Add New Baby</Text>
+                    </TouchableOpacity>
+
+      {renderIf(showContent,
       <View>
-        <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff'}}>
+
+
+        <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff', fontSize: 18}}>
           First Name:
         </Text>
         <TextInput
-          style={{
-            backgroundColor: '#BAE6F2',
-            height: 40,
-            width: 200,
-            borderColor: '#081b4f',
-            color: '#fff',
-            borderWidth: 2,
-            borderRadius: 10,
-            marginBottom: 5,
-            fontSize: 14,
-          }}
+          style={styles.textInputName}
           onChangeText={value => setName(value)}
           value={name}
           placeholder="Enter First Name: "
@@ -66,13 +55,13 @@ export default function HomeScreen({navigation}) {
           activeUnderlineColor="green"
           underlineColor="red"
         />
-        <Text style={{textAlign: 'center', fontWeight: 'bold',  color: '#fff'}}>
+        <Text style={{textAlign: 'center', fontWeight: 'bold',  color: '#fff', fontSize: 18}}>
           Date of Birth:
         </Text>
 
         <>
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => setOpen(true)} >
-                        <Text style={styles.buttonText}>Start Time</Text>
+        <TouchableOpacity style={styles.buttonContainerDate} onPress={() => setOpen(true)} >
+                        <Text style={styles.buttonTextDate}>{moment(date).format('Do MMM YYYY')}</Text>
                         </TouchableOpacity>
             <DatePicker
                 modal
@@ -94,7 +83,8 @@ export default function HomeScreen({navigation}) {
           <Text style={styles.buttonText}>Add Baby</Text>
         </TouchableOpacity>
 
-      </View>
+      </View>)}
+      {renderIf(!showContent, null)}
     </View>
   );
 }
@@ -164,6 +154,43 @@ const styles = StyleSheet.create({
       fontWeight: "bold",
       alignSelf: "center",
       textTransform: "uppercase"
-    }
+    },
+       buttonTextDate: {
+           fontSize: 18,
+           color: "grey",
+           fontWeight: "bold",
+           alignSelf: "center",
+         },
+         buttonContainerDate: {
+              elevation: 8,
+              backgroundColor: "#BAE6F2",
+              paddingVertical: 5,
+              paddingHorizontal: 12,
+              marginBottom: 5,
+
+                          height: 40,
+                          width: 200,
+                          borderColor: '#081b4f',
+                          color: '#E0E0E0',
+                          borderWidth: 2,
+                          borderRadius: 10,
+                          fontSize: 18,
+                          textAlign:'center',
+                          fontWeight:'bold'
+            },
+
+            textInputName: {
+                        backgroundColor: '#BAE6F2',
+                        height: 40,
+                        width: 200,
+                        borderColor: '#081b4f',
+                        color: '#000',
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        marginBottom: 5,
+                        fontSize: 18,
+                        textAlign:'center',
+                        fontWeight:'bold'
+                      }
 });
 

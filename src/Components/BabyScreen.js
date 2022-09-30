@@ -1,10 +1,9 @@
 
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, Image, Button, TouchableOpacity} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+
 import {useIsFocused} from "@react-navigation/native";
-import {getBabies} from '../BabyService.js'
+import {getBabies} from '../Services/BabyService.js'
 import SelectDropdown from 'react-native-select-dropdown'
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg'
@@ -12,43 +11,37 @@ import logo from './baby-logo.jpeg'
 export default function BabyScreen({navigation}) {
   
   const isFocused = useIsFocused()
-
-
   const [data, setData ] = useState(null);
   const [babies, setBabies] = useState(null);
   const [babyName, setBabyName] = useState(null);
   const [baby, setBaby] = useState(null);
   const [items, setItems] = useState(null)
   const [openDropDown, setOpenDropDown] = useState(false);
- 
-  
+
   
   useEffect(()=>{
 
     try{
-      // console.log("this page send a fetch request")
     getBabies().then((result)=>{
       setData(result);
       console.log(result)
       tempBabies = result.map(baby => {
         return {label: baby.name, value: baby} })
       setItems(tempBabies)
-      // console.log(tempBabies)
     })}catch(err){
       console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
     }
   }, [isFocused]);
 
-// console.log(baby)
   return (
     <View style={styles.container}>
     
     <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
         <Image source={logo} style={styles.logo} />
-   </TouchableOpacity>
-   <Text style={styles.babyText}>Select child and log a feed or sleep entry</Text>
+    </TouchableOpacity>
+    <Text style={styles.babyText}>Select child and log a feed or sleep entry</Text>
 
-{items ?<DropDownPicker
+    {items ?<DropDownPicker
                     style={styles.selector}
                     open={openDropDown}
                     value={baby}
