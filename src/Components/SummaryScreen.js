@@ -44,8 +44,8 @@ export default function SummaryScreen({navigation}){
     try{
             getBabies().then((result)=>{
               setData(result);
-              tempBabies = result.map(baby => {
-                return {label: baby.name, value: baby} })
+              tempBabies = result.map((baby, index) => {
+                return {label: baby.name, value: baby.id} })
               setItems(tempBabies)
             })
                     getTotalVolumeFeeds()
