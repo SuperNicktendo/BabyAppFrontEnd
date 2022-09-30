@@ -71,7 +71,7 @@ export default function FoodScreen({route, navigation}){
                       height={300}
                       step={0.5}
                       borderRadius={5}
-                      minimumTrackTintColor={"#FE8E0D"}
+                      minimumTrackTintColor={"#18C0EA"}
                       maximumTrackTintColor={"#BAE6F2"}
                     />
             <Text style={styles.foodText3}>Amount: {finalValue} oz</Text>
