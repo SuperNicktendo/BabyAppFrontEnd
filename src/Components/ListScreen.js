@@ -87,8 +87,6 @@ export default function ListScreen({navigation}){
                     setItems={setItems}
              />: <Text style={styles.loadingText}>Loading...</Text>}
 
-          
-
         <ScrollView style={styles.scrollStyle}>
           <Timetable
             hourHeight={20}
@@ -98,6 +96,7 @@ export default function ListScreen({navigation}){
             range={range}
           />
         </ScrollView>
+        
         <TouchableOpacity style={styles.buttonContainer}>
         <Text style={styles.buttonText} onPress={()=> navigation.navigate('Summary')}>
             Summary Screen
