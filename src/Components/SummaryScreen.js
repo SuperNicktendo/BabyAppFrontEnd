@@ -9,7 +9,6 @@ import SleepCard from './SleepCard';
 import FeedCard from './FeedCard';
 import { getSleeps, showSleeps } from '../Services/SleepService';
 
-
 export default function SummaryScreen({navigation}){
 
   const [from] = React.useState(moment().subtract(3, 'days').toDate());
@@ -22,20 +21,25 @@ export default function SummaryScreen({navigation}){
 
   const [items] = React.useState([
     {
-      title: 'Test Sleep',
+      title: 'sleep',
       startDate: moment('2022-09-29 08:55:00').toDate(),
       endDate: moment('2022-09-29 09:55:00').toDate()
     },
     {
-      title: 'Test Sleep',
+      title: 'sleep',
       startDate: moment('2022-09-28 20:06:00').toDate(),
       endDate: moment('2022-09-29 06:30:00').toDate()
     },
     {
-      title: 'Test Sleep',
+      title: 'sleep',
       startDate: moment('2022-09-26 18:25:00').toDate(),
       endDate: moment('2022-09-27 04:53:00').toDate()
     },
+    {
+      title: 'feed',
+      startDate: moment('2022-09-29 10:24:00').toDate(),
+      endDate: moment('2022-09-29 10:26:00').toDate()
+    }
   ]);
 
     return (
@@ -48,11 +52,8 @@ export default function SummaryScreen({navigation}){
           <Timetable
             hourHeight={50}
             columnWidth={120}
-            // style={styles.timeContainer}
             items={items}
             cardComponent={SleepCard}
-
-            // date={date}
             range={range}
           />
         </ScrollView>
@@ -83,5 +84,8 @@ const styles = StyleSheet.create({
       margin: 10,
       width: 80,
       color: '#f34fg6',
+    },
+    redStyle: {
+      backgroundColor: 'red'
     }
   });
