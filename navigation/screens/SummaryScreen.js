@@ -84,7 +84,7 @@ export default function SummaryScreen({navigation}){
 
         <ScrollView>
           <Timetable 
-            style={styles.timetable}
+            style={styles.timeContainer}
             items={items}
             cardComponent={MyItemCard}
 
@@ -120,10 +120,8 @@ const styles = StyleSheet.create({
       width: 80,
       color: '#f34fg6',
     },
-    timetable: {
-      width: window.width,
-      height: window.height,
-      justifyContent: 'center',
-      alignItems: 'center'
+    timeContainer: {
+      timeWidth: 5,
+      hourHeight: 10
     }
   });
