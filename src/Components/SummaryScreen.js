@@ -3,45 +3,46 @@ import React, {useState, useEffect} from 'react';
 import {useIsFocused} from "@react-navigation/native";
 import {getBabies} from '../Services/BabyService.js'
 import Dropdown from './Dropdown.js';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 
 
 export default function SummaryScreen({navigation}){
-
+    
   const isFocused = useIsFocused()
   const [data, setData ] = useState(null);
   const [babies, setBabies] = useState(null);
   const [babyName, setBabyName] = useState(null);
-  const [feed, setFeed] = useState(null);
+  const [baby, setBaby] = useState(null);
+  const [items, setItems] = useState(null)
+  const [openDropDown, setOpenDropDown] = useState(false);
 
+  useEffect(()=>{
 
-
-
-    const getTotalFeeds=()=>{
     try{
-            getBabies().then((result)=>{
-              setData(result);
-              console.log("results", result)
-              feedData = result.feeds.map(feed => {
-              console.log("feedData",feedData)
-              console.log("feed", feed)
-                return feed
-                setFeed(feedData)})
-            })}catch(err){
-              console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary screen")
-            }
-
+    getBabies().then((result)=>{
+      setData(result);
+      tempBabies = result.map(baby => {
+        return {label: baby.name, value: baby} })
+      setItems(tempBabies)
+    })}catch(err){
+      console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
     }
-
-    useEffect(()=>{
-        getTotalFeeds()
-
-      }, [isFocused]);
+  }, [isFocused]);
 
 
     return (
         <View style={styles.container}>
-          <Dropdown/>
+          
+          {items ?<DropDownPicker
+                    open={openDropDown}
+                    value={baby}
+                    items={items}
+                    setOpen={setOpenDropDown}
+                    setValue={setBaby}
+                    setItems={setItems}
+             />: <Text style={styles.loadingText}>Loading...</Text>}
+
         <Text style={styles.dummyText}>
             7 Day Sleep Summary
         </Text>

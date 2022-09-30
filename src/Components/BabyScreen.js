@@ -11,6 +11,28 @@ import Dropdown from './Dropdown.js';
 
 export default function BabyScreen({navigation}) {
 
+  const isFocused = useIsFocused()
+  const [data, setData ] = useState(null);
+  const [babies, setBabies] = useState(null);
+  const [babyName, setBabyName] = useState(null);
+  const [baby, setBaby] = useState(null);
+  const [items, setItems] = useState(null)
+  const [openDropDown, setOpenDropDown] = useState(false);
+
+
+  useEffect(()=>{
+
+    try{
+    getBabies().then((result)=>{
+      setData(result);
+      tempBabies = result.map(baby => {
+        return {label: baby.name, value: baby} })
+      setItems(tempBabies)
+    })}catch(err){
+      console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
+    }
+  }, [isFocused]);
+
 
 
 
@@ -23,7 +45,19 @@ export default function BabyScreen({navigation}) {
         <Image source={logo} style={styles.logo} />
     </TouchableOpacity>
 
-        <Dropdown/>
+    <Text style={styles.babyText}>Select child and log a feed or sleep entry</Text>
+
+    {items ?<DropDownPicker
+
+
+                    open={openDropDown}
+                    value={baby}
+                    items={items}
+                    setOpen={setOpenDropDown}
+                    setValue={setBaby}
+                    setItems={setItems}
+             />: <Text style={styles.loadingText}>Loading...</Text>}
+
       <TouchableOpacity
         style={styles.buttonContainer1}
         onPress={() => navigation.navigate('Food', {baby})}>
