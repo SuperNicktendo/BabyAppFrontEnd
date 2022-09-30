@@ -19,7 +19,7 @@ export default function SleepScreen({route, navigation}){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#18C0EA',
+    backgroundColor: '#4F6C73',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 50

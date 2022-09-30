@@ -1,5 +1,5 @@
 
-const baseURL = 'http://10.59.241.210:8080/feeds'
+const baseURL = 'http://10.14.234.211:8080/feeds'
 
 
 

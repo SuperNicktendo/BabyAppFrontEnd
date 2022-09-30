@@ -11,6 +11,28 @@ import Dropdown from './Dropdown.js';
 
 export default function BabyScreen({navigation}) {
 
+  const isFocused = useIsFocused()
+  const [data, setData ] = useState(null);
+  const [babies, setBabies] = useState(null);
+  const [babyName, setBabyName] = useState(null);
+  const [baby, setBaby] = useState(null);
+  const [items, setItems] = useState(null)
+  const [openDropDown, setOpenDropDown] = useState(false);
+
+
+  useEffect(()=>{
+
+    try{
+    getBabies().then((result)=>{
+      setData(result);
+      tempBabies = result.map(baby => {
+        return {label: baby.name, value: baby} })
+      setItems(tempBabies)
+    })}catch(err){
+      console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
+    }
+  }, [isFocused]);
+
 
 
 
@@ -23,7 +45,19 @@ export default function BabyScreen({navigation}) {
         <Image source={logo} style={styles.logo} />
     </TouchableOpacity>
 
-        <Dropdown/>
+    <Text style={styles.babyText}>Select child and log a feed or sleep entry</Text>
+
+    {items ?<DropDownPicker
+
+
+                    open={openDropDown}
+                    value={baby}
+                    items={items}
+                    setOpen={setOpenDropDown}
+                    setValue={setBaby}
+                    setItems={setItems}
+             />: <Text style={styles.loadingText}>Loading...</Text>}
+
       <TouchableOpacity
         style={styles.buttonContainer1}
         onPress={() => navigation.navigate('Food', {baby})}>
@@ -55,13 +89,19 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 5,
     borderRadius: 305 /2
-
+  },
+  loadingText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginTop: 15,
+    fontSize: 18,
+    textAlign: 'center',
   },
   babyText: {
     color: '#fff',
     fontWeight: 'bold',
     marginTop: 15,
-    fontSize: 18,
+    fontSize: 14,
     textAlign: 'center',
   },
   buttonContainer1: {
@@ -83,7 +123,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 25,
-    padding: 45,
+    padding: 32,
     color: "#fff",
     fontWeight: "bold",
     alignSelf: "center",
