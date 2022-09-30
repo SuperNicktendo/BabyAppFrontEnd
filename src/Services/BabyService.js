@@ -8,7 +8,9 @@ const baseURL = 'http://10.158.168.169:8080/babies'
 // gets all babies
 export const getBabies = () => {
     return fetch(baseURL)
-    .then(res => res.json())
+    .then(res => res.json()
+    )
+
 }
 
 // gets baby by id

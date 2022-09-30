@@ -2,39 +2,36 @@ import {StyleSheet, View, Text} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useIsFocused} from "@react-navigation/native";
 import {getBabies} from '../Services/BabyService.js'
+import {getFeeds} from '../Services/FeedService.js'
 import Dropdown from './Dropdown.js';
+import moment from 'moment';
 
+//&& feed.time > moment().subtract(7,"days").toDate()
 
 
 export default function SummaryScreen({navigation}){
 
   const isFocused = useIsFocused()
-  const [data, setData ] = useState(null);
-  const [babies, setBabies] = useState(null);
-  const [babyName, setBabyName] = useState(null);
-  const [feed, setFeed] = useState(null);
+  const [allData, setAllData ] = useState(null);
+  const [feeds, setFeeds] = useState(null);
 
 
+    const getTotalVolumeFeeds= ()=>{
+             getFeeds().then((result) =>{
+            tempFeeds = result.map(feeds => {
+            return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
+            console.log(moment().subtract(7,"days").toDate())
+            filteredFeeds = tempFeeds.filter(feed => feed.babyId === 1 )
+            .reduce((previousValue, currentValue) => { return previousValue + currentValue.volume},0)
 
+            setFeeds(filteredFeeds)
+            console.log("filtered",feeds)
+            })
+}
 
-    const getTotalFeeds=()=>{
-    try{
-            getBabies().then((result)=>{
-              setData(result);
-              console.log("results", result)
-              feedData = result.feeds.map(feed => {
-              console.log("feedData",feedData)
-              console.log("feed", feed)
-                return feed
-                setFeed(feedData)})
-            })}catch(err){
-              console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary screen")
-            }
-
-    }
 
     useEffect(()=>{
-        getTotalFeeds()
+        getTotalVolumeFeeds()
 
       }, [isFocused]);
 
@@ -46,7 +43,7 @@ export default function SummaryScreen({navigation}){
             7 Day Sleep Summary
         </Text>
         <Text >
-                    Total Average Sleep per Day:
+                    Total Average Sleep per Day:{}
         </Text>
         <Text >
                     Total Nap Time per Day:
@@ -64,7 +61,7 @@ export default function SummaryScreen({navigation}){
                             Average Bottles per Day:
                 </Text>
                 <Text >
-                            Average Amount per Day:
+                            Average Amount per Day:{}
                 </Text>
                 <Text >
                    Average Amount per Bottle

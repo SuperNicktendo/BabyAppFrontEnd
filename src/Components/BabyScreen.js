@@ -10,6 +10,27 @@ import logo from './baby-logo.jpeg'
 import Dropdown from './Dropdown.js';
 
 export default function BabyScreen({navigation}) {
+  const isFocused = useIsFocused()
+    const [data, setData ] = useState(null);
+    const [babies, setBabies] = useState(null);
+    const [babyName, setBabyName] = useState(null);
+    const [baby, setBaby] = useState(null);
+    const [items, setItems] = useState(null)
+    const [openDropDown, setOpenDropDown] = useState(false);
+
+
+    useEffect(()=>{
+
+      try{
+      getBabies().then((result)=>{
+        setData(result);
+        tempBabies = result.map(baby => {
+          return {label: baby.name, value: baby} })
+        setItems(tempBabies)
+      })}catch(err){
+        console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
+      }
+    }, [isFocused]);
 
 
 
