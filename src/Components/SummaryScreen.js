@@ -2,14 +2,23 @@ import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useIsFocused} from "@react-navigation/native";
 import {getBabies} from '../Services/BabyService.js'
+import {getFeeds} from '../Services/FeedService.js'
 import Dropdown from './Dropdown.js';
+
+import moment from 'moment';
+
+//&& feed.time > moment().subtract(7,"days").toDate()
+
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg'
+
 
 
 export default function SummaryScreen({navigation}){
     
   const isFocused = useIsFocused()
+  const [allData, setAllData ] = useState(null);
+  const [feeds, setFeeds] = useState(null);
   const [data, setData ] = useState(null);
   const [babies, setBabies] = useState(null);
   const [babyName, setBabyName] = useState(null);
@@ -17,18 +26,37 @@ export default function SummaryScreen({navigation}){
   const [items, setItems] = useState(null)
   const [openDropDown, setOpenDropDown] = useState(false);
 
-  useEffect(()=>{
 
+    const getTotalVolumeFeeds = ()=>{
+            getFeeds().then((result) =>{
+            tempFeeds = result.map(feeds => {
+            return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
+
+            filteredFeeds = tempFeeds.filter(feed => feed.babyId === 1 )
+            .reduce((previousValue, currentValue) => { return previousValue + currentValue.volume},0)
+
+            setFeeds(filteredFeeds)
+
+            })
+}
+
+    useEffect(()=>{
     try{
-    getBabies().then((result)=>{
-      setData(result);
-      tempBabies = result.map(baby => {
-        return {label: baby.name, value: baby} })
-      setItems(tempBabies)
-    })}catch(err){
-      console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
-    }
-  }, [isFocused]);
+            getBabies().then((result)=>{
+              setData(result);
+              tempBabies = result.map((baby, index) => {
+                return {label: baby.name, value: baby.id} })
+              setItems(tempBabies)
+            })
+                    getTotalVolumeFeeds()
+    }catch(err){
+              console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary SCREEN.JS")
+            }
+
+
+
+      }, [isFocused]);
+
 
 
     return (
@@ -52,6 +80,7 @@ export default function SummaryScreen({navigation}){
         <Text style={styles.summaryHeader}>
             7 Day Sleep Summary
         </Text>
+
 
         <Text style={styles.summaryText}>
           Total Average Sleep per Day:

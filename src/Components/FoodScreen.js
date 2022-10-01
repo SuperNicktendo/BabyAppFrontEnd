@@ -17,11 +17,12 @@ export default function FoodScreen({route, navigation}){
     const { baby } = route.params;
 
     const saveFeed = async () => {
+        newDate = moment(date).add(1, 'hours')
         newFeed = {
-           "time": date,
+           "time": newDate,
            "volume": finalValue,
            "baby": {
-             "id": baby.id,
+             "id": baby,
                    }
           }
         postFeed(newFeed)

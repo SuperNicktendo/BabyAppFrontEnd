@@ -18,18 +18,18 @@ export default function SleepForm({navigation, baby}){
     const [openDropDown, setOpenDropDown] = useState(false);
     const [sleepValue, setSleepValue] = useState(null);
  
-  console.log(baby)
 
     const  saveSleep =async () => {
+    console.log("baby id", baby)
        tempSleep = {
-        "startTime": startDate ,
-        "endTime": endDate,
+        "startTime": moment(startDate).add(1, 'hours') ,
+        "endTime": moment(endDate).add(1, 'hours'),
         "sleepType": sleepValue,
         "baby": {
-          "id": baby.id,
+          "id": baby,
       }
     }
-
+    console.log("new Sleep", tempSleep)
     postSleep(tempSleep);
     navigation.navigate('List')
     }
