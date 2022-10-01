@@ -17,10 +17,7 @@ export default function FoodScreen({route, navigation}){
     const { baby } = route.params;
 
     const saveFeed = async () => {
-        console.log("feed", baby)
-        newDate = moment(date).utcOffset('+0100')
-        console.log("date",date)
-        console.log("new date",newDate)
+        newDate = moment(date).add(1, 'hours')
         newFeed = {
            "time": newDate,
            "volume": finalValue,
@@ -28,7 +25,6 @@ export default function FoodScreen({route, navigation}){
              "id": baby,
                    }
           }
-          console.log("new feed", newFeed)
         postFeed(newFeed)
         navigation.navigate('List')
     }

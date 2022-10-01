@@ -43,8 +43,8 @@ export default function ListScreen({navigation}){
   const range = {from, till};
 
   const [babySleeps] = React.useState(getSleeps);
-  console.log(babySleeps);
-  console.log(JSON.stringify(babySleeps));
+//  console.log(babySleeps);
+//  console.log(JSON.stringify(babySleeps));
 
   const [items1] = React.useState([
     {

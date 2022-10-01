@@ -22,8 +22,8 @@ export default function SleepForm({navigation, baby}){
     const  saveSleep =async () => {
     console.log("baby id", baby)
        tempSleep = {
-        "startTime": startDate ,
-        "endTime": endDate,
+        "startTime": moment(startDate).add(1, 'hours') ,
+        "endTime": moment(endDate).add(1, 'hours'),
         "sleepType": sleepValue,
         "baby": {
           "id": baby,

@@ -27,7 +27,7 @@ export default function SummaryScreen({navigation}){
   const [openDropDown, setOpenDropDown] = useState(false);
 
 
-    const getTotalVolumeFeeds= ()=>{
+    const getTotalVolumeFeeds = ()=>{
             getFeeds().then((result) =>{
             tempFeeds = result.map(feeds => {
             return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
@@ -49,7 +49,7 @@ export default function SummaryScreen({navigation}){
               setItems(tempBabies)
             })
                     getTotalVolumeFeeds()
-}catch(err){
+    }catch(err){
               console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary SCREEN.JS")
             }
 
