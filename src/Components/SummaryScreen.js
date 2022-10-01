@@ -14,10 +14,11 @@ import logo from './baby-logo.jpeg'
 
 
 
+
+
 export default function SummaryScreen({navigation}){
     
   const isFocused = useIsFocused()
-  const [allData, setAllData ] = useState(null);
   const [feeds, setFeeds] = useState(null);
   const [data, setData ] = useState(null);
   const [babies, setBabies] = useState(null);
@@ -25,20 +26,39 @@ export default function SummaryScreen({navigation}){
   const [baby, setBaby] = useState(null);
   const [items, setItems] = useState(null)
   const [openDropDown, setOpenDropDown] = useState(false);
+  const [feedNumber, setFeedNumber] = useState(0);
 
 
-    const getTotalVolumeFeeds = ()=>{
+
+
+
+
+    const getTotalVolumeFeedsById = ()=>{
             getFeeds().then((result) =>{
             tempFeeds = result.map(feeds => {
             return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
-
-            filteredFeeds = tempFeeds.filter(feed => feed.babyId === 1 )
+            console.log("feeds", tempFeeds)
+//and baby.time > moment().subtract(7, "days")
+            filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby)
             .reduce((previousValue, currentValue) => { return previousValue + currentValue.volume},0)
 
             setFeeds(filteredFeeds)
 
             })
-}
+    }
+
+    const getTotalNumberOfFeedsById = ()=>{
+                getFeeds().then((result) =>{
+                tempFeeds = result.map(feeds => {
+                return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
+
+                filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby)
+                setFeedNumber(filteredFeeds.length)
+
+                })
+        }
+
+
 
     useEffect(()=>{
     try{
@@ -48,14 +68,15 @@ export default function SummaryScreen({navigation}){
                 return {label: baby.name, value: baby.id} })
               setItems(tempBabies)
             })
-                    getTotalVolumeFeeds()
+            getTotalVolumeFeedsById()
+            getTotalNumberOfFeedsById()
     }catch(err){
               console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary SCREEN.JS")
             }
 
 
 
-      }, [isFocused]);
+      }, [isFocused, baby]);
 
 
 
@@ -103,18 +124,19 @@ export default function SummaryScreen({navigation}){
                     7 Day Feed Summary
                 </Text>
 
+
                 <Text style={styles.summaryText}>
-                            Average Bottles per Day:
+                            Average Bottles per Day:{feedNumber}
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
                 <Text style={styles.summaryText}>
-                            Average Amount per Day:
+                            Average Amount per Day:{feeds}
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
                 <Text style={styles.summaryText}>
-                  Average Amount per Bottle: 
+                  Average Amount per Bottle: {feeds/feedNumber}
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
