@@ -23,9 +23,8 @@ export default function ListScreen({navigation}){
   const [baby, setBaby] = useState(null);
   const [items, setItems] = useState(null)
   const [openDropDown, setOpenDropDown] = useState(false);
-
+  const [items1, setItems1] = React.useState([])
   useEffect(()=>{
-
     try{
     getBabies().then((result)=>{
       setData(result);
@@ -36,6 +35,24 @@ export default function ListScreen({navigation}){
       console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
     }
   }, [isFocused]);
+
+
+  useEffect(()=> {
+
+    if(baby != null){
+      console.log(baby)
+    
+      sleeps = baby.sleeps.map((sleep) => {
+          return {title: "sleep", startDate: sleep.startTime, endDate: sleep.endTime}
+        })
+        feeds = baby.feeds.map((feed) => {
+          return {title: "feed" ,startDate: feed.time, endDate: feed.time}
+        })
+        calanderData = sleeps.concat(feeds)
+        console.log(calanderData)
+        setItems1(calanderData)
+    }
+  }, baby)
   
   // Chart
   const [from] = React.useState(moment().subtract(3, 'days').toDate());
@@ -46,28 +63,9 @@ export default function ListScreen({navigation}){
   console.log(babySleeps);
   console.log(JSON.stringify(babySleeps));
 
-  const [items1] = React.useState([
-    {
-      title: 'sleep',
-      startDate: moment('2022-09-29 08:55:00').toDate(),
-      endDate: moment('2022-09-29 09:55:00').toDate()
-    },
-    {
-      title: 'sleep',
-      startDate: moment('2022-09-28 20:06:00').toDate(),
-      endDate: moment('2022-09-29 06:30:00').toDate()
-    },
-    {
-      title: 'sleep',
-      startDate: moment('2022-09-26 18:25:00').toDate(),
-      endDate: moment('2022-09-27 04:53:00').toDate()
-    },
-    {
-      title: 'feed',
-      startDate: moment('2022-09-29 10:24:00').toDate(),
-      endDate: moment('2022-09-29 10:26:00').toDate()
-    }
-  ]);
+
+
+
 
     return (
       <View style={styles.container}>
