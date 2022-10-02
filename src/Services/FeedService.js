@@ -6,6 +6,7 @@ const baseURL = 'http://192.168.0.94:8080/feeds/'
 
 
 
+
 // gets all feeds
 export const getFeeds = () => {
     return fetch(baseURL)
