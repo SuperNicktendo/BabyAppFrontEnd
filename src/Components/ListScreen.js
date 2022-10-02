@@ -24,6 +24,9 @@ export default function ListScreen({navigation}){
   const [items, setItems] = useState(null)
   const [openDropDown, setOpenDropDown] = useState(false);
   const [items1, setItems1] = React.useState([])
+
+
+  // selecter data
   useEffect(()=>{
     try{
     getBabies().then((result)=>{
@@ -36,7 +39,7 @@ export default function ListScreen({navigation}){
     }
   }, [isFocused]);
 
-
+// calnder data
   useEffect(()=> {
 
     if(baby != null){
@@ -52,7 +55,7 @@ export default function ListScreen({navigation}){
         console.log(calanderData)
         setItems1(calanderData)
     }
-  }, baby)
+  }, [baby, isFocused])
   
   // Chart
   const [from] = React.useState(moment().subtract(3, 'days').toDate());
