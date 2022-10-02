@@ -7,8 +7,6 @@ import Dropdown from './Dropdown.js';
 
 import moment from 'moment';
 
-//&& feed.time > moment().subtract(7,"days").toDate()
-
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg'
 
@@ -27,10 +25,6 @@ export default function SummaryScreen({navigation}){
   const [items, setItems] = useState(null)
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
-
-
-
-
 
 
     const getTotalVolumeFeedsById = ()=>{
