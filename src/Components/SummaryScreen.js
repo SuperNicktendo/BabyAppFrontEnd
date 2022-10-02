@@ -4,14 +4,10 @@ import {useIsFocused} from "@react-navigation/native";
 import {getBabies} from '../Services/BabyService.js'
 import {getFeeds} from '../Services/FeedService.js'
 import Dropdown from './Dropdown.js';
-
 import moment from 'moment';
-
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg'
-
-
-
+import dayjs from 'dayjs';
 
 
 export default function SummaryScreen({navigation}){
@@ -25,33 +21,65 @@ export default function SummaryScreen({navigation}){
   const [items, setItems] = useState(null)
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
+  const [timeBetweenFeeds, setTimeBetweenFeeds] = useState(0);
 
-
+//get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
     const getTotalVolumeFeedsById = ()=>{
             getFeeds().then((result) =>{
             tempFeeds = result.map(feeds => {
             return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
-            console.log("feeds", tempFeeds)
-//and baby.time > moment().subtract(7, "days")
-            filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby)
+
+            filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6)
             .reduce((previousValue, currentValue) => { return previousValue + currentValue.volume},0)
 
-            setFeeds(filteredFeeds)
+            setFeeds(filteredFeeds.toFixed(2))
 
             })
     }
-
+//    get all feed data, map it, filter it by id and last 7 days, returns the length of the array
     const getTotalNumberOfFeedsById = ()=>{
                 getFeeds().then((result) =>{
                 tempFeeds = result.map(feeds => {
                 return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
 
-                filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby)
+                filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby  && dayjs(feed.time).diff(dayjs(), 'day') > -6)
                 setFeedNumber(filteredFeeds.length)
 
                 })
         }
+//get all feed data, map it by id and time. filter it by id and las 7 days, check time diff between each index.
+//total the time between and divide by number of feeds
+    const getAvgTimeBetweenFeeds = ()=>{
+                getFeeds().then((result) =>{
+                tempFeeds = result.map(feeds => {
+                return {babyId: feeds.baby.id, time:feeds.time}})
 
+                filteredFeedsTime = tempFeeds.filter(feed => feed.babyId === baby  && dayjs(feed.time).diff(dayjs(), 'day') > -6)
+                let totalTime = 0;
+
+                differenceTime = filteredFeedsTime.forEach((feed, index) => {
+
+                    if (filteredFeedsTime[index+1]){
+                        console.log("runn tot", totalTime)
+                        currentTime = feed.time;
+                        console.log("current", currentTime, "index",index)
+
+                        nextTime = filteredFeedsTime[index+1].time;
+                         console.log("next", nextTime,"index",index +1)
+
+                        difference = dayjs(nextTime).diff(dayjs(currentTime), 'hour')
+                        console.log("diff", difference)
+
+
+                        totalTime += difference;
+                    }
+
+                })
+                 console.log("total", totalTime)
+                 console.log("filtered", filteredFeedsTime.length)
+                setTimeBetweenFeeds(totalTime/(filteredFeedsTime.length-1))
+                })
+        }
 
 
     useEffect(()=>{
@@ -64,12 +92,10 @@ export default function SummaryScreen({navigation}){
             })
             getTotalVolumeFeedsById()
             getTotalNumberOfFeedsById()
+            getAvgTimeBetweenFeeds()
     }catch(err){
               console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary SCREEN.JS")
             }
-
-
-
       }, [isFocused, baby]);
 
 
@@ -120,22 +146,22 @@ export default function SummaryScreen({navigation}){
 
 
                 <Text style={styles.summaryText}>
-                            Average Bottles per Day:{feedNumber}
+                            Average Bottles per Day: {feedNumber}
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
                 <Text style={styles.summaryText}>
-                            Average Amount per Day:{feeds}
+                            Average Amount per Day: {feeds} oz
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
                 <Text style={styles.summaryText}>
-                  Average Amount per Bottle: {feeds/feedNumber}
+                  Average Amount per Bottle: {(feeds/feedNumber).toFixed(2)} oz
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
                 <Text style={styles.summaryText}>
-                  Average Time Between Bottle: 
+                  Average Time Between Bottle: {timeBetweenFeeds} hours
                 </Text>
                 <Text style={styles.result}>Result</Text>
         </View>
