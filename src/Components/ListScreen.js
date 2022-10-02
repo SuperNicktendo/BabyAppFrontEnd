@@ -8,9 +8,8 @@ import {useIsFocused} from "@react-navigation/native";
 import Timetable from 'react-native-calendar-timetable';
 import moment from 'moment';
 import SleepCard from './SleepCard';
-
 import { getSleeps, showSleeps } from '../Services/SleepService';
-import {getBabies} from '../Services/BabyService.js'
+import {getBabies, showBaby} from '../Services/BabyService.js'
 
 
 export default function ListScreen({navigation}){
@@ -20,10 +19,11 @@ export default function ListScreen({navigation}){
   const [data, setData ] = useState(null);
   const [babies, setBabies] = useState(null);
   const [babyName, setBabyName] = useState(null);
-  const [baby, setBaby] = useState(null);
-  const [items, setItems] = useState(null)
+  const [babyId, setBabyId] = useState(null);
+  const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
-  const [items1, setItems1] = React.useState([])
+  const [items1, setItems1] = React.useState([]);
+  const [baby, setBaby] = useState(null);
 
 
   // selecter data
@@ -31,8 +31,8 @@ export default function ListScreen({navigation}){
     try{
     getBabies().then((result)=>{
       setData(result);
-      tempBabies = result.map(baby => {
-        return {label: baby.name, value: baby} })
+      tempBabies = result.map((baby, index) => {
+        return {label: baby.name, value: baby.id} })
       setItems(tempBabies)
     })}catch(err){
       console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
@@ -41,21 +41,11 @@ export default function ListScreen({navigation}){
 
 // calnder data
   useEffect(()=> {
-
-    if(baby != null){
-      console.log(baby)
-    
-      sleeps = baby.sleeps.map((sleep) => {
-          return {title: "sleep", startDate: sleep.startTime, endDate: sleep.endTime}
-        })
-        feeds = baby.feeds.map((feed) => {
-          return {title: "feed" ,startDate: feed.time, endDate: feed.time}
-        })
-        calanderData = sleeps.concat(feeds)
-        console.log(calanderData)
-        setItems1(calanderData)
+    console.log(babyId)
+    if(babyId){
+    makeBabyData();
     }
-  }, [baby, isFocused])
+  }, [baby, isFocused, babyId])
   
   // Chart
   const [from] = React.useState(moment().subtract(3, 'days').toDate());
@@ -63,9 +53,35 @@ export default function ListScreen({navigation}){
   const range = {from, till};
 
   const [babySleeps] = React.useState(getSleeps);
-  console.log(babySleeps);
-  console.log(JSON.stringify(babySleeps));
 
+
+
+
+
+
+
+
+const getBabyById = async () => {
+  await showBaby(babyId).then((result)=>{
+   setBaby(result)})
+   console.log("this is the fetch result", baby)
+  
+}
+
+
+const makeBabyData = async () => {
+ await getBabyById()
+  console.log(baby)
+  if(baby != null){
+    sleeps = baby.sleeps.map((sleep) => {
+        return {title: "sleep", startDate: sleep.startTime, endDate: sleep.endTime}
+      })
+      feeds = baby.feeds.map((feed) => {
+        return {title: "feed" ,startDate: feed.time, endDate: feed.time}
+      })
+      calanderData = sleeps.concat(feeds)
+      setItems1(calanderData)
+}}
 
 
 
@@ -81,10 +97,10 @@ export default function ListScreen({navigation}){
 
     {items ?<DropDownPicker
                     open={openDropDown}
-                    value={baby}
+                    value={babyId}
                     items={items}
                     setOpen={setOpenDropDown}
-                    setValue={setBaby}
+                    setValue={setBabyId}
                     setItems={setItems}
              />: <Text style={styles.loadingText}>Loading...</Text>}
 

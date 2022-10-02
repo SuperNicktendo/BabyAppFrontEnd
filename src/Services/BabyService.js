@@ -1,5 +1,5 @@
 
-const baseURL = 'http://192.168.123.247:8080/babies'
+const baseURL = 'http://192.168.123.247:8080/babies/'
 
 
 
@@ -8,7 +8,9 @@ const baseURL = 'http://192.168.123.247:8080/babies'
 // gets all babies
 export const getBabies = () => {
     return fetch(baseURL)
-    .then(res => res.json())
+    .then(res => res.json()
+    )
+
 }
 
 // gets baby by id
