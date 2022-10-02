@@ -4,16 +4,10 @@ import {useIsFocused} from "@react-navigation/native";
 import {getBabies} from '../Services/BabyService.js'
 import {getFeeds} from '../Services/FeedService.js'
 import Dropdown from './Dropdown.js';
-
 import moment from 'moment';
-
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg'
-
 import dayjs from 'dayjs';
-
-
-
 
 
 export default function SummaryScreen({navigation}){
@@ -29,7 +23,7 @@ export default function SummaryScreen({navigation}){
   const [feedNumber, setFeedNumber] = useState(0);
   const [timeBetweenFeeds, setTimeBetweenFeeds] = useState(0);
 
-
+//get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
     const getTotalVolumeFeedsById = ()=>{
             getFeeds().then((result) =>{
             tempFeeds = result.map(feeds => {
@@ -42,7 +36,7 @@ export default function SummaryScreen({navigation}){
 
             })
     }
-
+//    get all feed data, map it, filter it by id and last 7 days, returns the length of the array
     const getTotalNumberOfFeedsById = ()=>{
                 getFeeds().then((result) =>{
                 tempFeeds = result.map(feeds => {
@@ -53,7 +47,8 @@ export default function SummaryScreen({navigation}){
 
                 })
         }
-
+//get all feed data, map it by id and time. filter it by id and las 7 days, check time diff between each index.
+//total the time between and divide by number of feeds
     const getAvgTimeBetweenFeeds = ()=>{
                 getFeeds().then((result) =>{
                 tempFeeds = result.map(feeds => {
@@ -65,13 +60,23 @@ export default function SummaryScreen({navigation}){
                 differenceTime = filteredFeedsTime.forEach((feed, index) => {
 
                     if (filteredFeedsTime[index+1]){
+                        console.log("runn tot", totalTime)
                         currentTime = feed.time;
+                        console.log("current", currentTime, "index",index)
+
                         nextTime = filteredFeedsTime[index+1].time;
+                         console.log("next", nextTime,"index",index +1)
+
                         difference = dayjs(nextTime).diff(dayjs(currentTime), 'hour')
+                        console.log("diff", difference)
+
+
                         totalTime += difference;
                     }
 
                 })
+                 console.log("total", totalTime)
+                 console.log("filtered", filteredFeedsTime.length)
                 setTimeBetweenFeeds(totalTime/(filteredFeedsTime.length-1))
                 })
         }
