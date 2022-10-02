@@ -31,7 +31,7 @@ export default function HomeScreen({navigation}) {
       <Image source={logo} style={styles.logo} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonContainer} onPress={()=> navigation.navigate('Your Baby')}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={()=> navigation.navigate('Babies')}>
                 <Text style={styles.buttonText}>Home</Text>
               </TouchableOpacity>
 
