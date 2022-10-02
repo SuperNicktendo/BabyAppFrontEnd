@@ -12,7 +12,8 @@ import SleepScreen from '../Components/SleepScreen';
 import BabyScreen from '../Components/BabyScreen';
 import ListScreen from '../Components/ListScreen';
 import SummaryScreen from '../Components/SummaryScreen';
-
+import FeedEdit from '../Components/FeedEdit';
+import SleepEdit from '../Components/SleepEdit';
 //Screen names
 const homeName = "Home";
 const foodName = "Food";
@@ -20,6 +21,8 @@ const sleepName = "Sleep";
 const babyName = "Babies";
 const listName = "List";
 const summaryName = "Summary";
+const feedEdit = "FeedEdit"
+const sleepEdit = "SleepEdit"
 
 const Tab = createBottomTabNavigator();
 
@@ -75,6 +78,14 @@ export default function MainContainer(){
                }}/>
                <Tab.Screen name={babyName} component={BabyScreen} />
                <Tab.Screen name={listName} component={ListScreen} />
+               <Tab.Screen name={feedEdit} component={FeedEdit} options={{
+                tabBarButton: ()=> null,
+                tabBarVisible: false,
+               }} />
+               <Tab.Screen name={sleepEdit} component={SleepEdit}options={{
+                tabBarButton: ()=> null,
+                tabBarVisible: false,
+               }} />
                <Tab.Screen name={summaryName} component={SummaryScreen} options={{
                 tabBarButton: ()=> null,
                 tabBarVisible: false,
