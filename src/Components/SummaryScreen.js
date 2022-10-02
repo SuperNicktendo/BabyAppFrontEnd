@@ -64,15 +64,14 @@ export default function SummaryScreen({navigation}){
 
                 differenceTime = filteredFeedsTime.forEach((feed, index) => {
 
-                if (filteredFeedsTime[index+1]){
-                currentTime = feed.time;
-                nextTime = filteredFeedsTime[index+1].time;
-                difference = dayjs(nextTime).diff(dayjs(currentTime), 'hour')
-                totalTime += difference;
-                }
+                    if (filteredFeedsTime[index+1]){
+                        currentTime = feed.time;
+                        nextTime = filteredFeedsTime[index+1].time;
+                        difference = dayjs(nextTime).diff(dayjs(currentTime), 'hour')
+                        totalTime += difference;
+                    }
 
-                }
-                )
+                })
                 setTimeBetweenFeeds(totalTime/(filteredFeedsTime.length-1))
                 })
         }
