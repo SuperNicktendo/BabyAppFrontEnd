@@ -17,7 +17,7 @@ import SummaryScreen from '../Components/SummaryScreen';
 const homeName = "Home";
 const foodName = "Food";
 const sleepName = "Sleep";
-const babyName = "Baby";
+const babyName = "Babies";
 const listName = "List";
 const summaryName = "Summary";
 
@@ -48,10 +48,17 @@ export default function MainContainer(){
                })}
                screenOptions={{
                 headerShown: false,
-                 tabBarActiveTintColor: 'orange',
+                 tabBarActiveTintColor: '#fff',
                  tabBarInactiveTintColor: 'black',
-                 tabBarLabelStyle: { paddingBottom: 10, fontSize: 15 },
-                 style: { padding: 10, height: 70}
+                 tabBarInactiveBackgroundColor: '#fff',
+                 tabBarActiveBackgroundColor: 'orange',
+                 tabBarLabelStyle: { 
+                  paddingBottom: 12, 
+                  fontSize: 15,
+                  fontStyle: 'bold',
+                 },
+                 style: { padding: 10, height: 70},
+                 tabBarIconStyle: { display: "none" },
                }}>
 
                 <Tab.Screen name={homeName} component={HomeScreen} options={{
@@ -71,6 +78,7 @@ export default function MainContainer(){
                <Tab.Screen name={summaryName} component={SummaryScreen} options={{
                 tabBarButton: ()=> null,
                 tabBarVisible: false,
+
                }}/>
              </Tab.Navigator>
              
