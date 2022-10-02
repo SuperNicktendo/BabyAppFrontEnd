@@ -8,7 +8,9 @@ export default function SleepCard({style, item, dayIndex, daysTotal}) {
     colorToBe = item.title === 'sleep' ? '#FE8E0D' : '#18C0EA';
     
     return ( 
-        <View style={{
+        <View
+        
+         style={{
             ...style,
             backgroundColor: colorToBe,
             borderRadius: 10,

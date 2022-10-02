@@ -1,6 +1,5 @@
 
-const baseURL = 'http://10.50.48.230:8080/babies'
-
+const baseURL = 'http://192.168.123.247:8080/babies/'
 
 
 

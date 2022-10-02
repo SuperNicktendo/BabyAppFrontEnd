@@ -1,4 +1,5 @@
-const baseURL = 'http://10.50.48.230:8080/sleeps'
+
+const baseURL = 'http://192.168.123.247:8080/sleeps/'
 
 
 // gets all babies
