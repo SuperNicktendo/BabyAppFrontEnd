@@ -20,7 +20,6 @@ export default function SleepForm({navigation, baby}){
  
 
     const  saveSleep =async () => {
-    console.log("baby id", baby)
        tempSleep = {
         "startTime": moment(startDate).add(1, 'hours') ,
         "endTime": moment(endDate).add(1, 'hours'),
@@ -29,7 +28,6 @@ export default function SleepForm({navigation, baby}){
           "id": baby,
       }
     }
-    console.log("new Sleep", tempSleep)
     postSleep(tempSleep);
     navigation.navigate('List')
     }

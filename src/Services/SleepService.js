@@ -1,4 +1,6 @@
-const baseURL = 'http://10.50.48.230:8080/sleeps'
+
+const baseURL = 'http://192.168.0.94:8080/sleeps/'
+
 
 
 // gets all babies
@@ -20,5 +22,14 @@ export const postSleep = (payload) => {
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' }
     })
+    .then(res => res.json())
+}
+
+// updates Sleep
+export const updateSleep = (id, payload) => {
+    return fetch(baseURL + id,
+    {method: 'PUT',
+    body: JSON.stringify(payload),
+    headers: { 'Content-Type': 'application/json' }})
     .then(res => res.json())
 }

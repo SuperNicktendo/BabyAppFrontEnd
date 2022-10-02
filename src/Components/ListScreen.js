@@ -8,9 +8,8 @@ import {useIsFocused} from "@react-navigation/native";
 import Timetable from 'react-native-calendar-timetable';
 import moment from 'moment';
 import SleepCard from './SleepCard';
-
 import { getSleeps, showSleeps } from '../Services/SleepService';
-import {getBabies} from '../Services/BabyService.js'
+import {getBabies, showBaby} from '../Services/BabyService.js'
 
 
 export default function ListScreen({navigation}){
@@ -20,12 +19,15 @@ export default function ListScreen({navigation}){
   const [data, setData ] = useState(null);
   const [babies, setBabies] = useState(null);
   const [babyName, setBabyName] = useState(null);
-  const [baby, setBaby] = useState(null);
-  const [items, setItems] = useState(null)
+  const [babyId, setBabyId] = useState(null);
+  const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
+  const [items1, setItems1] = React.useState([]);
+  const [baby, setBaby] = useState(null);
 
+
+  // selecter data
   useEffect(()=>{
-
     try{
     getBabies().then((result)=>{
       setData(result);
@@ -36,6 +38,13 @@ export default function ListScreen({navigation}){
       console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
     }
   }, [isFocused]);
+
+// calnder data
+  useEffect(()=> {
+    if(babyId){
+    makeBabyData();
+    }
+  }, [baby, isFocused, babyId])
   
   // Chart
   const [from] = React.useState(moment().subtract(3, 'days').toDate());
@@ -43,31 +52,37 @@ export default function ListScreen({navigation}){
   const range = {from, till};
 
   const [babySleeps] = React.useState(getSleeps);
-//  console.log(babySleeps);
-//  console.log(JSON.stringify(babySleeps));
 
-  const [items1] = React.useState([
-    {
-      title: 'sleep',
-      startDate: moment('2022-09-29 08:55:00').toDate(),
-      endDate: moment('2022-09-29 09:55:00').toDate()
-    },
-    {
-      title: 'sleep',
-      startDate: moment('2022-09-28 20:06:00').toDate(),
-      endDate: moment('2022-09-29 06:30:00').toDate()
-    },
-    {
-      title: 'sleep',
-      startDate: moment('2022-09-26 18:25:00').toDate(),
-      endDate: moment('2022-09-27 04:53:00').toDate()
-    },
-    {
-      title: 'feed',
-      startDate: moment('2022-09-29 10:24:00').toDate(),
-      endDate: moment('2022-09-29 10:26:00').toDate()
-    }
-  ]);
+
+
+  
+
+
+
+
+const getBabyById = async () => {
+  await showBaby(babyId).then((result)=>{
+   setBaby(result)})
+  
+}
+
+
+const makeBabyData = async () => {
+ await getBabyById()
+
+  
+    sleeps = baby.sleeps.map((sleep) => {
+        return {title: "sleep", startDate: sleep.startTime, endDate: sleep.endTime, id: sleep.id, babyId: babyId, navigation: navigation, sleepType: sleep.sleepType }
+      })
+      feeds = baby.feeds.map((feed) => {
+        return {title: "feed" ,startDate: feed.time, endDate: feed.time, id: feed.id,  babyId: babyId ,navigation: navigation, volume: feed.volume}
+      })
+      calanderData = sleeps.concat(feeds)
+      setItems1(calanderData)
+}
+
+
+
 
     return (
       <View style={styles.container}>
@@ -80,10 +95,10 @@ export default function ListScreen({navigation}){
 
     {items ?<DropDownPicker
                     open={openDropDown}
-                    value={baby}
+                    value={babyId}
                     items={items}
                     setOpen={setOpenDropDown}
-                    setValue={setBaby}
+                    setValue={setBabyId}
                     setItems={setItems}
              />: <Text style={styles.loadingText}>Loading...</Text>}
 

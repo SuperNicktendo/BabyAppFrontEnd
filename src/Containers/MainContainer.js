@@ -12,14 +12,17 @@ import SleepScreen from '../Components/SleepScreen';
 import BabyScreen from '../Components/BabyScreen';
 import ListScreen from '../Components/ListScreen';
 import SummaryScreen from '../Components/SummaryScreen';
-
+import FeedEdit from '../Components/FeedEdit';
+import SleepEdit from '../Components/SleepEdit';
 //Screen names
 const homeName = "Home";
 const foodName = "Food";
 const sleepName = "Sleep";
-const babyName = "Baby";
+const babyName = "Babies";
 const listName = "List";
 const summaryName = "Summary";
+const feedEdit = "FeedEdit"
+const sleepEdit = "SleepEdit"
 
 const Tab = createBottomTabNavigator();
 
@@ -48,10 +51,17 @@ export default function MainContainer(){
                })}
                screenOptions={{
                 headerShown: false,
-                 tabBarActiveTintColor: 'orange',
+                 tabBarActiveTintColor: '#fff',
                  tabBarInactiveTintColor: 'black',
-                 tabBarLabelStyle: { paddingBottom: 10, fontSize: 15 },
-                 style: { padding: 10, height: 70}
+                 tabBarInactiveBackgroundColor: '#fff',
+                 tabBarActiveBackgroundColor: 'orange',
+                 tabBarLabelStyle: { 
+                  paddingBottom: 12, 
+                  fontSize: 15,
+                  fontStyle: 'bold',
+                 },
+                 style: { padding: 10, height: 70},
+                 tabBarIconStyle: { display: "none" },
                }}>
 
                 <Tab.Screen name={homeName} component={HomeScreen} options={{
@@ -68,9 +78,18 @@ export default function MainContainer(){
                }}/>
                <Tab.Screen name={babyName} component={BabyScreen} />
                <Tab.Screen name={listName} component={ListScreen} />
+               <Tab.Screen name={feedEdit} component={FeedEdit} options={{
+                tabBarButton: ()=> null,
+                tabBarVisible: false,
+               }} />
+               <Tab.Screen name={sleepEdit} component={SleepEdit}options={{
+                tabBarButton: ()=> null,
+                tabBarVisible: false,
+               }} />
                <Tab.Screen name={summaryName} component={SummaryScreen} options={{
                 tabBarButton: ()=> null,
                 tabBarVisible: false,
+
                }}/>
              </Tab.Navigator>
              

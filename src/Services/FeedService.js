@@ -1,5 +1,7 @@
 
-const baseURL = 'http://10.50.48.230:8080/feeds'
+const baseURL = 'http://192.168.0.94:8080/feeds/'
+
+
 
 
 
@@ -24,5 +26,14 @@ export const postFeed = (payload) => {
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' }
     })
+    .then(res => res.json())
+
+}
+// updates feed
+export const updateFeed = (id, payload) => {
+    return fetch(baseURL + id,
+    {method: 'PUT',
+    body: JSON.stringify(payload),
+    headers: { 'Content-Type': 'application/json' }})
     .then(res => res.json())
 }
