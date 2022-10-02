@@ -10,6 +10,8 @@ import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg'
 
+import dayjs from 'dayjs';
+
 
 
 
@@ -25,18 +27,18 @@ export default function SummaryScreen({navigation}){
   const [items, setItems] = useState(null)
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
+  const [timeBetweenFeeds, setTimeBetweenFeeds] = useState(0);
 
 
     const getTotalVolumeFeedsById = ()=>{
             getFeeds().then((result) =>{
             tempFeeds = result.map(feeds => {
             return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
-            console.log("feeds", tempFeeds)
-//and baby.time > moment().subtract(7, "days")
-            filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby)
+
+            filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6)
             .reduce((previousValue, currentValue) => { return previousValue + currentValue.volume},0)
 
-            setFeeds(filteredFeeds)
+            setFeeds(filteredFeeds.toFixed(2))
 
             })
     }
@@ -46,12 +48,34 @@ export default function SummaryScreen({navigation}){
                 tempFeeds = result.map(feeds => {
                 return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
 
-                filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby)
+                filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby  && dayjs(feed.time).diff(dayjs(), 'day') > -6)
                 setFeedNumber(filteredFeeds.length)
 
                 })
         }
 
+    const getAvgTimeBetweenFeeds = ()=>{
+                getFeeds().then((result) =>{
+                tempFeeds = result.map(feeds => {
+                return {babyId: feeds.baby.id, time:feeds.time}})
+
+                filteredFeedsTime = tempFeeds.filter(feed => feed.babyId === baby  && dayjs(feed.time).diff(dayjs(), 'day') > -6)
+                let totalTime = 0;
+
+                differenceTime = filteredFeedsTime.forEach((feed, index) => {
+
+                if (filteredFeedsTime[index+1]){
+                currentTime = feed.time;
+                nextTime = filteredFeedsTime[index+1].time;
+                difference = dayjs(nextTime).diff(dayjs(currentTime), 'hour')
+                totalTime += difference;
+                }
+
+                }
+                )
+                setTimeBetweenFeeds(totalTime/(filteredFeedsTime.length-1))
+                })
+        }
 
 
     useEffect(()=>{
@@ -64,12 +88,10 @@ export default function SummaryScreen({navigation}){
             })
             getTotalVolumeFeedsById()
             getTotalNumberOfFeedsById()
+            getAvgTimeBetweenFeeds()
     }catch(err){
               console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary SCREEN.JS")
             }
-
-
-
       }, [isFocused, baby]);
 
 
@@ -120,22 +142,22 @@ export default function SummaryScreen({navigation}){
 
 
                 <Text style={styles.summaryText}>
-                            Average Bottles per Day:{feedNumber}
+                            Average Bottles per Day: {feedNumber}
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
                 <Text style={styles.summaryText}>
-                            Average Amount per Day:{feeds}
+                            Average Amount per Day: {feeds} oz
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
                 <Text style={styles.summaryText}>
-                  Average Amount per Bottle: {feeds/feedNumber}
+                  Average Amount per Bottle: {(feeds/feedNumber).toFixed(2)} oz
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
                 <Text style={styles.summaryText}>
-                  Average Time Between Bottle: 
+                  Average Time Between Bottle: {timeBetweenFeeds} hours
                 </Text>
                 <Text style={styles.result}>Result</Text>
         </View>
