@@ -41,7 +41,6 @@ export default function ListScreen({navigation}){
 
 // calnder data
   useEffect(()=> {
-    console.log(babyId)
     if(babyId){
     makeBabyData();
     }
@@ -56,7 +55,7 @@ export default function ListScreen({navigation}){
 
 
 
-
+  
 
 
 
@@ -64,24 +63,23 @@ export default function ListScreen({navigation}){
 const getBabyById = async () => {
   await showBaby(babyId).then((result)=>{
    setBaby(result)})
-   console.log("this is the fetch result", baby)
   
 }
 
 
 const makeBabyData = async () => {
  await getBabyById()
-  console.log(baby)
-  if(baby != null){
+
+  
     sleeps = baby.sleeps.map((sleep) => {
-        return {title: "sleep", startDate: sleep.startTime, endDate: sleep.endTime}
+        return {title: "sleep", startDate: sleep.startTime, endDate: sleep.endTime, id: sleep.id, babyId: babyId, navigation: navigation, sleepType: sleep.sleepType }
       })
       feeds = baby.feeds.map((feed) => {
-        return {title: "feed" ,startDate: feed.time, endDate: feed.time}
+        return {title: "feed" ,startDate: feed.time, endDate: feed.time, id: feed.id,  babyId: babyId ,navigation: navigation, volume: feed.volume}
       })
       calanderData = sleeps.concat(feeds)
       setItems1(calanderData)
-}}
+}
 
 
 
