@@ -21,17 +21,17 @@ export default function HomeScreen({navigation}) {
       birthdate: moment(date).format('YYYY-MM-DD'),
     };
     await postBaby(newBaby);
-    navigation.navigate('Baby')
+    navigation.navigate('Babies')
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.headertext}>App Name</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Baby')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Babies')}>
       <Image source={logo} style={styles.logo} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonContainer} onPress={()=> navigation.navigate('Baby')}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={()=> navigation.navigate('Your Baby')}>
                 <Text style={styles.buttonText}>Home</Text>
               </TouchableOpacity>
 
