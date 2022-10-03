@@ -33,8 +33,8 @@ export default function SleepEdit({route, navigation}){
         const  saveSleep =async () => {
            tempSleep = {
             "id": item.id,
-            "startTime": moment(startDate) ,
-            "endTime": moment(endDate),
+            "startTime": moment(startDate).add(1, 'hours') ,
+            "endTime": moment(endDate).add(1, 'hours'),
             "sleepType": sleepValue,
             "baby": {
               "id": item.babyId
