@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, ScrollView, View, Text, Image, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useIsFocused} from "@react-navigation/native";
 import {getBabies} from '../Services/BabyService.js'
@@ -8,6 +8,8 @@ import moment from 'moment';
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg'
 import dayjs from 'dayjs';
+
+import VerticalBarGraph from '@chartiful/react-native-vertical-bar-graph';
 
 
 export default function SummaryScreen({navigation}){
@@ -22,6 +24,21 @@ export default function SummaryScreen({navigation}){
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
   const [timeBetweenFeeds, setTimeBetweenFeeds] = useState(0);
+
+const config = {
+  hasXAxisBackgroundLines: true,
+  xAxisLabelStyle: {
+    position: 'left',
+    suffix: 'oz',
+    color:"white"
+  },
+  hasYAxisBackgroundLines:true,
+  yAxisLabelStyle: {
+      color:"white",
+    }
+};
+
+
 
 //get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
     const getTotalVolumeFeedsById = ()=>{
@@ -95,11 +112,11 @@ export default function SummaryScreen({navigation}){
     return (
         <View style={styles.container}>
 
-          <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
-            <Image source={logo} style={styles.logo} />
-          </TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
+             <Image source={logo} style={styles.logo} />
+            </TouchableOpacity>
           
-          {items ?<DropDownPicker
+            {items ?<DropDownPicker
                     style={styles.selector}
                     open={openDropDown}
                     value={baby}
@@ -108,55 +125,63 @@ export default function SummaryScreen({navigation}){
                     setValue={setBaby}
                     setItems={setItems}
             />: <Text style={styles.loadingText}>Loading...</Text>}
-        
-        <View style={styles.summaryContainer1}>
-        <Text style={styles.summaryHeader}>
-            7 Day Sleep Summary
-        </Text>
 
+            <ScrollView style={styles.container}>
 
-        <Text style={styles.summaryText}>
-          Total Average Sleep per Day:
-        </Text>
-        <Text style={styles.result}>Result</Text>
-
-        <Text style={styles.summaryText}>
-          Total Nap Time per Day:
-        </Text>
-        <Text style={styles.result}>Result</Text>
-
-        <Text style={styles.summaryText}>
-          Total Night Sleep per Day:
-        </Text>
-        <Text style={styles.result}>Result</Text>
-        </View>
-        
-        <View style={styles.summaryContainer2}>
-        <Text style={styles.summaryHeader2}>
-                    7 Day Feed Summary
+            <View style={styles.summaryContainer1}>
+                <Text style={styles.summaryHeader}>
+                    7 Day Sleep Summary
                 </Text>
 
 
                 <Text style={styles.summaryText}>
-                            Average Bottles per Day: {feedNumber}
+                  Total Average Sleep per Day:
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
                 <Text style={styles.summaryText}>
-                            Average Amount per Day: {feeds} oz
+                  Total Nap Time per Day:
                 </Text>
                 <Text style={styles.result}>Result</Text>
 
                 <Text style={styles.summaryText}>
-                  Average Amount per Bottle: {(feeds/feedNumber).toFixed(2)} oz
+                  Total Night Sleep per Day:
                 </Text>
                 <Text style={styles.result}>Result</Text>
+            </View>
 
-                <Text style={styles.summaryText}>
-                  Average Time Between Bottle: {timeBetweenFeeds} hours
-                </Text>
-                <Text style={styles.result}>Result</Text>
-        </View>
+            <View style={styles.summaryContainer2}>
+                <Text style={styles.summaryHeader2}>
+                            7 Day Feed Summary
+                        </Text>
+
+                <Text style={styles.result}>Average Bottles per Day</Text>
+                <Text style={styles.summaryText}>{feedNumber}</Text>
+
+                <Text style={styles.result}>Average Amount per Day</Text>
+                <Text style={styles.summaryText}>{feeds} oz</Text>
+
+
+                <Text style={styles.result}>Average Amount per Bottle</Text>
+                <Text style={styles.summaryText}>{(feeds/feedNumber).toFixed(2)} oz</Text>
+
+                <Text style={styles.result}>Average Time Between Bottle</Text>
+                <Text style={styles.summaryText}>{timeBetweenFeeds} hours</Text>
+            </View>
+            <View>
+                <VerticalBarGraph
+                  data={[20, 45, 28, 80, 99, 43, 50]}
+                  labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']}
+                  width={375}
+                  height={300}
+                  barRadius={5}
+                  barColor="white"
+                  barWidthPercentage={0.65}
+                  baseConfig={config}
+                  style={styles.chart}
+                />
+            </View>
+           </ScrollView>
         </View>
     )
 }
@@ -166,7 +191,6 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#4F6C73',
       padding: 7,
-      alignItems: 'center'
     },
     logo: {
       width: 15,
@@ -231,5 +255,13 @@ const styles = StyleSheet.create({
     selector: {
       marginTop: 10,
       marginBottom: 10,
-    }
+    },
+    chart: {
+        marginBottom: 30,
+        padding: 10,
+        paddingTop: 20,
+        borderRadius: 20,
+        backgroundColor: '#4F6C73',
+        width: 375
+      }
   });
