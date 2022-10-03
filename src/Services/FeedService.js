@@ -5,7 +5,6 @@ const baseURL = 'http://10.59.241.210:8080/feeds/'
 
 
 
-
 // gets all feeds
 export const getFeeds = () => {
     return fetch(baseURL)
@@ -36,3 +35,12 @@ export const updateFeed = (id, payload) => {
     headers: { 'Content-Type': 'application/json' }})
     .then(res => res.json())
 }
+
+// Deletes a Feed
+
+export const deleteFeed = (id) => {
+    return fetch(baseURL+id,
+    {method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }})
+    .then(res => res.json())
+    }

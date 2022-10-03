@@ -5,7 +5,7 @@ import logo from './baby-logo.jpeg'
     import DropDownPicker from 'react-native-dropdown-picker';
     import DatePicker from 'react-native-date-picker'
     import moment from 'moment'
-    import {updateSleep} from '../Services/SleepService.js'
+    import {updateSleep, deleteSleep} from '../Services/SleepService.js'
     import ListScreen from './ListScreen';
     import {useIsFocused} from "@react-navigation/native";
 
@@ -40,10 +40,16 @@ export default function SleepEdit({route, navigation}){
               "id": item.babyId
           }
         }
-        updateSleep(item.babyId, tempSleep);
+        await updateSleep(item.babyId, tempSleep);
         navigation.navigate('List')
         }
     
+        const deleteSingleSleep = async () => {
+            deleteSleep(item.id);
+            navigation.navigate('List');
+        }
+
+
         return (
             <View style={styles.container}>
     
@@ -108,6 +114,11 @@ export default function SleepEdit({route, navigation}){
                    style={styles.saveButtonContainer}
                    onPress={saveSleep}>
                     <Text style={styles.buttonText}>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                   style={styles.saveButtonContainer}
+                   onPress={deleteSingleSleep}>
+                    <Text style={styles.buttonText}>Delete</Text>
               </TouchableOpacity>
     
             </View>

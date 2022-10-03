@@ -32,3 +32,12 @@ export const updateSleep = (id, payload) => {
     headers: { 'Content-Type': 'application/json' }})
     .then(res => res.json())
 }
+
+// Deletes a sleep
+
+export const deleteSleep = (id) => {
+    return fetch(baseURL+id,
+    {method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }})
+    .then(res => res.json())
+    }
