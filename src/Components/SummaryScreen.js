@@ -15,47 +15,30 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg';
 import dayjs from 'dayjs';
 import {getSleeps} from '../Services/SleepService.js';
-
-import VerticalBarGraph from '@chartiful/react-native-vertical-bar-graph';
+import FeedChart from './FeedChart.js';
 
 export default function SummaryScreen({navigation}) {
   const isFocused = useIsFocused();
   const [feeds, setFeeds] = useState(null);
   const [data, setData] = useState(null);
-  // const [babies, setBabies] = useState(null);
-  // const [babyName, setBabyName] = useState(null);
   const [baby, setBaby] = useState(null);
   const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
   const [timeBetweenFeeds, setTimeBetweenFeeds] = useState(0);
   const [chartValueFeed, setChartValueFeed] = useState(null);
-  // const [sleeps, setSleeps] = useState(null);
   const [avgTotalSleep, setAvgTotalSleep] = useState(null);
   const [avgNapTime, setAvgNapTime] = useState(null);
   const [avgNightTime, setAvgNightTime] = useState(null);
 
-  const config = {
-    hasXAxisBackgroundLines: true,
-    xAxisLabelStyle: {
-      position: 'left',
-      suffix: 'oz',
-      color: 'white',
-    },
-    hasYAxisBackgroundLines: true,
-    yAxisLabelStyle: {
-      color: 'white',
-    },
-  };
-
   //get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
   const getTotalVolumeFeedsById = () => {
     getFeeds().then(result => {
-      const tempFeeds = result.map(feeds => {
+      const mappedFeeds = result.map(feeds => {
         return {babyId: feeds.baby.id, time: feeds.time, volume: feeds.volume};
       });
 
-      const filteredFeeds = tempFeeds
+      const filteredFeeds = mappedFeeds
         .filter(
           feed =>
             feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6,
@@ -68,51 +51,50 @@ export default function SummaryScreen({navigation}) {
     });
   };
 
-  const getVolumePerDayById = () => {
+  const getTotalVolumePerDay = () => {
     getFeeds().then(result => {
-      const tempFeeds = result.map(feeds => {
+      const mappedFeeds = result.map(feeds => {
         return {babyId: feeds.baby.id, time: feeds.time, volume: feeds.volume};
       });
 
-      const filteredFeeds = tempFeeds.filter(
+      const filteredFeeds = mappedFeeds.filter(
         feed =>
           feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6,
       );
 
-      //                console.log("data", filteredFeeds)
-      const days = getChartDays();
+      const daysLabels = getChartDays();
 
-      const tempDays = days.map(day => {
+      const daysObject = daysLabels.map(day => {
         const tempObj = {};
         tempObj[day] = 0;
         return tempObj;
       });
 
-      const temp = filteredFeeds.forEach(feed => {
+      const totalVolumesByDay = filteredFeeds.forEach(feed => {
         for (let i = 0; i < 7; i++) {
-          if (moment(feed.time).format('ddd') == Object.keys(tempDays[i])) {
-            tempDays[i][Object.keys(tempDays[i])[0]] += feed.volume;
+          if (moment(feed.time).format('ddd') == Object.keys(daysObject[i])) {
+            daysObject[i][Object.keys(daysObject[i])[0]] += feed.volume;
           }
         }
       });
       const valueList = [];
       for (let i = 0; i < 7; i++) {
-        const value = Object.values(tempDays[i]);
+        const value = Object.values(daysObject[i]);
         valueList.push(value);
       }
-      const flattened = valueList.flatMap(num => num);
-      setChartValueFeed(flattened);
+      const flattenedValueList = valueList.flatMap(num => num);
+      setChartValueFeed(flattenedValueList);
     });
   };
 
   //    get all feed data, map it, filter it by id and last 7 days, returns the length of the array
   const getTotalNumberOfFeedsById = () => {
     getFeeds().then(result => {
-      const tempFeeds = result.map(feeds => {
+      const mappedFeeds = result.map(feeds => {
         return {babyId: feeds.baby.id, time: feeds.time, volume: feeds.volume};
       });
 
-      const filteredFeeds = tempFeeds.filter(
+      const filteredFeeds = mappedFeeds.filter(
         feed =>
           feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6,
       );
@@ -123,25 +105,26 @@ export default function SummaryScreen({navigation}) {
   //total the time between and divide by number of feeds
   const getAvgTimeBetweenFeeds = () => {
     getFeeds().then(result => {
-      const tempFeeds = result.map(feeds => {
+      const mappedFeeds = result.map(feeds => {
         return {babyId: feeds.baby.id, time: feeds.time};
       });
 
-      const filteredFeedsTime = tempFeeds.filter(
+      const filteredFeedsTime = mappedFeeds.filter(
         feed =>
           feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6,
       );
       let totalTime = 0;
 
-      const tempSortedTimes = filteredFeedsTime
+      const sortedTimes = filteredFeedsTime
         .map(times => {
           return times.time;
         })
         .sort();
-      const differenceTime = tempSortedTimes.forEach((feed, index) => {
-        if (tempSortedTimes[index + 1]) {
+
+      const differenceTime = sortedTimes.forEach((feed, index) => {
+        if (sortedTimes[index + 1]) {
           const currentTime = feed;
-          const nextTime = tempSortedTimes[index + 1];
+          const nextTime = sortedTimes[index + 1];
           const difference = dayjs(nextTime).diff(dayjs(currentTime), 'hour');
           totalTime += difference;
         }
@@ -183,14 +166,8 @@ export default function SummaryScreen({navigation}) {
         difference = dayjs(sleep.endTime).diff(dayjs(sleep.startTime), 'hour');
 
         totalTime += difference;
-
-        // console.log('this sleep', sleep);
-        // console.log('this start time', sleep.startTime);
-        // console.log('this end time', sleep.endTime);
-        // console.log('totaltimesleep', totalTime);
       });
       averageTime = totalTime / 7;
-      // console.log('totaltimesleep', averageTime);
       setAvgTotalSleep(averageTime.toFixed(2));
     });
   };
@@ -217,14 +194,8 @@ export default function SummaryScreen({navigation}) {
         difference = dayjs(nap.endTime).diff(dayjs(nap.startTime), 'hour');
 
         totalNapTime += difference;
-
-        // console.log('this nap', nap);
-        // console.log('this start time', nap.startTime);
-        // console.log('this end time', nap.endTime);
-        // console.log('totalnaptime', totalNapTime);
       });
       averageNapTime = totalNapTime / 7;
-      // console.log('totalnaptime', averageNapTime);
       setAvgNapTime(averageNapTime.toFixed(2));
     });
   };
@@ -251,14 +222,8 @@ export default function SummaryScreen({navigation}) {
         difference = dayjs(night.endTime).diff(dayjs(night.startTime), 'hour');
 
         totalNightTime += difference;
-
-        // console.log('this night', night);
-        // console.log('this start time', night.startTime);
-        // console.log('this end time', night.endTime);
-        // console.log('totaltimesleep', totalNightTime);
       });
       averageNightTime = totalNightTime / 7;
-      // console.log('totaltimesleep', averageNightTime);
       setAvgNightTime(averageNightTime.toFixed(2));
     });
   };
@@ -267,7 +232,7 @@ export default function SummaryScreen({navigation}) {
     try {
       getBabies().then(result => {
         setData(result);
-        tempBabies = result.map((baby, index) => {
+        tempBabies = result.map((baby) => {
           return {label: baby.name, value: baby.id};
         });
         setItems(tempBabies);
@@ -275,7 +240,7 @@ export default function SummaryScreen({navigation}) {
       getTotalVolumeFeedsById();
       getTotalNumberOfFeedsById();
       getAvgTimeBetweenFeeds();
-      getVolumePerDayById();
+      getTotalVolumePerDay();
       getChartDays();
       getAvgTotalSleep();
       getTotalNapPerDay();
@@ -337,23 +302,11 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.result}>Average Time Between Bottle</Text>
           <Text style={styles.summaryText}>{timeBetweenFeeds} hours</Text>
         </View>
-        <View>
-          {chartValueFeed ? (
-            <VerticalBarGraph
-              data={chartValueFeed}
-              labels={getChartDays()}
-              width={375}
-              height={300}
-              barRadius={5}
-              barColor="white"
-              barWidthPercentage={0.65}
-              baseConfig={config}
-              style={styles.chart}
-            />
-          ) : (
-            <Text>loading....</Text>
-          )}
-        </View>
+        {chartValueFeed ? (
+          <FeedChart data={chartValueFeed} labels={getChartDays()} />
+        ) : (
+          <Text>loading ....</Text>
+        )}
       </ScrollView>
     </View>
   );
@@ -434,13 +387,5 @@ const styles = StyleSheet.create({
   selector: {
     marginTop: 10,
     marginBottom: 10,
-  },
-  chart: {
-    marginBottom: 30,
-    padding: 10,
-    paddingTop: 20,
-    borderRadius: 20,
-    backgroundColor: '#4F6C73',
-    width: 375,
   },
 });

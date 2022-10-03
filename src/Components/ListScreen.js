@@ -10,7 +10,6 @@ import {
   Dimensions,
 } from 'react-native';
 import logo from './baby-logo.jpeg';
-import Dropdown from './Dropdown.js';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useIsFocused} from '@react-navigation/native';
 

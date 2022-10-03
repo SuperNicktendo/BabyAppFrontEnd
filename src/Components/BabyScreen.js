@@ -3,15 +3,11 @@ import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
 import {useIsFocused} from '@react-navigation/native';
 import {getBabies} from '../Services/BabyService.js';
-// import SelectDropdown from 'react-native-select-dropdown'
 import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg';
 
 export default function BabyScreen({navigation}) {
   const isFocused = useIsFocused();
-  // const [data, setData] = useState(null);
-  // const [babies, setBabies] = useState(null);
-  // const [babyName, setBabyName] = useState(null);
   const [baby, setBaby] = useState(null);
   const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
@@ -19,11 +15,10 @@ export default function BabyScreen({navigation}) {
   useEffect(() => {
     try {
       getBabies().then(result => {
-        // setData(result);
-        const tempBabies = result.map((baby) => {
+        const mappedBabies = result.map(baby => {
           return {label: baby.name, value: baby.id};
         });
-        setItems(tempBabies);
+        setItems(mappedBabies);
       });
     } catch (err) {
       console.log('CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS');

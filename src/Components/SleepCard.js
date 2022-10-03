@@ -9,8 +9,6 @@ import {
   Button,
   ScrollView,
 } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 export default function SleepCard({style, item, dayIndex, daysTotal}) {
   colorToBe = item.title === 'Sleep' ? '#18C0EA' : '#FE8E0D';
