@@ -168,15 +168,15 @@ const styles = StyleSheet.create({
               paddingHorizontal: 12,
               marginBottom: 5,
 
-                          height: 40,
-                          width: 200,
-                          borderColor: '#081b4f',
-                          color: '#E0E0E0',
-                          borderWidth: 2,
-                          borderRadius: 10,
-                          fontSize: 18,
-                          textAlign:'center',
-                          fontWeight:'bold'
+              height: 40,
+              width: 200,
+              borderColor: '#081b4f',
+              color: '#E0E0E0',
+              borderWidth: 2,
+              borderRadius: 10,
+              fontSize: 18,
+              textAlign:'center',
+              fontWeight:'bold'
             },
 
             textInputName: {
