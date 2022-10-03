@@ -25,7 +25,7 @@ export default function FeedEdit({route, navigation}){
     const saveFeed = async () => {
         newFeed = {
             "id": item.id,
-           "time": moment(date),
+           "time": moment(date).add(1, 'hours'),
            "volume": finalValue,
            "baby": {
              "id": item.babyId,
