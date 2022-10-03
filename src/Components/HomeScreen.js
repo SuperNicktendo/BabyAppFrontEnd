@@ -1,19 +1,24 @@
-
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import logo from './baby-logo.jpeg';
 import {postBaby} from '../Services/BabyService.js';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
-import renderIf from "./renderIf.js";
-
+import renderIf from './renderIf.js';
 
 export default function HomeScreen({navigation}) {
   const [name, setName] = React.useState(null);
   const [dob, setDob] = React.useState(null);
-  const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
-  const [showContent, setShowContent] = useState(null)
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+  const [showContent, setShowContent] = useState(null);
 
   const createBaby = async () => {
     const newBaby = {
@@ -21,69 +26,88 @@ export default function HomeScreen({navigation}) {
       birthdate: moment(date).format('YYYY-MM-DD'),
     };
     await postBaby(newBaby);
-    navigation.navigate('Babies')
+    navigation.navigate('Babies');
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.headertext}>App Name</Text>
       <TouchableOpacity onPress={() => navigation.navigate('Babies')}>
-      <Image source={logo} style={styles.logo} />
+        <Image source={logo} style={styles.logo} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonContainer} onPress={()=> navigation.navigate('Babies')}>
-                <Text style={styles.buttonText}>Home</Text>
-              </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => navigation.navigate('Babies')}>
+        <Text style={styles.buttonText}>Home</Text>
+      </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonContainer} onPress={()=> setShowContent(!showContent)}>
-                      <Text style={styles.buttonText}>Add New Baby</Text>
-                    </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => setShowContent(!showContent)}>
+        <Text style={styles.buttonText}>Add New Baby</Text>
+      </TouchableOpacity>
 
-      {renderIf(showContent,
-      <View>
+      {renderIf(
+        showContent,
+        <View>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontWeight: 'bold',
+              color: '#fff',
+              fontSize: 18,
+            }}>
+            First Name:
+          </Text>
+          <TextInput
+            style={styles.textInputName}
+            onChangeText={value => setName(value)}
+            value={name}
+            placeholder="Enter First Name: "
+            placeholderTextColor="grey"
+            autoCapitalize="sentences"
+            activeUnderlineColor="green"
+            underlineColor="red"
+          />
+          <Text
+            style={{
+              textAlign: 'center',
+              fontWeight: 'bold',
+              color: '#fff',
+              fontSize: 18,
+            }}>
+            Date of Birth:
+          </Text>
 
-
-        <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff', fontSize: 18}}>
-          First Name:
-        </Text>
-        <TextInput
-          style={styles.textInputName}
-          onChangeText={value => setName(value)}
-          value={name}
-          placeholder="Enter First Name: "
-          placeholderTextColor="grey"
-          autoCapitalize="sentences"
-          activeUnderlineColor="green"
-          underlineColor="red"
-        />
-        <Text style={{textAlign: 'center', fontWeight: 'bold',  color: '#fff', fontSize: 18}}>
-          Date of Birth:
-        </Text>
-
-        <>
-        <TouchableOpacity style={styles.buttonContainerDate} onPress={() => setOpen(true)} >
-                        <Text style={styles.buttonTextDate}>{moment(date).format('Do MMM YYYY')}</Text>
-                        </TouchableOpacity>
+          <>
+            <TouchableOpacity
+              style={styles.buttonContainerDate}
+              onPress={() => setOpen(true)}>
+              <Text style={styles.buttonTextDate}>
+                {moment(date).format('Do MMM YYYY')}
+              </Text>
+            </TouchableOpacity>
             <DatePicker
-                modal
-                mode="date"
-                open={open}
-                date={date}
-                onConfirm={(date) => {
-                  setOpen(false)
-                  setDate(date)
-                }}
-                onCancel={() => {
-                  setOpen(false)
-                }}
-              />
-        </>
+              modal
+              mode="date"
+              open={open}
+              date={date}
+              onConfirm={date => {
+                setOpen(false);
+                setDate(date);
+              }}
+              onCancel={() => {
+                setOpen(false);
+              }}
+            />
+          </>
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={createBaby} >
-          <Text style={styles.buttonText}>Add Baby</Text>
-        </TouchableOpacity>
-
-      </View>)}
+          <TouchableOpacity style={styles.buttonContainer} onPress={createBaby}>
+            <Text style={styles.buttonText}>Add Baby</Text>
+          </TouchableOpacity>
+        </View>,
+      )}
       {renderIf(!showContent, null)}
     </View>
   );
@@ -119,12 +143,11 @@ const styles = StyleSheet.create({
     padding: 100,
     borderColor: 'black',
     borderWidth: 5,
-    borderRadius: 355 /2
-
+    borderRadius: 355 / 2,
   },
   buttonContainer: {
     elevation: 8,
-    backgroundColor: "#FE8E0D",
+    backgroundColor: '#FE8E0D',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
@@ -132,10 +155,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
-    alignSelf: "center",
-    textTransform: "uppercase"
+    color: '#fff',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
   },
   input: {
     margin: 15,
@@ -144,53 +167,52 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   buttons: {
-    alignItems: "center",
-        backgroundColor: "#DDDDDD",
-        padding: 10
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
   },
   buttonText: {
-      fontSize: 18,
-      color: "#fff",
-      fontWeight: "bold",
-      alignSelf: "center",
-      textTransform: "uppercase"
-    },
-       buttonTextDate: {
-           fontSize: 18,
-           color: "grey",
-           fontWeight: "bold",
-           alignSelf: "center",
-         },
-         buttonContainerDate: {
-              elevation: 8,
-              backgroundColor: "#BAE6F2",
-              paddingVertical: 5,
-              paddingHorizontal: 12,
-              marginBottom: 5,
+    fontSize: 18,
+    color: '#fff',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
+  },
+  buttonTextDate: {
+    fontSize: 18,
+    color: 'grey',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+  buttonContainerDate: {
+    elevation: 8,
+    backgroundColor: '#BAE6F2',
+    paddingVertical: 5,
+    paddingHorizontal: 12,
+    marginBottom: 5,
 
-              height: 40,
-              width: 200,
-              borderColor: '#081b4f',
-              color: '#E0E0E0',
-              borderWidth: 2,
-              borderRadius: 10,
-              fontSize: 18,
-              textAlign:'center',
-              fontWeight:'bold'
-            },
+    height: 40,
+    width: 200,
+    borderColor: '#081b4f',
+    color: '#E0E0E0',
+    borderWidth: 2,
+    borderRadius: 10,
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
 
-            textInputName: {
-                        backgroundColor: '#BAE6F2',
-                        height: 40,
-                        width: 200,
-                        borderColor: '#081b4f',
-                        color: '#000',
-                        borderWidth: 2,
-                        borderRadius: 10,
-                        marginBottom: 5,
-                        fontSize: 18,
-                        textAlign:'center',
-                        fontWeight:'bold'
-                      }
+  textInputName: {
+    backgroundColor: '#BAE6F2',
+    height: 40,
+    width: 200,
+    borderColor: '#081b4f',
+    color: '#000',
+    borderWidth: 2,
+    borderRadius: 10,
+    marginBottom: 5,
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
 });
-

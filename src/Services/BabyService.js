@@ -1,32 +1,20 @@
-
-const baseURL = 'http://10.158.168.169:8080/babies/'
-
-
-
-
-
-
+const baseURL = 'http://10.158.168.169:8080/babies/';
 
 // gets all babies
 export const getBabies = () => {
-    return fetch(baseURL)
-    .then(res => res.json()
-    )
-
-}
+  return fetch(baseURL).then(res => res.json());
+};
 
 // gets baby by id
-export const showBaby = (id) => {
-    return fetch(baseURL + id)
-    .then(res => res.json())
-}
+export const showBaby = id => {
+  return fetch(baseURL + id).then(res => res.json());
+};
 
 // creates new baby
-export const postBaby = (payload) => {
-    return fetch(baseURL, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: { 'Content-Type': 'application/json' }
-    })
-    .then(res => res.json())
-}
+export const postBaby = payload => {
+  return fetch(baseURL, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: {'Content-Type': 'application/json'},
+  }).then(res => res.json());
+};
