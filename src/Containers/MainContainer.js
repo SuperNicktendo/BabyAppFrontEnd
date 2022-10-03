@@ -17,87 +17,103 @@ import SleepEdit from '../Components/SleepEdit';
 import TimerScreen from '../Components/TimerScreen';
 import WaterAnimation from '../Components/WaterAnimation';
 //Screen names
-const homeName = "Home";
-const foodName = "Food";
-const sleepName = "Sleep";
-const babyName = "Babies";
-const listName = "List";
-const summaryName = "Summary";
-const feedEdit = "FeedEdit";
-const sleepEdit = "SleepEdit";
-const teethName = "Timer";
+const homeName = 'Home';
+const foodName = 'Food';
+const sleepName = 'Sleep';
+const babyName = 'Babies';
+const listName = 'List';
+const summaryName = 'Summary';
+const feedEdit = 'FeedEdit';
+const sleepEdit = 'SleepEdit';
+const teethName = 'Timer';
 
 const Tab = createBottomTabNavigator();
 
-export default function MainContainer(){
-    return(
-       <NavigationContainer>
-             
-             <Tab.Navigator
-               initialRouteName={homeName}
-               screenOptions={({ route }) => ({
-                 tabBarIcon: ({ focused, color, size }) => {
-                   let iconName;
-                   let rn = route.name;
+export default function MainContainer() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator
+        initialRouteName={homeName}
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName;
+            let rn = route.name;
 
-                   if (rn === babyName) {
-                     iconName = focused ? 'home' : 'home-outline';
+            if (rn === babyName) {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (rn === listName) {
+              iconName = focused ? 'list' : 'list-outline';
+            }
 
-                   } else if (rn === listName) {
-                     iconName = focused ? 'list' : 'list-outline';
-
-                   } 
-
-                   return <Ionicons name={iconName} size={size} color={color} />;
-                   
-                 },
-               })}
-               screenOptions={{
-                headerShown: false,
-                 tabBarActiveTintColor: '#fff',
-                 tabBarInactiveTintColor: 'black',
-                 tabBarInactiveBackgroundColor: '#fff',
-                 tabBarActiveBackgroundColor: 'orange',
-                 tabBarLabelStyle: { 
-                  paddingBottom: 12, 
-                  fontSize: 15,
-                  fontStyle: 'bold',
-                 },
-                 style: { padding: 10, height: 70},
-                 tabBarIconStyle: { display: "none" },
-               }}>
-
-                <Tab.Screen name={homeName} component={HomeScreen} options={{
-                  tabBarButton: ()=> null,
-                  tabBarVisible: false,
-                }}/>
-               <Tab.Screen name={foodName} component={FoodScreen} options={{
-                tabBarButton: ()=> null,
-                tabBarVisible: false,
-               }}/>
-               <Tab.Screen name={sleepName} component={SleepScreen} options={{
-                tabBarButton: ()=> null,
-                tabBarVisible: false,
-               }}/>
-               <Tab.Screen name={babyName} component={BabyScreen} />
-               <Tab.Screen name={listName} component={ListScreen} />
-               <Tab.Screen name={feedEdit} component={FeedEdit} options={{
-                tabBarButton: ()=> null,
-                tabBarVisible: false,
-               }} />
-               <Tab.Screen name={sleepEdit} component={SleepEdit}options={{
-                tabBarButton: ()=> null,
-                tabBarVisible: false,
-               }} />
-               <Tab.Screen name={summaryName} component={SummaryScreen} options={{
-                tabBarButton: ()=> null,
-                tabBarVisible: false,
-               }}/>
-               <Tab.Screen name={teethName} component={TimerScreen}/>
-             </Tab.Navigator>
-             
-       </NavigationContainer>
-
-    )
-
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        screenOptions={{
+          headerShown: false,
+          tabBarActiveTintColor: '#fff',
+          tabBarInactiveTintColor: 'black',
+          tabBarInactiveBackgroundColor: '#fff',
+          tabBarActiveBackgroundColor: 'orange',
+          tabBarLabelStyle: {
+            paddingBottom: 12,
+            fontSize: 15,
+            fontStyle: 'bold',
+          },
+          style: {padding: 10, height: 70},
+          tabBarIconStyle: {display: 'none'},
+        }}>
+        <Tab.Screen
+          name={homeName}
+          component={HomeScreen}
+          options={{
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+        />
+        <Tab.Screen
+          name={foodName}
+          component={FoodScreen}
+          options={{
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+        />
+        <Tab.Screen
+          name={sleepName}
+          component={SleepScreen}
+          options={{
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+        />
+        <Tab.Screen name={babyName} component={BabyScreen} />
+        <Tab.Screen name={listName} component={ListScreen} />
+        <Tab.Screen
+          name={feedEdit}
+          component={FeedEdit}
+          options={{
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+        />
+        <Tab.Screen
+          name={sleepEdit}
+          component={SleepEdit}
+          options={{
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+        />
+        <Tab.Screen
+          name={summaryName}
+          component={SummaryScreen}
+          options={{
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+        />
+        <Tab.Screen name={teethName} component={TimerScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
 }
