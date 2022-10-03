@@ -84,30 +84,11 @@ export default function SummaryScreen({navigation}){
                 })
         }
 
-    // const getAvgTotalSleep = () => {
-    //   getSleeps().then((result) => {
-    //     tempSleeps = result.map(sleeps => {
-    //       return {babyId: sleeps.baby.id, type: sleeps.sleep_type, startTime: sleeps.start_time, endTime: sleeps.end_time}})
-    //     filteredSleeps = tempSleeps.filter(sleep => sleep.babyId === baby && dayjs(sleep.startTime).diff(dayjs(), 'day') > -6)
-    //     totalTime = 0
-
-    //     differenceTime = filteredSleeps.forEach((sleep) => {
-
-    //       difference = dayjs(sleep.endTime).diff(dayjs(sleep.startTime), 'hour')
-
-    //       totalTime += difference
-    //       console.log('total sleep', totalTime);
-    //     })
-    //     setAvgTotalSleep(totalTime)
-    //     console.log('total sleep', totalTime);
-    //   })
-    // }
-
     const getAvgTotalSleep = () => {
       getSleeps().then((result) => {
         tempSleeps = result.map(sleeps => {
           return {babyId: sleeps.baby.id, type: sleeps.sleepType, startTime: sleeps.startTime, endTime: sleeps.endTime}})
-        filteredSleeps = tempSleeps.filter(sleep => sleep.babyId === baby)
+        filteredSleeps = tempSleeps.filter(sleep => sleep.babyId === baby && dayjs(sleep.startTime).diff(dayjs(), 'day') > -6)
         totalTime = 0
 
         filteredSleeps.forEach((sleep) => {
@@ -127,6 +108,14 @@ export default function SummaryScreen({navigation}){
       })
     }
 
+    // const getTotalNapPerDay = () => {
+    //   getSleeps().then((result) => {
+    //     tempSleeps = result.map(sleeps => {
+    //       return {babyId: sleeps.baby.id, type: sleeps.sleepType, startTime: sleeps.startTime, endTime: sleeps.endTime}})
+    //     filteredNaps = tempSleeps.filter(sleep => sleep.)
+    //   })
+    // }
+
     // // Get all sleep data for last 7 days
     // const getTotalSleepsById = () => {
     //   getSleeps().then((result) => {
@@ -138,30 +127,6 @@ export default function SummaryScreen({navigation}){
     //     // console.log('filtered sleeps:' + JSON.stringify(filteredSleeps));
     //   })
     // }
-
-        // Get all sleep data for last 7 days
-        // const getTotalAvgSleepsById = () => {
-        //   getSleeps().then((result) => {
-        //     tempSleeps = result.map(sleeps => {
-        //       return {babyId: sleeps.baby.id, type: sleeps.sleep_type, startTime: sleeps.start_time, endTime: sleeps.end_time}})
-        //     filteredSleeps = tempSleeps.filter(sleep => sleep.babyId === baby && dayjs(sleep.startTime).diff(dayjs(), 'day') > -6)
-        //     // console.log('filtered sleeps:' + JSON.stringify(filteredSleeps));
-        //   })
-        // }
-
-
-//     const getTotalVolumeFeedsById = ()=>{
-//       getFeeds().then((result) =>{
-//       tempFeeds = result.map(feeds => {
-//       return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
-
-//       filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6)
-//       .reduce((previousValue, currentValue) => { return previousValue + currentValue.volume},0)
-
-//       setFeeds(filteredFeeds.toFixed(2))
-
-//       })
-// }
 
 
     useEffect(()=>{
@@ -176,6 +141,7 @@ export default function SummaryScreen({navigation}){
             getTotalNumberOfFeedsById()
             getAvgTimeBetweenFeeds()
             getAvgTotalSleep()
+            getTotalNapPerDay()
     }catch(err){
               console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary SCREEN.JS")
             }
