@@ -25,6 +25,7 @@ export default function SummaryScreen({navigation}){
   const [timeBetweenFeeds, setTimeBetweenFeeds] = useState(0);
   const [sleeps, setSleeps] = useState(null);
   const [avgTotalSleep, setAvgTotalSleep] = useState(null);
+  const [avgNapTime, setAvgNapTime] = useState(null);
 
 //get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
     const getTotalVolumeFeedsById = ()=>{
@@ -89,11 +90,11 @@ export default function SummaryScreen({navigation}){
         tempSleeps = result.map(sleeps => {
           return {babyId: sleeps.baby.id, type: sleeps.sleepType, startTime: sleeps.startTime, endTime: sleeps.endTime}})
         filteredSleeps = tempSleeps.filter(sleep => sleep.babyId === baby && dayjs(sleep.startTime).diff(dayjs(), 'day') > -6)
-        totalTime = 0
+        totalTime = 0;
 
         filteredSleeps.forEach((sleep) => {
           
-          difference = dayjs(sleep.endTime).diff(dayjs(sleep.startTime), 'hour')
+          difference = dayjs(sleep.endTime).diff(dayjs(sleep.startTime), 'hour');
 
           totalTime += difference;
 
@@ -102,19 +103,35 @@ export default function SummaryScreen({navigation}){
           console.log('this end time', sleep.endTime);
           console.log('totaltimesleep', totalTime);
         })
-        averageTime = totalTime/7
+        averageTime = totalTime/7;
         console.log('totaltimesleep', averageTime);
         setAvgTotalSleep(averageTime.toFixed(2));
       })
     }
 
-    // const getTotalNapPerDay = () => {
-    //   getSleeps().then((result) => {
-    //     tempSleeps = result.map(sleeps => {
-    //       return {babyId: sleeps.baby.id, type: sleeps.sleepType, startTime: sleeps.startTime, endTime: sleeps.endTime}})
-    //     filteredNaps = tempSleeps.filter(sleep => sleep.)
-    //   })
-    // }
+    const getTotalNapPerDay = () => {
+      getSleeps().then((result) => {
+        tempSleeps = result.map(sleeps => {
+          return {babyId: sleeps.baby.id, sleepType: sleeps.sleepType, startTime: sleeps.startTime, endTime: sleeps.endTime}})
+        filteredNaps = tempSleeps.filter(sleep => (sleep.babyId === baby && dayjs(sleep.startTime).diff(dayjs(), 'day') > -6) && sleep.sleepType === 'NAP')
+        totalNapTime = 0;
+
+        filteredNaps.forEach((nap) => {
+
+          difference = dayjs(nap.endTime).diff(dayjs(nap.startTime), 'hour');
+
+          totalNapTime += difference;
+
+          console.log('this nap', nap);
+          console.log('this start time', nap.startTime);
+          console.log('this end time', nap.endTime);
+          console.log('totalnaptime', totalNapTime);
+        })
+        averageNapTime = totalNapTime/7;
+        console.log('totalnaptime', averageNapTime);
+        setAvgNapTime(averageNapTime.toFixed(2));
+      })
+    }
 
     // // Get all sleep data for last 7 days
     // const getTotalSleepsById = () => {
@@ -178,7 +195,7 @@ export default function SummaryScreen({navigation}){
         <Text style={styles.result}>Result</Text>
 
         <Text style={styles.summaryText}>
-          Total Nap Time per Day:
+          Total Nap Time per Day: {avgNapTime}
         </Text>
         <Text style={styles.result}>Result</Text>
 
