@@ -10,8 +10,13 @@ export default function TeethTimer(navigation){
         const countdownRef = useRef(null);
 
         return(
-            <View>
-            <Text style={styles.text}>Brush Your Teeth!</Text>
+            <View style={styles.container}>
+                
+            <TouchableOpacity>
+              <Image source={logo} style={styles.logo} />
+            </TouchableOpacity>
+            
+            <Text style={styles.timerHeader}>Brush Your Teeth!</Text>
                 
                 <Countdown
                     ref={countdownRef}
@@ -24,62 +29,88 @@ export default function TeethTimer(navigation){
                     onEnd={(e) => {}}
                 />
                 <TouchableOpacity
-                    style={styles.button}
-                    title={'Start'}
+                    style={styles.timerButton}
                     onPress={() => {
                         countdownRef.current.start();
                     }}>
-                    <Text>Start</Text>
+                    <Text style={styles.buttonText}>Start</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.button}
-                    title={'Pause'}
+                    style={styles.timerButton}
                     onPress={() => {
                         countdownRef.current.pause();
                     }}>
-                    <Text>Pause</Text>
+                    <Text style={styles.buttonText}>Pause</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.button}
-                    title={'Resume'}
+                    style={styles.timerButton}
                     onPress={() => {
                         countdownRef.current.resume();
                     }}>
-                    <Text>Resume</Text>
+                    <Text style={styles.buttonText}>Resume</Text>
                     </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.button}
-                    title={'Stop'}
+                    style={styles.timerButton}
                     onPress={() => {
                         countdownRef.current.stop();
                     }}>
-                    <Text>Stop</Text>
+                    <Text style={styles.buttonText}>Stop</Text>
                 </TouchableOpacity>
             </View>
         )
     }
-        const styles = StyleSheet.create({
-            container: {
-                flex: 1,
-                alignItems: 'center',
-                padding: 20,
-            },
-            text: {
-                fontWeight: 'bold',
-                fontSize: 16,
-                marginTop: 40,
-            },
-            timer: {
-                marginVertical: 10,
-            },
-            timerText: {
-                fontSize: 20,
-            },
-            button: {
-                marginVertical: 5,
-                backgroundColor: 'blue',
-                borderRadius: 24,
-                width: 100,
-            },
-        });    
+        
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: '#4F6C73',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        logo: {
+            width: 15,
+            height: 5,
+            marginBottom: 7,
+            padding: 60,
+            borderColor: 'black',
+            borderWidth: 2.5,
+            borderRadius: 200 /2
+          },
+        timerHeader: {
+            color: '#fff',
+            fontWeight: 'bold',
+            marginTop: 10,
+            fontSize: 30,
+            textAlign: 'center',
+            paddingBottom: 5,
+        },
+        timer: {
+            marginVertical: 10,
+        },
+        timerText: {
+            fontSize: 70,
+            borderWidth: 3,
+            borderColor: "black",
+            borderRadius: 200,
+            padding: 40,
+            paddingVertical: 55,
+            backgroundColor: '#fff',
+            marginBottom: 10,
+        },
+        timerButton: {
+            elevation: 8,
+            backgroundColor: "#FE8E0D",
+            borderRadius: 10,
+            paddingVertical: 10,
+            paddingHorizontal: 15,
+            margin: 5,
+        },
+        buttonText: {
+            fontSize: 18,
+            color: "#fff",
+            fontWeight: "bold",
+            alignSelf: "center",
+            textTransform: "uppercase"
+        }
+    });    
 
