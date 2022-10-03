@@ -1,39 +1,27 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import VerticalSlider from 'rn-vertical-slider';
-import {updateFeed, deleteFeed} from '../Services/FeedService.js';
-import logo from './baby-logo.jpeg';
-import {useIsFocused} from '@react-navigation/native';
+import {postFeed} from '../../Services/FeedService.js';
+import logo from '../../Components/baby-logo.jpeg';
 
-export default function FeedEdit({route, navigation}) {
-  const isFocused = useIsFocused();
-  const {item} = route.params;
+export default function FeedScreen({route, navigation}) {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [finalValue, setFinalValue] = useState(0);
 
-  useEffect(() => {
-    setDate(new Date(item.startDate));
-    setFinalValue(item.volume);
-  }, [isFocused]);
+  const {baby} = route.params;
 
   const saveFeed = async () => {
     newFeed = {
-      id: item.id,
       time: moment(date).add(1, 'hours'),
       volume: finalValue,
       baby: {
-        id: item.babyId,
+        id: baby,
       },
     };
-    updateFeed(item.babyId, newFeed);
-    navigation.navigate('List');
-  };
-
-  const deleteSingleFeed = async () => {
-    deleteFeed(item.id);
+    postFeed(newFeed);
     navigation.navigate('List');
   };
 
@@ -87,11 +75,6 @@ export default function FeedEdit({route, navigation}) {
 
       <TouchableOpacity style={styles.buttonContainer} onPress={saveFeed}>
         <Text style={styles.buttonText}>Save</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={deleteSingleFeed}>
-        <Text style={styles.buttonText}>Delete</Text>
       </TouchableOpacity>
     </View>
   );

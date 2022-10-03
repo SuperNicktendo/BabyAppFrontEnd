@@ -7,12 +7,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Components
 import HomeScreen from '../Components/HomeScreen';
-import FoodScreen from '../Components/FoodScreen';
+import FeedScreen from '../Components/Feeds/FeedScreen';
 import SleepScreen from '../Components/SleepScreen';
 import BabyScreen from '../Components/BabyScreen';
 import ListScreen from '../Components/ListScreen';
 import SummaryScreen from '../Components/SummaryScreen';
-import FeedEdit from '../Components/FeedEdit';
+import FeedEdit from '../Components/Feeds/FeedEdit';
 import SleepEdit from '../Components/SleepEdit';
 import TimerScreen from '../Components/TimerScreen';
 import WaterAnimation from '../Components/WaterAnimation';
@@ -72,7 +72,7 @@ export default function MainContainer() {
         />
         <Tab.Screen
           name={foodName}
-          component={FoodScreen}
+          component={FeedScreen}
           options={{
             tabBarButton: () => null,
             tabBarVisible: false,

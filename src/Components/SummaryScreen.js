@@ -15,7 +15,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg';
 import dayjs from 'dayjs';
 import {getSleeps} from '../Services/SleepService.js';
-import FeedChart from './FeedChart.js';
+import FeedChart from './Feeds/FeedChart';
 
 export default function SummaryScreen({navigation}) {
   const isFocused = useIsFocused();
