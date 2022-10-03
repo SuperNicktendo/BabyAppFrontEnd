@@ -180,7 +180,7 @@ const config = {
                     setItems={setItems}
             />: <Text style={styles.loadingText}>Loading...</Text>}
 
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container2}>
 
             <View style={styles.summaryContainer1}>
                 <Text style={styles.summaryHeader}>
@@ -243,7 +243,13 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#4F6C73',
       padding: 7,
+      alignItems:"center",
     },
+    container2: {
+          flex: 1,
+          backgroundColor: '#4F6C73',
+          padding: 7,
+        },
     logo: {
       width: 15,
       height: 5,
