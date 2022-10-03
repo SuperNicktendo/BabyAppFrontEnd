@@ -70,12 +70,13 @@ const getBabyById = async () => {
 const makeBabyData = async () => {
  await getBabyById()
 
-  
+
     sleeps = baby.sleeps.map((sleep) => {
-        return {title: "sleep", startDate: sleep.startTime, endDate: sleep.endTime, id: sleep.id, babyId: babyId, navigation: navigation, sleepType: sleep.sleepType }
+        return {title: "Sleep", startDate: sleep.startTime, endDate: sleep.endTime, id: sleep.id, babyId: babyId, navigation: navigation, sleepType: sleep.sleepType }
       })
+      
       feeds = baby.feeds.map((feed) => {
-        return {title: "feed" ,startDate: feed.time, endDate: feed.time, id: feed.id,  babyId: babyId ,navigation: navigation, volume: feed.volume}
+        return {title: "Feed" ,startDate: feed.time, endDate:moment(feed.time).add(1, 'hours'), id: feed.id,  babyId: babyId ,navigation: navigation, volume: feed.volume}
       })
       calanderData = sleeps.concat(feeds)
       setItems1(calanderData)

@@ -5,13 +5,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 export default function SleepCard({style, item, dayIndex, daysTotal}) {
     
-    colorToBe = item.title === 'sleep' ? '#FE8E0D' : '#18C0EA';
+    colorToBe = item.title === 'Sleep' ? '#FE8E0D' : '#18C0EA';
 
     const getDataForEdit = () => {
-        if(item.title === "feed"){
+        if(item.title === "Feed"){
          item.navigation.navigate("FeedEdit", {item})
      }
-         else if(item.title === "sleep"){
+         else if(item.title === "Sleep"){
          item.navigation.navigate("SleepEdit",{item})
      }
         }
@@ -25,10 +25,11 @@ export default function SleepCard({style, item, dayIndex, daysTotal}) {
             ...style,
             backgroundColor: colorToBe,
             borderRadius: 10,
-            elevation: 5
+            elevation: 5,
         }}>
-            <Text onPress={getDataForEdit} >{item.title}</Text>
+            <Text onPress={getDataForEdit}>{item.title}</Text>
             {/* <Text>{dayIndex} of {daysTotal}</Text> */}
         </View>
     )
 }
+
