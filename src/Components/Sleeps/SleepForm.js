@@ -3,8 +3,8 @@ import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
-import {postSleep} from '../Services/SleepService.js';
-import ListScreen from './ListScreen';
+import {postSleep} from '../../Services/SleepService.js';
+import ListScreen from '../ListScreen';
 
 const listName = 'List';
 

@@ -16,6 +16,7 @@ import logo from './baby-logo.jpeg';
 import dayjs from 'dayjs';
 import {getSleeps} from '../Services/SleepService.js';
 import FeedChart from './Feeds/FeedChart';
+import Video from './Video.js';
 
 export default function SummaryScreen({navigation}) {
   const isFocused = useIsFocused();
@@ -342,6 +343,10 @@ export default function SummaryScreen({navigation}) {
         ) : (
           <Text>loading ....</Text>
         )}
+
+        <Video videoId={'RA8gajb1KOU'} />
+
+        <Video videoId={'HPuD7w_TbSc'} />
       </ScrollView>
     </View>
   );

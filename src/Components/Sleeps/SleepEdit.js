@@ -4,8 +4,8 @@ import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
-import {updateSleep, deleteSleep} from '../Services/SleepService.js';
-import ListScreen from './ListScreen';
+import {updateSleep, deleteSleep} from '../../Services/SleepService';
+import ListScreen from '../ListScreen';
 import {useIsFocused} from '@react-navigation/native';
 
 export default function SleepEdit({route, navigation}) {
