@@ -5,7 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 export default function SleepCard({style, item, dayIndex, daysTotal}) {
     
-    colorToBe = item.title === 'sleep' ? '#FE8E0D' : '#18C0EA';
+    colorToBe = item.title === 'sleep' ? '#18C0EA' : '#FE8E0D';
 
     const getDataForEdit = () => {
         if(item.title === "feed"){
