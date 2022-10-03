@@ -1,5 +1,5 @@
 
-const baseURL = 'http://10.158.168.169:8080/sleeps/'
+const baseURL = 'http://10.254.186.19:8080/sleeps/'
 
 
 
@@ -33,3 +33,12 @@ export const updateSleep = (id, payload) => {
     headers: { 'Content-Type': 'application/json' }})
     .then(res => res.json())
 }
+
+// Deletes a sleep
+
+export const deleteSleep = (id) => {
+    return fetch(baseURL+id,
+    {method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }})
+    .then(res => res.json())
+    }
