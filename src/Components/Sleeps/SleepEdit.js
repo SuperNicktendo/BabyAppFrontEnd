@@ -1,4 +1,4 @@
-import logo from './baby-logo.jpeg';
+import logo from '../baby-logo.jpeg';
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';

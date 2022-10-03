@@ -3,8 +3,8 @@ import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import VerticalSlider from 'rn-vertical-slider';
-import {postFeed} from '../../Services/FeedService.js';
-import logo from '../../Components/baby-logo.jpeg';
+import {postFeed} from '../../Services/FeedService';
+import logo from '../baby-logo.jpeg';
 
 export default function FeedScreen({route, navigation}) {
   const [date, setDate] = useState(new Date());

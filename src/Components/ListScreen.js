@@ -15,7 +15,7 @@ import {useIsFocused} from '@react-navigation/native';
 
 import Timetable from 'react-native-calendar-timetable';
 import moment from 'moment';
-import SleepCard from './SleepCard';
+import SleepCard from './Sleeps/SleepCard';
 import {getSleeps, showSleeps} from '../Services/SleepService';
 import {getBabies, showBaby} from '../Services/BabyService.js';
 
