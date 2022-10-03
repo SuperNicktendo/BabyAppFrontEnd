@@ -25,6 +25,7 @@ export default function SummaryScreen({navigation}) {
   const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
+  const [daysWithData, setDaysWithData] = useState(0);
   const [timeBetweenFeeds, setTimeBetweenFeeds] = useState(0);
   const [chartValueFeed, setChartValueFeed] = useState(null);
   const [avgTotalSleep, setAvgTotalSleep] = useState(null);
@@ -47,7 +48,37 @@ export default function SummaryScreen({navigation}) {
           return previousValue + currentValue.volume;
         }, 0);
 
-      setFeeds(filteredFeeds.toFixed(2));
+      setFeeds((filteredFeeds / daysWithData).toFixed(2));
+    });
+  };
+
+  const getNumberOfDaysWithData = () => {
+    getFeeds().then(result => {
+      const mappedFeeds = result.map(feeds => {
+        return {babyId: feeds.baby.id, time: feeds.time};
+      });
+      console.log(mappedFeeds);
+
+      const filteredFeeds = mappedFeeds.filter(
+        feed =>
+          feed.babyId === baby && dayjs(feed.day).diff(dayjs(), 'day') > -6,
+      );
+
+      const mappedFilteredFeeds = filteredFeeds.map(filterFeeds => {
+        return {day: moment(filterFeeds.time).format('ddd')};
+      });
+      console.log(mappedFilteredFeeds);
+
+      const valueList = [];
+      for (let i = 0; i < mappedFilteredFeeds.length; i++) {
+        const value = Object.values(mappedFilteredFeeds[i]);
+        valueList.push(value);
+      }
+
+      const flattenedValueList = valueList.flatMap(num => num);
+
+      const uniqueDaysLength = [...new Set(flattenedValueList)].length;
+      setDaysWithData(uniqueDaysLength);
     });
   };
 
@@ -98,7 +129,8 @@ export default function SummaryScreen({navigation}) {
         feed =>
           feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6,
       );
-      setFeedNumber(filteredFeeds.length);
+
+      setFeedNumber(filteredFeeds.length / daysWithData);
     });
   };
   //get all feed data, map it by id and time. filter it by id and las 7 days, map again to get an array of times, check time diff between each index.
@@ -232,7 +264,7 @@ export default function SummaryScreen({navigation}) {
     try {
       getBabies().then(result => {
         setData(result);
-        tempBabies = result.map((baby) => {
+        tempBabies = result.map(baby => {
           return {label: baby.name, value: baby.id};
         });
         setItems(tempBabies);
@@ -302,6 +334,7 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.result}>Average Time Between Bottle</Text>
           <Text style={styles.summaryText}>{timeBetweenFeeds} hours</Text>
         </View>
+
         {chartValueFeed ? (
           <FeedChart data={chartValueFeed} labels={getChartDays()} />
         ) : (
