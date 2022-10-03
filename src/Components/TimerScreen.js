@@ -12,13 +12,12 @@ export default function TeethTimer(navigation){
 
         return(
             <View style={styles.container}>
-                
-            <TouchableOpacity>
-              <Image source={logo} style={styles.logo} />
-            </TouchableOpacity>
             
-            <Text style={styles.timerHeader}>Brush Your Teeth!</Text>
-            <WaterAnimation/>
+            <Image source={logo} style={styles.logo}/>
+
+            <Text style={styles.timerHeader}>Let's brush our teeth!</Text>
+            
+            <WaterAnimation style={styles.waterAni}/>
                 
                 <Countdown
                     ref={countdownRef}
@@ -34,6 +33,7 @@ export default function TeethTimer(navigation){
                     style={styles.timerButton}
                     onPress={() => {
                         countdownRef.current.start();
+                        
                     }}>
                     <Text style={styles.buttonText}>Start</Text>
                 </TouchableOpacity>
@@ -77,7 +77,7 @@ export default function TeethTimer(navigation){
             borderColor: 'black',
             borderWidth: 2.5,
             borderRadius: 200 /2
-          },
+        },
         timerHeader: {
             color: '#fff',
             fontWeight: 'bold',
@@ -85,19 +85,24 @@ export default function TeethTimer(navigation){
             fontSize: 30,
             textAlign: 'center',
             paddingBottom: 5,
+            marginBottom: 15,
+            marginTop: 40
         },
         timer: {
             marginVertical: 10,
+            position: 'absolute',
+            paddingTop: 95
         },
         timerText: {
-            fontSize: 70,
-            borderWidth: 3,
-            borderColor: "black",
-            borderRadius: 200,
-            padding: 40,
-            paddingVertical: 55,
-            backgroundColor: '#fff',
-            marginBottom: 10,
+            fontSize: 90,
+            color: '#fff'
+            // borderWidth: 3,
+            // borderColor: "#fff",
+            // borderRadius: 200,
+            // padding: 40,
+            // paddingVertical: 55,
+            // backgroundColor: '#fff',
+            // marginBottom: 10,
         },
         timerButton: {
             elevation: 8,
@@ -113,6 +118,6 @@ export default function TeethTimer(navigation){
             fontWeight: "bold",
             alignSelf: "center",
             textTransform: "uppercase"
-        }
+        },
     });    
 

@@ -5,7 +5,7 @@ import Wave from 'react-native-waveview';
 
 export default function WaterAnimation(){
     return(
-        <View style={styles.container} >
+        <View style={styles.waterContainer} >
         <TouchableHighlight onPress={()=>{
         // Stop Animation
         this._waveRect && this._waveRect.stopAnim();
@@ -19,6 +19,7 @@ export default function WaterAnimation(){
             {A: 15, T: 140, fill: '#F08200'},
             {A: 20, T: 100, fill: '#B36100'},
         ]);
+        
     }}>
     <Wave
         style={styles.waveBall}
@@ -35,23 +36,11 @@ export default function WaterAnimation(){
     )
 }
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginVertical: 10,
-        marginHorizontal: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    wave: {
-        width: 100,
-        aspectRatio: 1,
-        overflow: 'hidden',
-        backgroundColor: 'white',
-    },
     waveBall: {
         width: 100,
         aspectRatio: 1,
-        borderRadius: 50,
+        borderRadius: 100,
         overflow: 'hidden',
+        marginBottom:90,
     }
 });
