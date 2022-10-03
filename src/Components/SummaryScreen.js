@@ -24,6 +24,8 @@ export default function SummaryScreen({navigation}){
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
   const [timeBetweenFeeds, setTimeBetweenFeeds] = useState(0);
+  const [chartValueFeed, setChartValueFeed] = useState(null);
+
 
 const config = {
   hasXAxisBackgroundLines: true,
@@ -53,6 +55,47 @@ const config = {
 
             })
     }
+
+    const getVolumePerDayById = ()=>{
+                getFeeds().then((result) =>{
+
+                tempFeeds = result.map(feeds => {
+                return {babyId: feeds.baby.id, time:feeds.time, volume:feeds.volume }})
+
+                filteredFeeds = tempFeeds.filter(feed => feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6)
+
+//                console.log("data", filteredFeeds)
+                days = getChartDays()
+
+                tempDays = days.map(day => {
+                    const tempObj = {};
+                    tempObj[day] = 0;
+                    return tempObj;
+                })
+
+//                console.log("temps",tempDays)
+                temp = filteredFeeds.forEach(feed => {
+
+                for (let i = 0; i < 7; i++) {
+                    if (moment(feed.time).format('ddd') == Object.keys(tempDays[i])){
+                     tempDays[i][Object.keys(tempDays[i])[0]]+= feed.volume
+                    }
+                }
+
+                })
+                valueList = []
+                for (let i = 0; i < 7; i++) {
+                      value = Object.values(tempDays[i])
+                      valueList.push(value)
+                    }
+               flattened = valueList.flatMap(num => num)
+//               console.log(flattened)
+              setChartValueFeed(flattened)
+
+                })
+
+        }
+
 //    get all feed data, map it, filter it by id and last 7 days, returns the length of the array
     const getTotalNumberOfFeedsById = ()=>{
                 getFeeds().then((result) =>{
@@ -90,6 +133,15 @@ const config = {
                 })
         }
 
+    const getChartDays = ()=>{
+        const dayList=[]
+
+        for (let i = 0; i < 7; i++) {
+          day = moment().subtract(i,"day")
+          dayList.push(day.format("ddd"))
+        }
+        return dayList.reverse()
+    }
 
     useEffect(()=>{
     try{
@@ -102,6 +154,8 @@ const config = {
             getTotalVolumeFeedsById()
             getTotalNumberOfFeedsById()
             getAvgTimeBetweenFeeds()
+            getVolumePerDayById()
+            getChartDays()
     }catch(err){
               console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary SCREEN.JS")
             }
@@ -133,7 +187,6 @@ const config = {
                     7 Day Sleep Summary
                 </Text>
 
-
                 <Text style={styles.summaryText}>
                   Total Average Sleep per Day:
                 </Text>
@@ -161,7 +214,6 @@ const config = {
                 <Text style={styles.result}>Average Amount per Day</Text>
                 <Text style={styles.summaryText}>{feeds} oz</Text>
 
-
                 <Text style={styles.result}>Average Amount per Bottle</Text>
                 <Text style={styles.summaryText}>{(feeds/feedNumber).toFixed(2)} oz</Text>
 
@@ -169,9 +221,9 @@ const config = {
                 <Text style={styles.summaryText}>{timeBetweenFeeds} hours</Text>
             </View>
             <View>
-                <VerticalBarGraph
-                  data={[20, 45, 28, 80, 99, 43, 50]}
-                  labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']}
+              {chartValueFeed ?  <VerticalBarGraph
+                  data={chartValueFeed}
+                  labels={getChartDays()}
                   width={375}
                   height={300}
                   barRadius={5}
@@ -179,7 +231,7 @@ const config = {
                   barWidthPercentage={0.65}
                   baseConfig={config}
                   style={styles.chart}
-                />
+                /> : <Text>loading....</Text>}
             </View>
            </ScrollView>
         </View>
