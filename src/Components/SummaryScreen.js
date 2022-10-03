@@ -26,6 +26,7 @@ export default function SummaryScreen({navigation}){
   const [sleeps, setSleeps] = useState(null);
   const [avgTotalSleep, setAvgTotalSleep] = useState(null);
   const [avgNapTime, setAvgNapTime] = useState(null);
+  const [avgNightTime, setAvgNightTime] = useState(null);
 
 //get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
     const getTotalVolumeFeedsById = ()=>{
@@ -88,7 +89,7 @@ export default function SummaryScreen({navigation}){
     const getAvgTotalSleep = () => {
       getSleeps().then((result) => {
         tempSleeps = result.map(sleeps => {
-          return {babyId: sleeps.baby.id, type: sleeps.sleepType, startTime: sleeps.startTime, endTime: sleeps.endTime}})
+          return {babyId: sleeps.baby.id, sleepType: sleeps.sleepType, startTime: sleeps.startTime, endTime: sleeps.endTime}})
         filteredSleeps = tempSleeps.filter(sleep => sleep.babyId === baby && dayjs(sleep.startTime).diff(dayjs(), 'day') > -6)
         totalTime = 0;
 
@@ -133,6 +134,30 @@ export default function SummaryScreen({navigation}){
       })
     }
 
+    const getTotalNightPerDay = () => {
+      getSleeps().then((result) => {
+        tempSleeps = result.map(sleeps => {
+          return {babyId: sleeps.baby.id, sleepType: sleeps.sleepType, startTime: sleeps.startTime, endTime: sleeps.endTime}})
+        filteredNights = tempSleeps.filter(sleep => (sleep.babyId === baby && dayjs(sleep.startTime).diff(dayjs(), 'day') > -6) && sleep.sleepType === 'NIGHT')
+        totalNightTime = 0;
+
+        filteredNights.forEach((night) => {
+          
+          difference = dayjs(night.endTime).diff(dayjs(night.startTime), 'hour');
+
+          totalNightTime += difference;
+
+          console.log('this night', night);
+          console.log('this start time', night.startTime);
+          console.log('this end time', night.endTime);
+          console.log('totaltimesleep', totalNightTime);
+        })
+        averageNightTime = totalNightTime/7;
+        console.log('totaltimesleep', averageNightTime);
+        setAvgNightTime(averageNightTime.toFixed(2));
+      })
+    }
+
     // // Get all sleep data for last 7 days
     // const getTotalSleepsById = () => {
     //   getSleeps().then((result) => {
@@ -159,6 +184,7 @@ export default function SummaryScreen({navigation}){
             getAvgTimeBetweenFeeds()
             getAvgTotalSleep()
             getTotalNapPerDay()
+            getTotalNightPerDay()
     }catch(err){
               console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN Summary SCREEN.JS")
             }
@@ -200,7 +226,7 @@ export default function SummaryScreen({navigation}){
         <Text style={styles.result}>Result</Text>
 
         <Text style={styles.summaryText}>
-          Total Night Sleep per Day:
+          Total Night Sleep per Day: {avgNightTime}
         </Text>
         <Text style={styles.result}>Result</Text>
         </View>
