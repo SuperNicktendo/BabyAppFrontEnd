@@ -47,37 +47,29 @@ export default function SummaryScreen({navigation}){
 
                 })
         }
-//get all feed data, map it by id and time. filter it by id and las 7 days, check time diff between each index.
+//get all feed data, map it by id and time. filter it by id and las 7 days, map again to get an array of times, check time diff between each index.
 //total the time between and divide by number of feeds
     const getAvgTimeBetweenFeeds = ()=>{
                 getFeeds().then((result) =>{
+
                 tempFeeds = result.map(feeds => {
                 return {babyId: feeds.baby.id, time:feeds.time}})
 
                 filteredFeedsTime = tempFeeds.filter(feed => feed.babyId === baby  && dayjs(feed.time).diff(dayjs(), 'day') > -6)
                 let totalTime = 0;
 
-                differenceTime = filteredFeedsTime.forEach((feed, index) => {
+                tempSortedTimes = filteredFeedsTime.map(times => { return times.time}).sort()
+                differenceTime = tempSortedTimes.forEach((feed, index) => {
 
-                    if (filteredFeedsTime[index+1]){
-                        console.log("runn tot", totalTime)
-                        currentTime = feed.time;
-                        console.log("current", currentTime, "index",index)
-
-                        nextTime = filteredFeedsTime[index+1].time;
-                         console.log("next", nextTime,"index",index +1)
-
+                    if (tempSortedTimes[index+1]){
+                        currentTime = feed;
+                        nextTime = tempSortedTimes[index+1];
                         difference = dayjs(nextTime).diff(dayjs(currentTime), 'hour')
-                        console.log("diff", difference)
-
-
                         totalTime += difference;
                     }
 
                 })
-                 console.log("total", totalTime)
-                 console.log("filtered", filteredFeedsTime.length)
-                setTimeBetweenFeeds(totalTime/(filteredFeedsTime.length-1))
+                setTimeBetweenFeeds((totalTime/(filteredFeedsTime.length-1)).toFixed(0))
                 })
         }
 
