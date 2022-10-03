@@ -99,13 +99,13 @@ export default function SummaryScreen({navigation}){
 
           totalTime += difference;
 
-          console.log('this sleep', sleep);
-          console.log('this start time', sleep.startTime);
-          console.log('this end time', sleep.endTime);
-          console.log('totaltimesleep', totalTime);
+          // console.log('this sleep', sleep);
+          // console.log('this start time', sleep.startTime);
+          // console.log('this end time', sleep.endTime);
+          // console.log('totaltimesleep', totalTime);
         })
         averageTime = totalTime/7;
-        console.log('totaltimesleep', averageTime);
+        // console.log('totaltimesleep', averageTime);
         setAvgTotalSleep(averageTime.toFixed(2));
       })
     }
@@ -123,13 +123,13 @@ export default function SummaryScreen({navigation}){
 
           totalNapTime += difference;
 
-          console.log('this nap', nap);
-          console.log('this start time', nap.startTime);
-          console.log('this end time', nap.endTime);
-          console.log('totalnaptime', totalNapTime);
+          // console.log('this nap', nap);
+          // console.log('this start time', nap.startTime);
+          // console.log('this end time', nap.endTime);
+          // console.log('totalnaptime', totalNapTime);
         })
         averageNapTime = totalNapTime/7;
-        console.log('totalnaptime', averageNapTime);
+        // console.log('totalnaptime', averageNapTime);
         setAvgNapTime(averageNapTime.toFixed(2));
       })
     }
@@ -147,13 +147,13 @@ export default function SummaryScreen({navigation}){
 
           totalNightTime += difference;
 
-          console.log('this night', night);
-          console.log('this start time', night.startTime);
-          console.log('this end time', night.endTime);
-          console.log('totaltimesleep', totalNightTime);
+          // console.log('this night', night);
+          // console.log('this start time', night.startTime);
+          // console.log('this end time', night.endTime);
+          // console.log('totaltimesleep', totalNightTime);
         })
         averageNightTime = totalNightTime/7;
-        console.log('totaltimesleep', averageNightTime);
+        // console.log('totaltimesleep', averageNightTime);
         setAvgNightTime(averageNightTime.toFixed(2));
       })
     }
@@ -216,19 +216,19 @@ export default function SummaryScreen({navigation}){
 
 
         <Text style={styles.summaryText}>
-          Total Average Sleep per Day: {avgTotalSleep}
+          Total Average Sleep per Day:
         </Text>
-        <Text style={styles.result}>Result</Text>
+        <Text style={styles.result}>{avgTotalSleep} hours</Text>
 
         <Text style={styles.summaryText}>
-          Total Nap Time per Day: {avgNapTime}
+          Total Nap Time per Day:
         </Text>
-        <Text style={styles.result}>Result</Text>
+        <Text style={styles.result}>{avgNapTime} hours</Text>
 
         <Text style={styles.summaryText}>
-          Total Night Sleep per Day: {avgNightTime}
+          Total Night Sleep per Day:
         </Text>
-        <Text style={styles.result}>Result</Text>
+        <Text style={styles.result}>{avgNightTime} hours</Text>
         </View>
         
         <View style={styles.summaryContainer2}>
