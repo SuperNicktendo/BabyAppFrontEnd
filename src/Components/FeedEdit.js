@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import VerticalSlider from 'rn-vertical-slider';
-import {updateFeed} from '../Services/FeedService.js'
+import {updateFeed, deleteFeed} from '../Services/FeedService.js'
 import logo from './baby-logo.jpeg'
 import {useIsFocused} from "@react-navigation/native";
 
@@ -35,6 +35,10 @@ export default function FeedEdit({route, navigation}){
         navigation.navigate('List')
     }
 
+    const deleteSingleFeed = async () => {
+        deleteFeed(item.id);
+        navigation.navigate('List');
+    }
 
 
     return (
@@ -89,7 +93,11 @@ export default function FeedEdit({route, navigation}){
                 onPress={saveFeed}>
                 <Text style={styles.buttonText}>Save</Text>
             </TouchableOpacity>
-
+            <TouchableOpacity
+                   style={styles.buttonContainer}
+                   onPress={deleteSingleFeed}>
+                    <Text style={styles.buttonText}>Delete</Text>
+              </TouchableOpacity>
          </View>
     )
 }
