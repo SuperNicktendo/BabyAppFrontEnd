@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, Text, Image, Button, ScrollView} from 'react-native';
+import {StyleSheet, View, Pressable, TouchableOpacity, Text, Image, Button, ScrollView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -19,16 +19,17 @@ export default function SleepCard({style, item, dayIndex, daysTotal}) {
 
 
     return ( 
-        <View
-       
-         style={{
-            ...style,
-            backgroundColor: colorToBe,
-            borderRadius: 10,
-            elevation: 5
-        }}>
-            <Text onPress={getDataForEdit} >{item.title}</Text>
-            {/* <Text>{dayIndex} of {daysTotal}</Text> */}
-        </View>
+            <View
+        
+            style={{
+                ...style,
+                backgroundColor: colorToBe,
+                borderRadius: 10,
+                elevation: 5,
+                display: 'flex'
+            }}>
+                <Pressable style={{flex: 1}} onPress={getDataForEdit}>
+                </Pressable>
+            </View>
     )
 }
