@@ -14,6 +14,8 @@ import ListScreen from '../Components/ListScreen';
 import SummaryScreen from '../Components/SummaryScreen';
 import FeedEdit from '../Components/FeedEdit';
 import SleepEdit from '../Components/SleepEdit';
+import TimerScreen from '../Components/TimerScreen';
+import WaterAnimation from '../Components/WaterAnimation';
 //Screen names
 const homeName = "Home";
 const foodName = "Food";
@@ -21,8 +23,9 @@ const sleepName = "Sleep";
 const babyName = "Babies";
 const listName = "List";
 const summaryName = "Summary";
-const feedEdit = "FeedEdit"
-const sleepEdit = "SleepEdit"
+const feedEdit = "FeedEdit";
+const sleepEdit = "SleepEdit";
+const teethName = "Timer";
 
 const Tab = createBottomTabNavigator();
 
@@ -89,8 +92,8 @@ export default function MainContainer(){
                <Tab.Screen name={summaryName} component={SummaryScreen} options={{
                 tabBarButton: ()=> null,
                 tabBarVisible: false,
-
                }}/>
+               <Tab.Screen name={teethName} component={TimerScreen}/>
              </Tab.Navigator>
              
        </NavigationContainer>
