@@ -1,8 +1,9 @@
 import React, {useState, useRef} from 'react';
 import {StyleSheet, View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
 import logo from './baby-logo.jpeg';
-import CountDown from 'react-native-countdown-component';
 import {Timer, Countdown} from 'react-native-element-timer';
+import WaterAnimation from './WaterAnimation';
+
 
 export default function TeethTimer(navigation){
 
@@ -17,6 +18,7 @@ export default function TeethTimer(navigation){
             </TouchableOpacity>
             
             <Text style={styles.timerHeader}>Brush Your Teeth!</Text>
+            <WaterAnimation/>
                 
                 <Countdown
                     ref={countdownRef}

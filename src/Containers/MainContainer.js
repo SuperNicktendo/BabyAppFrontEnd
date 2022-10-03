@@ -15,6 +15,7 @@ import SummaryScreen from '../Components/SummaryScreen';
 import FeedEdit from '../Components/FeedEdit';
 import SleepEdit from '../Components/SleepEdit';
 import TimerScreen from '../Components/TimerScreen';
+import WaterAnimation from '../Components/WaterAnimation';
 //Screen names
 const homeName = "Home";
 const foodName = "Food";

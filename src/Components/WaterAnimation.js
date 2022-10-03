@@ -1,11 +1,12 @@
 import React, {useState, useRef} from 'react';
-import {StyleSheet, View, Text, TextInput, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Image, TouchableOpacity, TouchableHighlight} from 'react-native';
 import logo from './baby-logo.jpeg';
+import Wave from 'react-native-waveview';
 
 export default function WaterAnimation(){
     return(
-        <View style={_styles.container} >
-            <TouchableHighlight onPress={()=>{
+        <View style={styles.container} >
+        <TouchableHighlight onPress={()=>{
         // Stop Animation
         this._waveRect && this._waveRect.stopAnim();
 
@@ -19,8 +20,38 @@ export default function WaterAnimation(){
             {A: 20, T: 100, fill: '#B36100'},
         ]);
     }}>
-    
+    <Wave
+        style={styles.waveBall}
+        H={70}
+        waveParams={[
+            {A: 10, T: 180, fill: '#62c2ff'},
+            {A: 15, T: 140, fill: '#0087dc'},
+            {A: 20, T: 100, fill: '#1aa7ff'},
+        ]}
+        animated={true}
+    />
     </TouchableHighlight>
 </View>
     )
 }
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginVertical: 10,
+        marginHorizontal: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    wave: {
+        width: 100,
+        aspectRatio: 1,
+        overflow: 'hidden',
+        backgroundColor: 'white',
+    },
+    waveBall: {
+        width: 100,
+        aspectRatio: 1,
+        borderRadius: 50,
+        overflow: 'hidden',
+    }
+});
