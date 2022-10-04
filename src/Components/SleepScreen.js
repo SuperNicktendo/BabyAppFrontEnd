@@ -1,19 +1,19 @@
-import React from 'react'
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
-import SleepForm from './SleepForm.js'
-import logo from './baby-logo.jpeg'
+import React from 'react';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import SleepForm from './SleepForm.js';
+import logo from './baby-logo.jpeg';
 
-export default function SleepScreen({route, navigation}){
-  const { baby } = route.params;
-    return (
-         <View style={styles.container}>
-            <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
-              <Image source={logo} style={styles.logo} />
-            </TouchableOpacity>
-            <Text style={styles.sleepText}>Record Sleep</Text>
-            <SleepForm navigation={navigation} baby={baby}/>
-         </View>
-    )
+export default function SleepScreen({route, navigation}) {
+  const {baby} = route.params;
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <Image source={logo} style={styles.logo} />
+      </TouchableOpacity>
+      <Text style={styles.sleepText}>Record Sleep</Text>
+      <SleepForm navigation={navigation} baby={baby} />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4F6C73',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 50
+    padding: 50,
   },
   logo: {
     width: 15,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     padding: 60,
     borderColor: 'black',
     borderWidth: 2.5,
-    borderRadius: 200 /2
+    borderRadius: 200 / 2,
   },
   sleepText: {
     color: '#fff',
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
     fontSize: 30,
-    textAlign: 'center'
+    textAlign: 'center',
   },
-
 });

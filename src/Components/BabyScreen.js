@@ -1,73 +1,63 @@
-
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 
-import {useIsFocused} from "@react-navigation/native";
-import {getBabies} from '../Services/BabyService.js'
-import SelectDropdown from 'react-native-select-dropdown'
+import {useIsFocused} from '@react-navigation/native';
+import {getBabies} from '../Services/BabyService.js';
 import DropDownPicker from 'react-native-dropdown-picker';
-import logo from './baby-logo.jpeg'
-import Dropdown from './Dropdown.js';
+import logo from './baby-logo.jpeg';
 
 export default function BabyScreen({navigation}) {
-
-  const isFocused = useIsFocused()
-  const [data, setData ] = useState(null);
-  const [babies, setBabies] = useState(null);
-  const [babyName, setBabyName] = useState(null);
+  const isFocused = useIsFocused();
   const [baby, setBaby] = useState(null);
-  const [items, setItems] = useState(null)
+  const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
 
-
-  useEffect(()=>{
-
-    try{
-    getBabies().then((result)=>{
-      setData(result);
-      tempBabies = result.map((baby, index) => {
-        return {label: baby.name, value: baby.id} })
-      setItems(tempBabies)
-    })}catch(err){
-      console.log("CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS")
+  useEffect(() => {
+    try {
+      getBabies().then(result => {
+        const mappedBabies = result.map(baby => {
+          return {label: baby.name, value: baby.id};
+        });
+        setItems(mappedBabies);
+      });
+    } catch (err) {
+      console.log('CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS');
     }
   }, [isFocused]);
 
-
-
-
   return (
     <View style={styles.container}>
-
-
-    
-    <TouchableOpacity onPress={()=> navigation.navigate('Home')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
         <Image source={logo} style={styles.logo} />
-    </TouchableOpacity>
+      </TouchableOpacity>
 
-    <Text style={styles.babyText}>Select child and log a feed or sleep entry</Text>
+      <Text style={styles.babyText}>
+        Select child and log a feed or sleep entry
+      </Text>
 
-    {items ?<DropDownPicker
-
-
-                    open={openDropDown}
-                    value={baby}
-                    items={items}
-                    setOpen={setOpenDropDown}
-                    setValue={setBaby}
-                    setItems={setItems}
-             />: <Text style={styles.loadingText}>Loading...</Text>}
+      {items ? (
+        <DropDownPicker
+          open={openDropDown}
+          value={baby}
+          items={items}
+          setOpen={setOpenDropDown}
+          setValue={setBaby}
+          setItems={setItems}
+        />
+      ) : (
+        <Text style={styles.loadingText}>Loading...</Text>
+      )}
 
       <TouchableOpacity
         style={styles.buttonContainer1}
         onPress={() => navigation.navigate('Food', {baby})}>
-          <Text style={styles.buttonText}>Feed</Text>
+        <Text style={styles.buttonText}>Feed</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.buttonContainer2}
-        onPress={() => navigation.navigate('Sleep' , {baby})}>
-          <Text style={styles.buttonText}>Sleep</Text>
+        onPress={() => navigation.navigate('Sleep', {baby})}>
+        <Text style={styles.buttonText}>Sleep</Text>
       </TouchableOpacity>
     </View>
   );
@@ -88,7 +78,7 @@ const styles = StyleSheet.create({
     padding: 100,
     borderColor: 'black',
     borderWidth: 5,
-    borderRadius: 305 /2
+    borderRadius: 305 / 2,
   },
   loadingText: {
     color: '#fff',
@@ -106,7 +96,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer1: {
     elevation: 8,
-    backgroundColor: "#FE8E0D",
+    backgroundColor: '#FE8E0D',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 109,
@@ -115,7 +105,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer2: {
     elevation: 8,
-    backgroundColor: "#18C0EA",
+    backgroundColor: '#18C0EA',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 101,
@@ -124,12 +114,12 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 25,
     padding: 32,
-    color: "#fff",
-    fontWeight: "bold",
-    alignSelf: "center",
-    textTransform: "uppercase",
+    color: '#fff',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    textTransform: 'uppercase',
   },
   selector: {
     marginTop: 15,
-  }
+  },
 });
