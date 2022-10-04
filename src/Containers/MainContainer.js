@@ -16,6 +16,8 @@ import TimerScreen from '../Components/TimerScreen';
 import WaterAnimation from '../Components/WaterAnimation';
 import TemperatureScreen from '../Components/Temperature/TemperatureScreen';
 import TemperatureSummary from '../Components/TemperatureSummary';
+import MediaScreen from '../Components/MediaScreen';
+
 //Screen names
 const homeName = 'Home';
 const foodName = 'Food';
@@ -28,6 +30,8 @@ const sleepEdit = 'SleepEdit';
 const teethName = 'Timer';
 const tempScreen = 'Temp'
 const TempSummary = 'TempSummary'
+const mediaName = 'Media';
+
 const Tab = createBottomTabNavigator();
 
 export default function MainContainer() {
@@ -130,6 +134,7 @@ export default function MainContainer() {
           }}
         />
         <Tab.Screen name={teethName} component={TimerScreen} />
+        <Tab.Screen name={mediaName} component={MediaScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
