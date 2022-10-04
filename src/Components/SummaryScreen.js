@@ -16,6 +16,7 @@ import logo from './baby-logo.jpeg';
 import dayjs from 'dayjs';
 import {getSleeps} from '../Services/SleepService.js';
 import FeedChart from './FeedChart.js';
+import SleepGraph from './SleepGraph.js';
 
 export default function SummaryScreen({navigation}) {
   const isFocused = useIsFocused();
@@ -284,6 +285,8 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.summaryText}>Total Night Sleep per Day:</Text>
           <Text style={styles.result}>{avgNightTime} hours</Text>
         </View>
+
+        <SleepGraph labels={getChartDays()}/>
 
         <View style={styles.summaryContainer2}>
           <Text style={styles.summaryHeader2}>7 Day Feed Summary</Text>

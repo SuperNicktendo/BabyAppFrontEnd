@@ -1,4 +1,4 @@
-const baseURL = 'http://192.168.0.65:8080/sleeps/';
+const baseURL = 'http://10.59.241.210:8080/sleeps/';
 
 // gets all babies
 export const getSleeps = () => {
