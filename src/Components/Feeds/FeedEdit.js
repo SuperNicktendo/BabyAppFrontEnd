@@ -1,27 +1,39 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import VerticalSlider from 'rn-vertical-slider';
-import {postFeed} from '../Services/FeedService.js';
-import logo from './baby-logo.jpeg';
+import {updateFeed, deleteFeed} from '../../Services/FeedService';
+import logo from '../baby-logo.jpeg';
+import {useIsFocused} from '@react-navigation/native';
 
-export default function FoodScreen({route, navigation}) {
+export default function FeedEdit({route, navigation}) {
+  const isFocused = useIsFocused();
+  const {item} = route.params;
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [finalValue, setFinalValue] = useState(0);
 
-  const {baby} = route.params;
+  useEffect(() => {
+    setDate(new Date(item.startDate));
+    setFinalValue(item.volume);
+  }, [isFocused]);
 
   const saveFeed = async () => {
     newFeed = {
+      id: item.id,
       time: moment(date).add(1, 'hours'),
       volume: finalValue,
       baby: {
-        id: baby,
+        id: item.babyId,
       },
     };
-    postFeed(newFeed);
+    updateFeed(item.babyId, newFeed);
+    navigation.navigate('List');
+  };
+
+  const deleteSingleFeed = async () => {
+    deleteFeed(item.id);
     navigation.navigate('List');
   };
 
@@ -75,6 +87,11 @@ export default function FoodScreen({route, navigation}) {
 
       <TouchableOpacity style={styles.buttonContainer} onPress={saveFeed}>
         <Text style={styles.buttonText}>Save</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={deleteSingleFeed}>
+        <Text style={styles.buttonText}>Delete</Text>
       </TouchableOpacity>
     </View>
   );

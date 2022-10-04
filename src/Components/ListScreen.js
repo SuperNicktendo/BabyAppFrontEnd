@@ -6,52 +6,58 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  useWindowDimensions,
-  Dimensions,
 } from 'react-native';
 import logo from './baby-logo.jpeg';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {useIsFocused} from '@react-navigation/native';
-
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Timetable from 'react-native-calendar-timetable';
 import moment from 'moment';
-import SleepCard from './SleepCard';
+import SleepCard from './Sleeps/SleepCard';
 import {getSleeps, showSleeps} from '../Services/SleepService';
 import {getBabies, showBaby} from '../Services/BabyService.js';
+import {set} from 'express/lib/application';
 
 export default function ListScreen({navigation}) {
   // Dropdown
   const isFocused = useIsFocused();
   const [data, setData] = useState(null);
-  const [babies, setBabies] = useState(null);
-  const [babyName, setBabyName] = useState(null);
-  const [babyId, setBabyId] = useState(null);
   const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
   const [items1, setItems1] = React.useState([]);
   const [baby, setBaby] = useState(null);
-
   // selecter data
   useEffect(() => {
     try {
+      setItems1(null);
       getBabies().then(result => {
         setData(result);
         tempBabies = result.map((baby, index) => {
-          return {label: baby.name, value: baby.id};
+          return {label: baby.name, value: index, baby: baby};
         });
         setItems(tempBabies);
+        makeBabyData();
+        console.log('this is baby ', baby);
       });
     } catch (err) {
       console.log('CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS');
     }
-  }, [isFocused]);
+  }, [isFocused, baby]);
+
+  React.useEffect(() => {
+    const cleanState = navigation.addListener('blur', () => {
+      setBaby(null);
+      setItems1(null);
+    });
+
+    return cleanState;
+  }, [navigation]);
 
   // calnder data
-  useEffect(() => {
-    if (babyId) {
-      makeBabyData();
-    }
-  }, [baby, isFocused, babyId]);
+  // useEffect(() => {
+  //   if (babyId) {
+  //     makeBabyData();
+  //   }
+  // }, [baby, isFocused, babyId]);
 
   // Chart
   const [from] = React.useState(moment().subtract(3, 'days').toDate());
@@ -61,38 +67,40 @@ export default function ListScreen({navigation}) {
   const [babySleeps] = React.useState(getSleeps);
 
   const getBabyById = async () => {
-    await showBaby(babyId).then(result => {
+    await showBaby(baby).then(result => {
       setBaby(result);
     });
   };
 
-  const makeBabyData = async () => {
-    await getBabyById();
+  const makeBabyData = () => {
+    // await getBabyById();
 
-    sleeps = baby.sleeps.map(sleep => {
+    let sleeps = items[baby].baby.sleeps.map(sleep => {
       return {
         title: 'Sleep',
         startDate: sleep.startTime,
         endDate: sleep.endTime,
         id: sleep.id,
-        babyId: babyId,
+        babyId: baby,
         navigation: navigation,
         sleepType: sleep.sleepType,
       };
     });
 
-    feeds = baby.feeds.map(feed => {
+    let feeds = items[baby].baby.feeds.map(feed => {
       return {
         title: 'Feed',
         startDate: feed.time,
-        endDate: moment(feed.time).add(1, 'hours'),
+        endDate: moment(feed.time).add(0.5, 'hours'),
         id: feed.id,
-        babyId: babyId,
+        babyId: baby,
         navigation: navigation,
         volume: feed.volume,
       };
     });
-    calanderData = sleeps.concat(feeds);
+    console.log('feeds', feeds);
+
+    let calanderData = sleeps.concat(feeds);
     setItems1(calanderData);
   };
 
@@ -110,25 +118,29 @@ export default function ListScreen({navigation}) {
       {items ? (
         <DropDownPicker
           open={openDropDown}
-          value={babyId}
+          value={baby}
           items={items}
           setOpen={setOpenDropDown}
-          setValue={setBabyId}
+          setValue={setBaby}
           setItems={setItems}
         />
       ) : (
         <Text style={styles.loadingText}>Loading...</Text>
       )}
 
-      <ScrollView style={styles.scrollStyle}>
-        <Timetable
-          hourHeight={20}
-          columnWidth={100}
-          items={items1}
-          cardComponent={SleepCard}
-          range={range}
-        />
-      </ScrollView>
+      {items1 ? (
+        <ScrollView style={styles.scrollStyle}>
+          <Timetable
+            hourHeight={20}
+            columnWidth={100}
+            items={items1}
+            cardComponent={SleepCard}
+            range={range}
+          />
+        </ScrollView>
+      ) : (
+        <Text> loading </Text>
+      )}
 
       <TouchableOpacity style={styles.buttonContainer}>
         <Text

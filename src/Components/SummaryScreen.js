@@ -15,24 +15,27 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg';
 import dayjs from 'dayjs';
 import {getSleeps} from '../Services/SleepService.js';
-import FeedChart from './FeedChart.js';
+import FeedChart from './Feeds/FeedChart';
+import Video from './Video.js';
 
 export default function SummaryScreen({navigation}) {
   const isFocused = useIsFocused();
   const [feeds, setFeeds] = useState(null);
   const [data, setData] = useState(null);
-  const [baby, setBaby] = useState(null);
+  const [baby, setBaby] = useState(1);
   const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
+  const [daysWithData, setDaysWithData] = useState(0);
   const [timeBetweenFeeds, setTimeBetweenFeeds] = useState(0);
   const [chartValueFeed, setChartValueFeed] = useState(null);
+  const [chartDays, setChartDays] = useState(null);
   const [avgTotalSleep, setAvgTotalSleep] = useState(null);
   const [avgNapTime, setAvgNapTime] = useState(null);
   const [avgNightTime, setAvgNightTime] = useState(null);
 
   //get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
-  const getTotalVolumeFeedsById = () => {
+  const getTotalVolumeFor7DaysById = () => {
     getFeeds().then(result => {
       const mappedFeeds = result.map(feeds => {
         return {babyId: feeds.baby.id, time: feeds.time, volume: feeds.volume};
@@ -51,7 +54,35 @@ export default function SummaryScreen({navigation}) {
     });
   };
 
-  const getTotalVolumePerDay = () => {
+  const getNumberOfDaysWithData = () => {
+    getFeeds().then(result => {
+      const mappedFeeds = result.map(feeds => {
+        return {babyId: feeds.baby.id, time: feeds.time};
+      });
+
+      const filteredFeeds = mappedFeeds.filter(
+        feed =>
+          feed.babyId === baby && dayjs(feed.day).diff(dayjs(), 'day') > -6,
+      );
+
+      const mappedFilteredFeeds = filteredFeeds.map(filterFeeds => {
+        return {day: moment(filterFeeds.time).format('ddd')};
+      });
+
+      const valueList = [];
+      for (let i = 0; i < mappedFilteredFeeds.length; i++) {
+        const value = Object.values(mappedFilteredFeeds[i]);
+        valueList.push(value);
+      }
+
+      const flattenedValueList = valueList.flatMap(num => num);
+
+      const uniqueDaysLength = [...new Set(flattenedValueList)].length;
+      setDaysWithData(uniqueDaysLength);
+    });
+  };
+
+  const getChartFeedData = () => {
     getFeeds().then(result => {
       const mappedFeeds = result.map(feeds => {
         return {babyId: feeds.baby.id, time: feeds.time, volume: feeds.volume};
@@ -62,7 +93,7 @@ export default function SummaryScreen({navigation}) {
           feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6,
       );
 
-      const daysLabels = getChartDays();
+      const daysLabels = chartDays;
 
       const daysObject = daysLabels.map(day => {
         const tempObj = {};
@@ -88,7 +119,7 @@ export default function SummaryScreen({navigation}) {
   };
 
   //    get all feed data, map it, filter it by id and last 7 days, returns the length of the array
-  const getTotalNumberOfFeedsById = () => {
+  const getTotalBottlesFor7DaysById = () => {
     getFeeds().then(result => {
       const mappedFeeds = result.map(feeds => {
         return {babyId: feeds.baby.id, time: feeds.time, volume: feeds.volume};
@@ -98,6 +129,7 @@ export default function SummaryScreen({navigation}) {
         feed =>
           feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6,
       );
+
       setFeedNumber(filteredFeeds.length);
     });
   };
@@ -142,7 +174,7 @@ export default function SummaryScreen({navigation}) {
       const day = moment().subtract(i, 'day');
       dayList.push(day.format('ddd'));
     }
-    return dayList.reverse();
+    setChartDays(dayList.reverse());
   };
 
   const getAvgTotalSleep = () => {
@@ -232,16 +264,17 @@ export default function SummaryScreen({navigation}) {
     try {
       getBabies().then(result => {
         setData(result);
-        tempBabies = result.map((baby) => {
+        tempBabies = result.map(baby => {
           return {label: baby.name, value: baby.id};
         });
         setItems(tempBabies);
       });
-      getTotalVolumeFeedsById();
-      getTotalNumberOfFeedsById();
-      getAvgTimeBetweenFeeds();
-      getTotalVolumePerDay();
+      getNumberOfDaysWithData();
       getChartDays();
+      getTotalVolumeFor7DaysById();
+      getTotalBottlesFor7DaysById();
+      getAvgTimeBetweenFeeds();
+      getChartFeedData();
       getAvgTotalSleep();
       getTotalNapPerDay();
       getTotalNightPerDay();
@@ -288,11 +321,13 @@ export default function SummaryScreen({navigation}) {
         <View style={styles.summaryContainer2}>
           <Text style={styles.summaryHeader2}>7 Day Feed Summary</Text>
 
-          <Text style={styles.summaryText}>Average Bottles per Day</Text>
-          <Text style={styles.result}>{feedNumber}</Text>
+          <Text style={styles.result}>Average Bottles per Day</Text>
+          <Text style={styles.summaryText}>{feedNumber / daysWithData}</Text>
 
-          <Text style={styles.summaryText}>Average Amount per Day</Text>
-          <Text style={styles.result}>{feeds} oz</Text>
+          <Text style={styles.result}>Average Amount per Day</Text>
+          <Text style={styles.summaryText}>
+            {(feeds / daysWithData).toFixed(2)} oz
+          </Text>
 
           <Text style={styles.summaryText}>Average Amount per Bottle</Text>
           <Text style={styles.result}>
@@ -302,11 +337,16 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.summaryText}>Average Time Between Bottle</Text>
           <Text style={styles.result}>{timeBetweenFeeds} hours</Text>
         </View>
+
         {chartValueFeed ? (
-          <FeedChart data={chartValueFeed} labels={getChartDays()} />
+          <FeedChart data={chartValueFeed} labels={chartDays} />
         ) : (
           <Text>loading ....</Text>
         )}
+
+        <Video videoId={'RA8gajb1KOU'} />
+
+        <Video videoId={'HPuD7w_TbSc'} />
       </ScrollView>
     </View>
   );

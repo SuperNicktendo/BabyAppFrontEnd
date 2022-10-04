@@ -1,19 +1,17 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-//import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 //Components
 import HomeScreen from '../Components/HomeScreen';
-import FoodScreen from '../Components/FoodScreen';
-import SleepScreen from '../Components/SleepScreen';
+import FeedScreen from '../Components/Feeds/FeedScreen';
+import SleepScreen from '../Components/Sleeps/SleepScreen';
 import BabyScreen from '../Components/BabyScreen';
 import ListScreen from '../Components/ListScreen';
 import SummaryScreen from '../Components/SummaryScreen';
-import FeedEdit from '../Components/FeedEdit';
-import SleepEdit from '../Components/SleepEdit';
+import FeedEdit from '../Components/Feeds/FeedEdit';
+import SleepEdit from '../Components/Sleeps/SleepEdit';
 import TimerScreen from '../Components/TimerScreen';
 import WaterAnimation from '../Components/WaterAnimation';
 //Screen names
@@ -72,7 +70,7 @@ export default function MainContainer() {
         />
         <Tab.Screen
           name={foodName}
-          component={FoodScreen}
+          component={FeedScreen}
           options={{
             tabBarButton: () => null,
             tabBarVisible: false,
