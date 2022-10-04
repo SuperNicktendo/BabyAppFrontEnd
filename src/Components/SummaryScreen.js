@@ -31,7 +31,7 @@ export default function SummaryScreen({navigation}) {
   const [avgTotalSleep, setAvgTotalSleep] = useState(null);
   const [avgNapTime, setAvgNapTime] = useState(null);
   const [avgNightTime, setAvgNightTime] = useState(null);
-  const [lineGraphData, setLineGraphData] = useState(null);
+  const [lineGraphData, setLineGraphData] = useState([]);
 
   //get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
   const getTotalVolumeFeedsById = () => {
@@ -203,7 +203,7 @@ export default function SummaryScreen({navigation}) {
   };
 
   const getTotalNightPerDay = () => {
-    const wakeTime = [];
+    // const wakeTime = [];
     getSleeps().then(result => {
       tempSleeps = result.map(sleeps => {
         return {
@@ -227,38 +227,56 @@ export default function SummaryScreen({navigation}) {
         console.log("time", night.endTime);
         // wakeTime.push(moment(night.endTime).format('hh:mm'));
         // wakeTime.push(moment(night.endTime).hours() + '.' + moment(night.endTime).minutes());
-        wakeTime.push(parseInt(moment(night.endTime).hours()));
+        // wakeTime.push(parseInt(moment(night.endTime).hours()));
       });
       averageNightTime = totalNightTime / 7;
       setAvgNightTime(averageNightTime.toFixed(2));
-      console.log("wakeTime", wakeTime);
-      setLineGraphData(wakeTime.flatMap(num => num));
-      console.log("all", typeof lineGraphData[0]);
+      // console.log("wakeTime", wakeTime);
+      // setLineGraphData(wakeTime);
+      // console.log("all", lineGraphData);
     });
   };
 
+  const getLineData = () => {
+    const wakeTime = [];
+    getSleeps().then(result => {
+      const tempSleeps = result.map(sleeps => {
+        return {
+          babyId: sleeps.baby.id,
+          sleepType: sleeps.sleepType,
+          startTime: sleeps.startTime,
+          endTime: sleeps.endTime,
+        };
+      });
+      filteredNights = tempSleeps.filter(
+        sleep =>
+          sleep.babyId === baby &&
+          dayjs(sleep.startTime).diff(dayjs(), 'day') > -6 &&
+          sleep.sleepType === 'NIGHT',
+      );
+      console.log("filtered",filteredNights)
+      filteredNights.forEach(night => {
+        console.log("time", night.endTime);
+        wakeTime.push(parseInt(moment(night.endTime).hours()));
+      });
+      console.log("wakeTime", wakeTime);
+      setLineGraphData(wakeTime);
+      console.log("all", lineGraphData);
+    });
+  }
 
-  // getLineGraphData = () => {
-  //   getSleeps().then(result => {
-  //     tempSleeps = result.map(sleeps => {
-  //       return {
-  //         babyId: sleeps.baby.id,
-  //         sleepType: sleeps.sleepType,
-  //         startTime: sleeps.startTime,
-  //         endTime: sleeps.endTime,
-  //       };
-  //     });
-  //     filteredFeeds = tempSleeps.filter
-  //   })
-  // }
-
-  // const valueList = [];
-  // for (let i = 0; i < 7; i++) {
-  //   const value = Object.values(daysObject[i]);
-  //   valueList.push(value);
-  // }
-  // const flattenedValueList = valueList.flatMap(num => num);
-  // setChartValueFeed(flattenedValueList);
+  // const saveFeed = async () => {
+  //   newFeed = {
+  //     id: item.id,
+  //     time: moment(date).add(1, 'hours'),
+  //     volume: finalValue,
+  //     baby: {
+  //       id: item.babyId,
+  //     },
+  //   };
+  //   updateFeed(item.babyId, newFeed);
+  //   navigation.navigate('List');
+  // };
 
   useEffect(() => {
     try {
@@ -269,11 +287,14 @@ export default function SummaryScreen({navigation}) {
         });
         setItems(tempBabies);
       });
+      getLineData();
+
       getTotalVolumeFeedsById();
       getTotalNumberOfFeedsById();
       getAvgTimeBetweenFeeds();
       getTotalVolumePerDay();
       getChartDays();
+
       getAvgTotalSleep();
       getTotalNapPerDay();
       getTotalNightPerDay();
@@ -317,10 +338,8 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.result}>{avgNightTime} hours</Text>
         </View>
 
-        {/* data={lineGraphData} */}
-
-        {lineGraphData ? (
-          <SleepGraph data={[6, 6, 4]} labels={getChartDays()}/>
+        {(lineGraphData.length) ? (
+          <SleepGraph data={lineGraphData} labels={getChartDays()}/>
         ) : (
           <Text>loading...</Text>
         )}

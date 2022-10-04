@@ -54,7 +54,7 @@ export default function ListScreen({navigation}) {
   }, [baby, isFocused, babyId]);
 
   // Chart
-  const [from] = React.useState(moment().subtract(3, 'days').toDate());
+  const [from] = React.useState(moment().subtract(7, 'days').toDate());
   const [till] = React.useState(moment().toDate());
   const range = {from, till};
 
