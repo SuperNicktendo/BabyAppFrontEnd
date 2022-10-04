@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
 import SleepForm from './SleepForm.js';
-import logo from './baby-logo.jpeg';
+import logo from '../baby-logo.jpeg';
 
 export default function SleepScreen({route, navigation}) {
   const {baby} = route.params;
