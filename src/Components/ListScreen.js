@@ -139,7 +139,7 @@ export default function ListScreen({navigation}) {
           />
         </ScrollView>
       ) : (
-        <Text> loading </Text>
+        <Text style={styles.chartLoading}> Choose a child </Text>
       )}
 
       <TouchableOpacity style={styles.buttonContainer}>
@@ -205,6 +205,19 @@ const styles = StyleSheet.create({
     marginTop: 15,
     fontSize: 18,
     textAlign: 'center',
+  },
+  chartLoading: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginTop: 15,
+    fontSize: 15,
+    textAlign: 'center',
+    paddingVertical: 190,
+    paddingHorizontal: 130,
+    marginBottom: 10,
+    borderWidth: 3,
+    borderColor: '#fff',
+    borderRadius: 10,
   },
   scrollStyle: {
     backgroundColor: '#D3F5FB',
