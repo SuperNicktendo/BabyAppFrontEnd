@@ -17,7 +17,7 @@ export default function TeethTimer(navigation) {
 
   return (
     <View style={styles.container}>
-      <Image source={logo} style={styles.logo} />
+      <Image source={logo} style={styles.logo}/>
 
       <Text style={styles.timerHeader}>Let's brush our teeth!</Text>
 
@@ -59,7 +59,7 @@ export default function TeethTimer(navigation) {
         onPress={() => {
           countdownRef.current.stop();
         }}>
-        <Text style={styles.buttonText}>Stop</Text>
+        <Text style={styles.buttonText}>Reset</Text>
       </TouchableOpacity>
     </View>
   );

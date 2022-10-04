@@ -20,7 +20,7 @@ export default function FeedChart({data, labels}) {
       <VerticalBarGraph
         data={data}
         labels={labels}
-        width={375}
+        width={355}
         height={300}
         barRadius={5}
         barColor="white"
@@ -35,7 +35,6 @@ export default function FeedChart({data, labels}) {
 const styles = StyleSheet.create({
   chart: {
     marginBottom: 30,
-    padding: 10,
     paddingTop: 20,
     borderRadius: 20,
     backgroundColor: '#4F6C73',

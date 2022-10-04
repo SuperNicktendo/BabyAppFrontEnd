@@ -288,19 +288,19 @@ export default function SummaryScreen({navigation}) {
         <View style={styles.summaryContainer2}>
           <Text style={styles.summaryHeader2}>7 Day Feed Summary</Text>
 
-          <Text style={styles.result}>Average Bottles per Day</Text>
-          <Text style={styles.summaryText}>{feedNumber}</Text>
+          <Text style={styles.summaryText}>Average Bottles per Day</Text>
+          <Text style={styles.result}>{feedNumber}</Text>
 
-          <Text style={styles.result}>Average Amount per Day</Text>
-          <Text style={styles.summaryText}>{feeds} oz</Text>
+          <Text style={styles.summaryText}>Average Amount per Day</Text>
+          <Text style={styles.result}>{feeds} oz</Text>
 
-          <Text style={styles.result}>Average Amount per Bottle</Text>
-          <Text style={styles.summaryText}>
+          <Text style={styles.summaryText}>Average Amount per Bottle</Text>
+          <Text style={styles.result}>
             {(feeds / feedNumber).toFixed(2)} oz
           </Text>
 
-          <Text style={styles.result}>Average Time Between Bottle</Text>
-          <Text style={styles.summaryText}>{timeBetweenFeeds} hours</Text>
+          <Text style={styles.summaryText}>Average Time Between Bottle</Text>
+          <Text style={styles.result}>{timeBetweenFeeds} hours</Text>
         </View>
         {chartValueFeed ? (
           <FeedChart data={chartValueFeed} labels={getChartDays()} />
@@ -316,7 +316,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4F6C73',
-    padding: 7,
+    padding: 10,
+    paddingHorizontal: 3,
     alignItems: 'center',
   },
   container2: {
@@ -340,7 +341,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4F6C73',
     marginBottom: 5,
     alignItems: 'center',
-    paddingHorizontal: 30,
+    paddingBottom: 10,
     borderWidth: 3,
     borderColor: '#fff',
     borderRadius: 10,
@@ -349,7 +350,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#4F6C73',
     paddingVertical: 10,
-    paddingHorizontal: 35,
     alignItems: 'center',
     borderWidth: 3,
     borderColor: '#fff',
