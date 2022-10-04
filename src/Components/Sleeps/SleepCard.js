@@ -12,7 +12,7 @@ import {
 
 export default function SleepCard({style, item, dayIndex, daysTotal}) {
   colorToBe = item.title === 'Sleep' ? '#18C0EA' : '#FE8E0D';
-
+  console.log('this is item============================ :  ', item);
   const getDataForEdit = () => {
     if (item.title === 'Feed') {
       item.navigation.navigate('FeedEdit', {item});

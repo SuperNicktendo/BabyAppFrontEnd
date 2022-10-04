@@ -88,6 +88,7 @@ export default function FeedEdit({route, navigation}) {
       <TouchableOpacity style={styles.buttonContainer} onPress={saveFeed}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
+      
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={deleteSingleFeed}>
