@@ -15,14 +15,14 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import logo from './baby-logo.jpeg';
 import dayjs from 'dayjs';
 import {getSleeps} from '../Services/SleepService.js';
-import FeedChart from './Feeds/FeedChart';
-import Video from './Video.js';
+import FeedChart from './FeedChart.js';
+import SleepGraph from './SleepGraph.js';
 
 export default function SummaryScreen({navigation}) {
   const isFocused = useIsFocused();
   const [feeds, setFeeds] = useState(null);
   const [data, setData] = useState(null);
-  const [baby, setBaby] = useState(1);
+  const [baby, setBaby] = useState(null);
   const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
@@ -33,6 +33,7 @@ export default function SummaryScreen({navigation}) {
   const [avgTotalSleep, setAvgTotalSleep] = useState(null);
   const [avgNapTime, setAvgNapTime] = useState(null);
   const [avgNightTime, setAvgNightTime] = useState(null);
+  const [lineGraphData, setLineGraphData] = useState([]);
 
   //get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
   const getTotalVolumeFor7DaysById = () => {
@@ -251,13 +252,47 @@ export default function SummaryScreen({navigation}) {
 
       filteredNights.forEach(night => {
         difference = dayjs(night.endTime).diff(dayjs(night.startTime), 'hour');
-
         totalNightTime += difference;
       });
       averageNightTime = totalNightTime / 7;
       setAvgNightTime(averageNightTime.toFixed(2));
     });
   };
+
+  const getLineData = () => {
+    const wakeTime = [];
+    getSleeps().then(result => {
+      const tempSleeps = result.map(sleeps => {
+        return {
+          babyId: sleeps.baby.id,
+          sleepType: sleeps.sleepType,
+          startTime: sleeps.startTime,
+          endTime: sleeps.endTime,
+        };
+      });
+      filteredNights = tempSleeps.filter(
+        sleep =>
+          sleep.babyId === baby &&
+          dayjs(sleep.startTime).diff(dayjs(), 'day') > -6 &&
+          sleep.sleepType === 'NIGHT',
+      );
+      console.log("filtered type", typeof filteredNights[0].endTime);
+      console.log("filtered", filteredNights)
+      const sortedNights = filteredNights
+      .map(nightTime => {
+        return nightTime.endTime;
+      })
+      .sort()
+      console.log("sorted", sortedNights)
+      sortedNights.forEach(night => {
+        console.log("time", night);
+        wakeTime.push(moment(night).hours());
+      });
+      console.log("wakeTime", wakeTime);
+      setLineGraphData(wakeTime);
+      console.log("all", lineGraphData);
+    });
+  }
 
   useEffect(() => {
     try {
@@ -268,6 +303,7 @@ export default function SummaryScreen({navigation}) {
         });
         setItems(tempBabies);
       });
+      getLineData();
       getNumberOfDaysWithData();
       getChartDays();
       getTotalVolumeFor7DaysById();
@@ -317,6 +353,13 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.result}>{avgNightTime} hours</Text>
         </View>
 
+        <Text style={styles.summaryText}>Average Wake Time</Text>
+        {(lineGraphData.length) ? (
+          <SleepGraph data={lineGraphData} labels={chartDays}/>
+        ) : (
+          <Text>loading...</Text>
+        )}
+
         <View style={styles.summaryContainer2}>
           <Text style={styles.summaryHeader2}>7 Day Feed Summary</Text>
 
@@ -337,10 +380,11 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.result}>{timeBetweenFeeds} hours</Text>
         </View>
 
+        <Text style={styles.summaryText}>Total Feed Volume</Text>
         {chartValueFeed ? (
           <FeedChart data={chartValueFeed} labels={chartDays} />
         ) : (
-          <Text>loading ....</Text>
+          <Text>loading...</Text>
         )}
       </ScrollView>
     </View>
