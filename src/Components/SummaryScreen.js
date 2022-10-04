@@ -22,7 +22,7 @@ export default function SummaryScreen({navigation}) {
   const isFocused = useIsFocused();
   const [feeds, setFeeds] = useState(null);
   const [data, setData] = useState(null);
-  const [baby, setBaby] = useState(1);
+  const [baby, setBaby] = useState(null);
   const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
@@ -304,14 +304,13 @@ export default function SummaryScreen({navigation}) {
         });
         setItems(tempBabies);
       });
+      getLineData();
       getNumberOfDaysWithData();
       getChartDays();
-      getLineData();
       getTotalVolumeFor7DaysById();
       getTotalBottlesFor7DaysById();
       getAvgTimeBetweenFeeds();
-      getTotalVolumePerDay();
-      getChartDays();
+      getChartFeedData();
       getAvgTotalSleep();
       getTotalNapPerDay();
       getTotalNightPerDay();
@@ -355,9 +354,9 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.result}>{avgNightTime} hours</Text>
         </View>
 
-        <Text>Average Wake Time</Text>
+        <Text style={styles.summaryText}>Average Wake Time</Text>
         {(lineGraphData.length) ? (
-          <SleepGraph data={lineGraphData} labels={getChartDays()}/>
+          <SleepGraph data={lineGraphData} labels={chartDays}/>
         ) : (
           <Text>loading...</Text>
         )}
@@ -382,6 +381,7 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.result}>{timeBetweenFeeds} hours</Text>
         </View>
 
+        <Text style={styles.summaryText}>Total Feed Volume</Text>
         {chartValueFeed ? (
           <FeedChart data={chartValueFeed} labels={chartDays} />
         ) : (
