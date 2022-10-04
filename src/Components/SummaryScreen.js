@@ -22,7 +22,7 @@ export default function SummaryScreen({navigation}) {
   const isFocused = useIsFocused();
   const [feeds, setFeeds] = useState(null);
   const [data, setData] = useState(null);
-  const [baby, setBaby] = useState(null);
+  const [baby, setBaby] = useState(1);
   const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
