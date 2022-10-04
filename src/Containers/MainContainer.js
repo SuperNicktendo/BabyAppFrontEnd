@@ -14,6 +14,7 @@ import FeedEdit from '../Components/Feeds/FeedEdit';
 import SleepEdit from '../Components/Sleeps/SleepEdit';
 import TimerScreen from '../Components/TimerScreen';
 import WaterAnimation from '../Components/WaterAnimation';
+import MediaScreen from '../Components/MediaScreen';
 //Screen names
 const homeName = 'Home';
 const foodName = 'Food';
@@ -24,6 +25,7 @@ const summaryName = 'Summary';
 const feedEdit = 'FeedEdit';
 const sleepEdit = 'SleepEdit';
 const teethName = 'Timer';
+const mediaName = 'Media';
 
 const Tab = createBottomTabNavigator();
 
@@ -111,6 +113,7 @@ export default function MainContainer() {
           }}
         />
         <Tab.Screen name={teethName} component={TimerScreen} />
+        <Tab.Screen name={mediaName} component={MediaScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );

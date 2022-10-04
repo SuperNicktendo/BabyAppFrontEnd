@@ -1,4 +1,4 @@
-const baseURL = 'http://10.14.234.211:8080/feeds/';
+const baseURL = 'http://10.158.168.169:8080/feeds/';
 
 // gets all feeds
 export const getFeeds = () => {

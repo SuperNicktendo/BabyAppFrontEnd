@@ -34,6 +34,13 @@ export default function SummaryScreen({navigation}) {
   const [avgNapTime, setAvgNapTime] = useState(null);
   const [avgNightTime, setAvgNightTime] = useState(null);
 
+  const mappedFeeds = result => {
+    const mappedFeeds = result.map(feeds => {
+      return {babyId: feeds.baby.id, time: feeds.time, volume: feeds.volume};
+    });
+    setMappedFeeds(mappedFeeds);
+  };
+
   //get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
   const getTotalVolumeFor7DaysById = () => {
     getFeeds().then(result => {
@@ -146,7 +153,6 @@ export default function SummaryScreen({navigation}) {
           feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6,
       );
       let totalTime = 0;
-
       const sortedTimes = filteredFeedsTime
         .map(times => {
           return times.time;
@@ -343,10 +349,6 @@ export default function SummaryScreen({navigation}) {
         ) : (
           <Text>loading ....</Text>
         )}
-
-        <Video videoId={'RA8gajb1KOU'} />
-
-        <Video videoId={'HPuD7w_TbSc'} />
       </ScrollView>
     </View>
   );

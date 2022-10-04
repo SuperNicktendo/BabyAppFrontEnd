@@ -6,7 +6,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  Alert
+  Alert,
 } from 'react-native';
 import logo from './baby-logo.jpeg';
 import {Timer, Countdown} from 'react-native-element-timer';
@@ -18,7 +18,7 @@ export default function TeethTimer(navigation) {
 
   return (
     <View style={styles.container}>
-      <Image source={logo} style={styles.logo}/>
+      <Image source={logo} style={styles.logo} />
 
       <Text style={styles.timerHeader}>Let's brush our teeth!</Text>
 
@@ -29,11 +29,11 @@ export default function TeethTimer(navigation) {
         style={styles.timer}
         textStyle={styles.timerText}
         formatTime="hh:mm:ss"
-        initialSeconds={5}
-        onTimes={(seconds) => {
-            if(seconds === 0){
-                Alert.alert("Sparkle, sparkle!", "Your Teeth Are Clean!")
-            }
+        initialSeconds={120}
+        onTimes={seconds => {
+          if (seconds === 0) {
+            Alert.alert('Sparkle, sparkle!', 'Your Teeth Are Clean!');
+          }
         }}
         onPause={e => {}}
         onEnd={e => {}}
@@ -104,13 +104,6 @@ const styles = StyleSheet.create({
   timerText: {
     fontSize: 90,
     color: '#fff',
-    // borderWidth: 3,
-    // borderColor: "#fff",
-    // borderRadius: 200,
-    // padding: 40,
-    // paddingVertical: 55,
-    // backgroundColor: '#fff',
-    // marginBottom: 10,
   },
   timerButton: {
     elevation: 8,
