@@ -12,14 +12,15 @@ import logo from './baby-logo.jpeg';
 import {Timer, Countdown} from 'react-native-element-timer';
 import WaterAnimation from './WaterAnimation';
 
-export default function TeethTimer(navigation) {
+export default function TeethTimer({navigation}) {
   const timerRef = useRef(null);
   const countdownRef = useRef(null);
 
   return (
     <View style={styles.container}>
-      <Image source={logo} style={styles.logo} />
-
+      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <Image source={logo} style={styles.logo} />
+      </TouchableOpacity>
       <Text style={styles.timerHeader}>Let's brush our teeth!</Text>
 
       <WaterAnimation style={styles.waterAni} />
