@@ -28,8 +28,12 @@ export default function TeethTimer(navigation) {
         style={styles.timer}
         textStyle={styles.timerText}
         formatTime="hh:mm:ss"
-        initialSeconds={120}
-        onTimes={e => {}}
+        initialSeconds={5}
+        onTimes={(seconds) => {
+            if(seconds === 0){
+                alert("Huzzah!")
+            }
+        }}
         onPause={e => {}}
         onEnd={e => {}}
       />
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
   timer: {
     marginVertical: 10,
     position: 'absolute',
-    paddingTop: 95,
+    paddingTop: 105,
   },
   timerText: {
     fontSize: 90,
