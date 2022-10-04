@@ -223,7 +223,6 @@ export default function SummaryScreen({navigation}) {
       filteredNights.forEach(night => {
         difference = dayjs(night.endTime).diff(dayjs(night.startTime), 'hour');
         totalNightTime += difference;
-        console.log("time", night.endTime);
       });
       averageNightTime = totalNightTime / 7;
       setAvgNightTime(averageNightTime.toFixed(2));
@@ -247,16 +246,17 @@ export default function SummaryScreen({navigation}) {
           dayjs(sleep.startTime).diff(dayjs(), 'day') > -6 &&
           sleep.sleepType === 'NIGHT',
       );
-      // console.log("filtered", typeof filteredNights[0].endTime);
-      // const sortedNights = filteredNights
-      // .map(nightTime => {
-      //   return nightTime.endTime;
-      // })
-      // .sort()
-      // console.log("sorted", sortedNights)
-      filteredNights.forEach(night => {
-        console.log("time", night.endTime);
-        wakeTime.push(parseInt(moment(night.endTime).hours()));
+      console.log("filtered type", typeof filteredNights[0].endTime);
+      console.log("filtered", filteredNights)
+      const sortedNights = filteredNights
+      .map(nightTime => {
+        return nightTime.endTime;
+      })
+      .sort()
+      console.log("sorted", sortedNights)
+      sortedNights.forEach(night => {
+        console.log("time", night);
+        wakeTime.push(moment(night).hours());
       });
       console.log("wakeTime", wakeTime);
       setLineGraphData(wakeTime);
