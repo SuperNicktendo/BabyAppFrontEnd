@@ -355,6 +355,7 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.result}>{avgNightTime} hours</Text>
         </View>
 
+        <Text>Average Wake Time</Text>
         {(lineGraphData.length) ? (
           <SleepGraph data={lineGraphData} labels={getChartDays()}/>
         ) : (
