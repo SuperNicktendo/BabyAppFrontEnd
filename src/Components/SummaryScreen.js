@@ -144,6 +144,7 @@ export default function SummaryScreen({navigation}) {
       const day = moment().subtract(i, 'day');
       dayList.push(day.format('ddd'));
     }
+    console.log("days", dayList)
     return dayList.reverse();
   };
 
