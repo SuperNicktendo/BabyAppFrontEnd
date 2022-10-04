@@ -9,26 +9,24 @@ import {
 } from 'react-native';
 import logo from './baby-logo.jpeg';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
-import Timetable from 'react-native-calendar-timetable';
+import {useIsFocused} from '@react-navigation/native';
 import moment from 'moment';
-import SleepCard from './Sleeps/SleepCard';
-import {getSleeps, showSleeps} from '../Services/SleepService';
-import {getBabies, showBaby} from '../Services/BabyService.js';
-import {set} from 'express/lib/application';
+import {getBabies} from '../Services/BabyService.js';
 
-export default function ListScreen({navigation}) {
+
+export default function TemperatureScreen({navigation}) {
   // Dropdown
   const isFocused = useIsFocused();
   const [data, setData] = useState(null);
   const [items, setItems] = useState(null);
-  const [openDropDown, setOpenDropDown] = useState(false);
-  const [items1, setItems1] = React.useState([]);
+  const [openDropDown, setOpenDropDown] = useState(false); 
+  const [temperatureArray, setTemperatureArray] = React.useState([]);
   const [baby, setBaby] = useState(null);
+
   // selecter data
   useEffect(() => {
     try {
-      setItems1(null);
+      setTemperatureArray([])
       getBabies().then(result => {
         setData(result);
         tempBabies = result.map((baby, index) => {
@@ -36,8 +34,6 @@ export default function ListScreen({navigation}) {
         });
         setItems(tempBabies);
         makeBabyData();
-        console.log('this is baby ', baby);
-        
       });
     } catch (err) {
       console.log('CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS');
@@ -47,63 +43,34 @@ export default function ListScreen({navigation}) {
   React.useEffect(() => {
     const cleanState = navigation.addListener('blur', () => {
       setBaby(null);
-      setItems1(null);
+      setTemperatureArray([]);
     });
 
     return cleanState;
   }, [navigation]);
 
-
-  // Chart
-  const [from] = React.useState(moment().subtract(3, 'days').toDate());
-  const [till] = React.useState(moment().toDate());
-  const range = {from, till};
-
-  const [babySleeps] = React.useState(getSleeps);
-
   const makeBabyData = () => {
-    // await getBabyById();
-
-    let sleeps = items[baby].baby.sleeps.map(sleep => {
+    if(baby != null && baby != undefined){
+    let temps = items[baby].baby.temperatures.map( temperature => {
       return {
-        title: 'Sleep',
-        startDate: sleep.startTime,
-        endDate: sleep.endTime,
-        id: sleep.id,
+        time: temperature.time,
+        id: temperature.id,
         babyId: baby,
-        navigation: navigation,
-        sleepType: sleep.sleepType,
+        temperature: temperature.temperature
       };
-    });
-
-    let feeds = items[baby].baby.feeds.map(feed => {
-      return {
-        title: 'Feed',
-        startDate: feed.time,
-        endDate: moment(feed.time).add(0.5, 'hours'),
-        id: feed.id,
-        babyId: baby,
-        navigation: navigation,
-        volume: feed.volume,
-      };
-    });
-    console.log('feeds', feeds);
-
-    let calanderData = sleeps.concat(feeds);
-    setItems1(calanderData);
-  };
+    }).sort((a,b) => moment(a.date).format('YYYYMMDD') - moment(b.date).format('YYYYMMDD'))
+   
+    setTemperatureArray(temps)
+  }};
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.navigate('Home')}>
         <Image source={logo} style={styles.logo} />
       </TouchableOpacity>
-      <Text style={styles.listText}>Weekly Food and Sleep data</Text>
+      <Text style={styles.listText}>Weekly Temperature data</Text>
 
-      <Text style={styles.babyText}>
-        Select child and log a feed or sleep entry
-      </Text>
-
+  
       {items ? (
         <DropDownPicker
           open={openDropDown}
@@ -117,34 +84,20 @@ export default function ListScreen({navigation}) {
         <Text style={styles.loadingText}>Loading...</Text>
       )}
 
-      {items1 ? (
-        <ScrollView style={styles.scrollStyle}>
-          <Timetable
-            hourHeight={20}
-            columnWidth={100}
-            items={items1}
-            cardComponent={SleepCard}
-            range={range}
-          />
-        </ScrollView>
-      ) : (
-        <Text style={styles.chartLoading}> Choose a child </Text>
-      )}
 
-      <TouchableOpacity style={styles.buttonContainer}>
-        <Text
-          style={styles.buttonText}
-          onPress={() => navigation.navigate('Summary')}>
-          Summary Screen
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonContainer}>
-        <Text
-          style={styles.buttonText}
-          onPress={() => navigation.navigate('TempSummary')}>
-          Temperatures
-        </Text>
-      </TouchableOpacity>
+       { temperatureArray.length ? <ScrollView>
+          
+        {temperatureArray.map((temp) => {
+        return (
+          <View style={styles.summaryContainer1}>
+                <Text style={styles.summaryText} >{moment(temp.time).format("ddd/DD/MMM HH:MM")} : {temp.temperature}°C</Text>
+          
+          </View>  
+                
+                )})}
+        </ScrollView>: <Text>loading...</Text>}
+
+
     </View>
   );
 }
@@ -222,4 +175,20 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginTop: 4,
   },
+  summaryContainer1: {
+    flex: 1,
+    backgroundColor: '#4F6C73',
+    marginBottom: 5,
+    alignItems: 'center',
+    padding: 20,
+    borderWidth: 3,
+    borderColor: '#fff',
+    borderRadius: 10,
+    marginTop:10,
+  },summaryText: {
+    justifyContent: 'flex-start',
+    color: '#fff',
+    fontWeight: 'bold',
+    padding: 3,
+  }
 });

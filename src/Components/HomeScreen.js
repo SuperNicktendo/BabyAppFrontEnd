@@ -47,6 +47,7 @@ export default function HomeScreen({navigation}) {
         onPress={() => setShowContent(!showContent)}>
         <Text style={styles.buttonText}>Add New Baby</Text>
       </TouchableOpacity>
+      
 
       {renderIf(
         showContent,

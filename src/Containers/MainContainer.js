@@ -14,6 +14,8 @@ import FeedEdit from '../Components/Feeds/FeedEdit';
 import SleepEdit from '../Components/Sleeps/SleepEdit';
 import TimerScreen from '../Components/TimerScreen';
 import WaterAnimation from '../Components/WaterAnimation';
+import TemperatureScreen from '../Components/Temperature/TemperatureScreen';
+import TemperatureSummary from '../Components/TemperatureSummary';
 //Screen names
 const homeName = 'Home';
 const foodName = 'Food';
@@ -24,7 +26,8 @@ const summaryName = 'Summary';
 const feedEdit = 'FeedEdit';
 const sleepEdit = 'SleepEdit';
 const teethName = 'Timer';
-
+const tempScreen = 'Temp'
+const TempSummary = 'TempSummary'
 const Tab = createBottomTabNavigator();
 
 export default function MainContainer() {
@@ -105,6 +108,22 @@ export default function MainContainer() {
         <Tab.Screen
           name={summaryName}
           component={SummaryScreen}
+          options={{
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+        />
+           <Tab.Screen
+          name={tempScreen}
+          component={TemperatureScreen}
+          options={{
+            tabBarButton: () => null,
+            tabBarVisible: false,
+          }}
+        />
+              <Tab.Screen
+          name={TempSummary}
+          component={TemperatureSummary}
           options={{
             tabBarButton: () => null,
             tabBarVisible: false,
