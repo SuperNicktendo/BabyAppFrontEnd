@@ -203,7 +203,6 @@ export default function SummaryScreen({navigation}) {
   };
 
   const getTotalNightPerDay = () => {
-    // const wakeTime = [];
     getSleeps().then(result => {
       tempSleeps = result.map(sleeps => {
         return {
@@ -225,15 +224,9 @@ export default function SummaryScreen({navigation}) {
         difference = dayjs(night.endTime).diff(dayjs(night.startTime), 'hour');
         totalNightTime += difference;
         console.log("time", night.endTime);
-        // wakeTime.push(moment(night.endTime).format('hh:mm'));
-        // wakeTime.push(moment(night.endTime).hours() + '.' + moment(night.endTime).minutes());
-        // wakeTime.push(parseInt(moment(night.endTime).hours()));
       });
       averageNightTime = totalNightTime / 7;
       setAvgNightTime(averageNightTime.toFixed(2));
-      // console.log("wakeTime", wakeTime);
-      // setLineGraphData(wakeTime);
-      // console.log("all", lineGraphData);
     });
   };
 
@@ -265,19 +258,6 @@ export default function SummaryScreen({navigation}) {
     });
   }
 
-  // const saveFeed = async () => {
-  //   newFeed = {
-  //     id: item.id,
-  //     time: moment(date).add(1, 'hours'),
-  //     volume: finalValue,
-  //     baby: {
-  //       id: item.babyId,
-  //     },
-  //   };
-  //   updateFeed(item.babyId, newFeed);
-  //   navigation.navigate('List');
-  // };
-
   useEffect(() => {
     try {
       getBabies().then(result => {
@@ -288,13 +268,11 @@ export default function SummaryScreen({navigation}) {
         setItems(tempBabies);
       });
       getLineData();
-
       getTotalVolumeFeedsById();
       getTotalNumberOfFeedsById();
       getAvgTimeBetweenFeeds();
       getTotalVolumePerDay();
       getChartDays();
-
       getAvgTotalSleep();
       getTotalNapPerDay();
       getTotalNightPerDay();
