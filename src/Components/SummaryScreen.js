@@ -247,7 +247,13 @@ export default function SummaryScreen({navigation}) {
           dayjs(sleep.startTime).diff(dayjs(), 'day') > -6 &&
           sleep.sleepType === 'NIGHT',
       );
-      console.log("filtered",filteredNights)
+      // console.log("filtered", typeof filteredNights[0].endTime);
+      // const sortedNights = filteredNights
+      // .map(nightTime => {
+      //   return nightTime.endTime;
+      // })
+      // .sort()
+      // console.log("sorted", sortedNights)
       filteredNights.forEach(night => {
         console.log("time", night.endTime);
         wakeTime.push(parseInt(moment(night.endTime).hours()));
