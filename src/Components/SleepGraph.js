@@ -5,10 +5,10 @@ import { View, StyleSheet } from 'react-native';
 export default function SleepGraph({data, labels}) {
 
     const config = {
-        startAtZero: false,
+        startAtZero: true,
         hasXAxisBackgroundLines: false,
         xAxisLabelStyle: {
-            prefix: '$',
+            suffix: 'am',
             offset: 0
         }
     };
@@ -16,7 +16,7 @@ export default function SleepGraph({data, labels}) {
     return (
         <View>
             <LineGraph 
-                data={[10, 15, 7, 20, 14, 12, 10, 20]}
+                data={data}
                 labels={labels}
                 width={375}
                 height={300}

@@ -31,6 +31,7 @@ export default function SummaryScreen({navigation}) {
   const [avgTotalSleep, setAvgTotalSleep] = useState(null);
   const [avgNapTime, setAvgNapTime] = useState(null);
   const [avgNightTime, setAvgNightTime] = useState(null);
+  const [lineGraphData, setLineGraphData] = useState(null);
 
   //get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
   const getTotalVolumeFeedsById = () => {
@@ -202,6 +203,7 @@ export default function SummaryScreen({navigation}) {
   };
 
   const getTotalNightPerDay = () => {
+    const wakeTime = [];
     getSleeps().then(result => {
       tempSleeps = result.map(sleeps => {
         return {
@@ -221,13 +223,42 @@ export default function SummaryScreen({navigation}) {
 
       filteredNights.forEach(night => {
         difference = dayjs(night.endTime).diff(dayjs(night.startTime), 'hour');
-
         totalNightTime += difference;
+        console.log("time", night.endTime);
+        // wakeTime.push(moment(night.endTime).format('hh:mm'));
+        // wakeTime.push(moment(night.endTime).hours() + '.' + moment(night.endTime).minutes());
+        wakeTime.push(parseInt(moment(night.endTime).hours()));
       });
       averageNightTime = totalNightTime / 7;
       setAvgNightTime(averageNightTime.toFixed(2));
+      console.log("wakeTime", wakeTime);
+      setLineGraphData(wakeTime.flatMap(num => num));
+      console.log("all", typeof lineGraphData[0]);
     });
   };
+
+
+  // getLineGraphData = () => {
+  //   getSleeps().then(result => {
+  //     tempSleeps = result.map(sleeps => {
+  //       return {
+  //         babyId: sleeps.baby.id,
+  //         sleepType: sleeps.sleepType,
+  //         startTime: sleeps.startTime,
+  //         endTime: sleeps.endTime,
+  //       };
+  //     });
+  //     filteredFeeds = tempSleeps.filter
+  //   })
+  // }
+
+  // const valueList = [];
+  // for (let i = 0; i < 7; i++) {
+  //   const value = Object.values(daysObject[i]);
+  //   valueList.push(value);
+  // }
+  // const flattenedValueList = valueList.flatMap(num => num);
+  // setChartValueFeed(flattenedValueList);
 
   useEffect(() => {
     try {
@@ -286,7 +317,13 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.result}>{avgNightTime} hours</Text>
         </View>
 
-        <SleepGraph labels={getChartDays()}/>
+        {/* data={lineGraphData} */}
+
+        {lineGraphData ? (
+          <SleepGraph data={[6, 6, 4]} labels={getChartDays()}/>
+        ) : (
+          <Text>loading...</Text>
+        )}
 
         <View style={styles.summaryContainer2}>
           <Text style={styles.summaryHeader2}>7 Day Feed Summary</Text>
@@ -308,7 +345,7 @@ export default function SummaryScreen({navigation}) {
         {chartValueFeed ? (
           <FeedChart data={chartValueFeed} labels={getChartDays()} />
         ) : (
-          <Text>loading ....</Text>
+          <Text>loading...</Text>
         )}
       </ScrollView>
     </View>
