@@ -1,15 +1,14 @@
-import logo from './baby-logo.jpeg';
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
-import {updateSleep, deleteSleep} from '../Services/SleepService.js';
-import ListScreen from './ListScreen';
-import {useIsFocused} from '@react-navigation/native';
+import {postSleep} from '../../Services/SleepService.js';
+import ListScreen from '../ListScreen';
 
-export default function SleepEdit({route, navigation}) {
-  const isFocused = useIsFocused();
+const listName = 'List';
+
+export default function SleepForm({navigation, baby}) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [openStart, setStartOpen] = useState(false);
@@ -20,40 +19,22 @@ export default function SleepEdit({route, navigation}) {
   ]);
   const [openDropDown, setOpenDropDown] = useState(false);
   const [sleepValue, setSleepValue] = useState(null);
-  const {item} = route.params;
-
-  useEffect(() => {
-    setStartDate(new Date(item.startDate));
-    setEndDate(new Date(item.endDate));
-    setSleepValue(item.sleepType);
-  }, [isFocused]);
 
   const saveSleep = async () => {
     tempSleep = {
-      id: item.id,
       startTime: moment(startDate).add(1, 'hours'),
       endTime: moment(endDate).add(1, 'hours'),
       sleepType: sleepValue,
       baby: {
-        id: item.babyId,
+        id: baby,
       },
     };
-    await updateSleep(item.babyId, tempSleep);
-    navigation.navigate('List');
-  };
-
-  const deleteSingleSleep = async () => {
-    deleteSleep(item.id);
+    postSleep(tempSleep);
     navigation.navigate('List');
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-        <Image source={logo} style={styles.logo} />
-      </TouchableOpacity>
-      <Text style={styles.sleepText}>Record Sleep</Text>
-
       <>
         <TouchableOpacity
           style={styles.buttonContainer}
@@ -113,11 +94,6 @@ export default function SleepEdit({route, navigation}) {
       <TouchableOpacity style={styles.saveButtonContainer} onPress={saveSleep}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.saveButtonContainer}
-        onPress={deleteSingleSleep}>
-        <Text style={styles.buttonText}>Delete</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -174,29 +150,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#4F6C73',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 50,
-  },
-  logo: {
-    width: 15,
-    height: 5,
-    marginBottom: 7,
-    padding: 60,
-    borderColor: 'black',
-    borderWidth: 2.5,
-    borderRadius: 200 / 2,
-  },
-  sleepText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    marginTop: 15,
-    marginBottom: 15,
-    fontSize: 30,
-    textAlign: 'center',
   },
 });

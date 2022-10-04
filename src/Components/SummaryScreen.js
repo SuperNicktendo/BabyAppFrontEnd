@@ -22,19 +22,21 @@ export default function SummaryScreen({navigation}) {
   const isFocused = useIsFocused();
   const [feeds, setFeeds] = useState(null);
   const [data, setData] = useState(null);
-  const [baby, setBaby] = useState(null);
+  const [baby, setBaby] = useState(1);
   const [items, setItems] = useState(null);
   const [openDropDown, setOpenDropDown] = useState(false);
   const [feedNumber, setFeedNumber] = useState(0);
+  const [daysWithData, setDaysWithData] = useState(0);
   const [timeBetweenFeeds, setTimeBetweenFeeds] = useState(0);
   const [chartValueFeed, setChartValueFeed] = useState(null);
+  const [chartDays, setChartDays] = useState(null);
   const [avgTotalSleep, setAvgTotalSleep] = useState(null);
   const [avgNapTime, setAvgNapTime] = useState(null);
   const [avgNightTime, setAvgNightTime] = useState(null);
   const [lineGraphData, setLineGraphData] = useState([]);
 
   //get all feed data, map it, filter by id and time less than 7 days, sum the volume and return the result to 2 dec places
-  const getTotalVolumeFeedsById = () => {
+  const getTotalVolumeFor7DaysById = () => {
     getFeeds().then(result => {
       const mappedFeeds = result.map(feeds => {
         return {babyId: feeds.baby.id, time: feeds.time, volume: feeds.volume};
@@ -53,7 +55,35 @@ export default function SummaryScreen({navigation}) {
     });
   };
 
-  const getTotalVolumePerDay = () => {
+  const getNumberOfDaysWithData = () => {
+    getFeeds().then(result => {
+      const mappedFeeds = result.map(feeds => {
+        return {babyId: feeds.baby.id, time: feeds.time};
+      });
+
+      const filteredFeeds = mappedFeeds.filter(
+        feed =>
+          feed.babyId === baby && dayjs(feed.day).diff(dayjs(), 'day') > -6,
+      );
+
+      const mappedFilteredFeeds = filteredFeeds.map(filterFeeds => {
+        return {day: moment(filterFeeds.time).format('ddd')};
+      });
+
+      const valueList = [];
+      for (let i = 0; i < mappedFilteredFeeds.length; i++) {
+        const value = Object.values(mappedFilteredFeeds[i]);
+        valueList.push(value);
+      }
+
+      const flattenedValueList = valueList.flatMap(num => num);
+
+      const uniqueDaysLength = [...new Set(flattenedValueList)].length;
+      setDaysWithData(uniqueDaysLength);
+    });
+  };
+
+  const getChartFeedData = () => {
     getFeeds().then(result => {
       const mappedFeeds = result.map(feeds => {
         return {babyId: feeds.baby.id, time: feeds.time, volume: feeds.volume};
@@ -64,7 +94,7 @@ export default function SummaryScreen({navigation}) {
           feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6,
       );
 
-      const daysLabels = getChartDays();
+      const daysLabels = chartDays;
 
       const daysObject = daysLabels.map(day => {
         const tempObj = {};
@@ -90,7 +120,7 @@ export default function SummaryScreen({navigation}) {
   };
 
   //    get all feed data, map it, filter it by id and last 7 days, returns the length of the array
-  const getTotalNumberOfFeedsById = () => {
+  const getTotalBottlesFor7DaysById = () => {
     getFeeds().then(result => {
       const mappedFeeds = result.map(feeds => {
         return {babyId: feeds.baby.id, time: feeds.time, volume: feeds.volume};
@@ -100,6 +130,7 @@ export default function SummaryScreen({navigation}) {
         feed =>
           feed.babyId === baby && dayjs(feed.time).diff(dayjs(), 'day') > -6,
       );
+
       setFeedNumber(filteredFeeds.length);
     });
   };
@@ -144,8 +175,7 @@ export default function SummaryScreen({navigation}) {
       const day = moment().subtract(i, 'day');
       dayList.push(day.format('ddd'));
     }
-    console.log("days", dayList)
-    return dayList.reverse();
+    setChartDays(dayList.reverse());
   };
 
   const getAvgTotalSleep = () => {
@@ -269,14 +299,16 @@ export default function SummaryScreen({navigation}) {
     try {
       getBabies().then(result => {
         setData(result);
-        tempBabies = result.map((baby) => {
+        tempBabies = result.map(baby => {
           return {label: baby.name, value: baby.id};
         });
         setItems(tempBabies);
       });
+      getNumberOfDaysWithData();
+      getChartDays();
       getLineData();
-      getTotalVolumeFeedsById();
-      getTotalNumberOfFeedsById();
+      getTotalVolumeFor7DaysById();
+      getTotalBottlesFor7DaysById();
       getAvgTimeBetweenFeeds();
       getTotalVolumePerDay();
       getChartDays();
@@ -333,21 +365,24 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.summaryHeader2}>7 Day Feed Summary</Text>
 
           <Text style={styles.result}>Average Bottles per Day</Text>
-          <Text style={styles.summaryText}>{feedNumber}</Text>
+          <Text style={styles.summaryText}>{feedNumber / daysWithData}</Text>
 
           <Text style={styles.result}>Average Amount per Day</Text>
-          <Text style={styles.summaryText}>{feeds} oz</Text>
-
-          <Text style={styles.result}>Average Amount per Bottle</Text>
           <Text style={styles.summaryText}>
+            {(feeds / daysWithData).toFixed(2)} oz
+          </Text>
+
+          <Text style={styles.summaryText}>Average Amount per Bottle</Text>
+          <Text style={styles.result}>
             {(feeds / feedNumber).toFixed(2)} oz
           </Text>
 
-          <Text style={styles.result}>Average Time Between Bottle</Text>
-          <Text style={styles.summaryText}>{timeBetweenFeeds} hours</Text>
+          <Text style={styles.summaryText}>Average Time Between Bottle</Text>
+          <Text style={styles.result}>{timeBetweenFeeds} hours</Text>
         </View>
+
         {chartValueFeed ? (
-          <FeedChart data={chartValueFeed} labels={getChartDays()} />
+          <FeedChart data={chartValueFeed} labels={chartDays} />
         ) : (
           <Text>loading...</Text>
         )}
@@ -360,7 +395,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4F6C73',
-    padding: 7,
+    padding: 10,
+    paddingHorizontal: 3,
     alignItems: 'center',
   },
   container2: {
@@ -384,7 +420,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4F6C73',
     marginBottom: 5,
     alignItems: 'center',
-    paddingHorizontal: 30,
+    paddingBottom: 10,
     borderWidth: 3,
     borderColor: '#fff',
     borderRadius: 10,
@@ -393,7 +429,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#4F6C73',
     paddingVertical: 10,
-    paddingHorizontal: 35,
     alignItems: 'center',
     borderWidth: 3,
     borderColor: '#fff',
