@@ -36,7 +36,6 @@ export default function ListScreen({navigation}) {
         });
         setItems(tempBabies);
         makeBabyData();
-        console.log('this is baby ', baby);
         
       });
     } catch (err) {
@@ -62,15 +61,13 @@ export default function ListScreen({navigation}) {
   const [babySleeps] = React.useState(getSleeps);
 
   const makeBabyData = () => {
-    // await getBabyById();
-
     let sleeps = items[baby].baby.sleeps.map(sleep => {
       return {
         title: 'Sleep',
         startDate: sleep.startTime,
         endDate: sleep.endTime,
         id: sleep.id,
-        babyId: baby,
+        babyId: items[baby].baby.id,
         navigation: navigation,
         sleepType: sleep.sleepType,
       };
@@ -82,12 +79,11 @@ export default function ListScreen({navigation}) {
         startDate: feed.time,
         endDate: moment(feed.time).add(0.5, 'hours'),
         id: feed.id,
-        babyId: baby,
+        babyId: items[baby].baby.id,
         navigation: navigation,
         volume: feed.volume,
       };
     });
-    console.log('feeds', feeds);
 
     let calanderData = sleeps.concat(feeds);
     setItems1(calanderData);
@@ -180,6 +176,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
+    marginBottom: 10,
   },
   buttonText: {
     fontSize: 18,

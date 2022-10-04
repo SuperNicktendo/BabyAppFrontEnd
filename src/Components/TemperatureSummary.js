@@ -36,7 +36,6 @@ export default function TemperatureScreen({navigation}) {
         makeBabyData();
       });
     } catch (err) {
-      console.log('CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS');
     }
   }, [isFocused, baby]);
 
@@ -58,9 +57,9 @@ export default function TemperatureScreen({navigation}) {
         babyId: baby,
         temperature: temperature.temperature
       };
-    }).sort((a,b) => moment(a.date).format('YYYYMMDD') - moment(b.date).format('YYYYMMDD'))
+    })
    
-    setTemperatureArray(temps)
+    setTemperatureArray(temps.sort((a, b) => moment(a.time, 'DD-MM-YYYY').diff(moment(b.time, 'DD-MM-YYYY'))))
   }};
 
   return (
@@ -68,7 +67,7 @@ export default function TemperatureScreen({navigation}) {
       <TouchableOpacity onPress={() => navigation.navigate('Home')}>
         <Image source={logo} style={styles.logo} />
       </TouchableOpacity>
-      <Text style={styles.listText}>Weekly Temperature data</Text>
+      <Text style={styles.listText}>Temperature data</Text>
 
   
       {items ? (

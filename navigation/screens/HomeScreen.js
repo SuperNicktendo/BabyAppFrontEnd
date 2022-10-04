@@ -10,14 +10,11 @@ export default function HomeScreen({navigation}) {
   const [dob, setDob] = React.useState(null);
 
   const createBaby = () => {
-    console.log('name on press ', name);
-    console.log('dob on press: ', dob);
 
     const newBaby = {
       name: name,
       birthdate: dob,
     };
-    console.log('baby to be posted: ', newBaby);
     postBaby(newBaby);
     navigation.navigate('Baby');
   };
