@@ -276,23 +276,23 @@ export default function SummaryScreen({navigation}) {
           dayjs(sleep.startTime).diff(dayjs(), 'day') > -6 &&
           sleep.sleepType === 'NIGHT',
       );
-      console.log("filtered type", typeof filteredNights[0].endTime);
-      console.log("filtered", filteredNights)
+      console.log('filtered type', typeof filteredNights[0].endTime);
+      console.log('filtered', filteredNights);
       const sortedNights = filteredNights
-      .map(nightTime => {
-        return nightTime.endTime;
-      })
-      .sort()
-      console.log("sorted", sortedNights)
+        .map(nightTime => {
+          return nightTime.endTime;
+        })
+        .sort();
+      console.log('sorted', sortedNights);
       sortedNights.forEach(night => {
-        console.log("time", night);
+        console.log('time', night);
         wakeTime.push(moment(night).hours());
       });
-      console.log("wakeTime", wakeTime);
+      console.log('wakeTime', wakeTime);
       setLineGraphData(wakeTime);
-      console.log("all", lineGraphData);
+      console.log('all', lineGraphData);
     });
-  }
+  };
 
   useEffect(() => {
     try {
@@ -354,8 +354,8 @@ export default function SummaryScreen({navigation}) {
         </View>
 
         <Text style={styles.summaryText}>Average Wake Time</Text>
-        {(lineGraphData.length) ? (
-          <SleepGraph data={lineGraphData} labels={chartDays}/>
+        {lineGraphData.length ? (
+          <SleepGraph data={lineGraphData} labels={chartDays} />
         ) : (
           <Text>loading...</Text>
         )}
