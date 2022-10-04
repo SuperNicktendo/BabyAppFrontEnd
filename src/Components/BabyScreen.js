@@ -59,6 +59,11 @@ export default function BabyScreen({navigation}) {
         onPress={() => navigation.navigate('Sleep', {baby})}>
         <Text style={styles.buttonText}>Sleep</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.buttonContainer3}
+        onPress={() => navigation.navigate('Temp', {baby})}>
+        <Text style={styles.buttonText}>Temp</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -106,6 +111,14 @@ const styles = StyleSheet.create({
   buttonContainer2: {
     elevation: 8,
     backgroundColor: '#18C0EA',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 101,
+    marginBottom: 10,
+  },
+  buttonContainer3: {
+    elevation: 8,
+    backgroundColor: '#ea1818',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 101,
