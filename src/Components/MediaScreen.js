@@ -12,11 +12,14 @@ export default function MediaScreen({navigation}) {
           <Image source={logo} style={styles.logo} />
         </TouchableOpacity>
       </View>
-      <Text style={styles.result}>Pink Noise</Text>
-      <Video videoId={'RA8gajb1KOU'} />
-      <Text style={styles.result}>Sensory Video</Text>
-
-      <Video videoId={'HPuD7w_TbSc'} />
+      <Text style={styles.videoText}>Pink Noise</Text>
+      <View style={styles.video}>
+      <Video style={styles.video} videoId={'RA8gajb1KOU'} />
+      </View>
+      <Text style={styles.videoText}>Sensory Video</Text>
+      <View style={styles.video}>
+      <Video  videoId={'HPuD7w_TbSc'} />
+      </View>
     </View>
   );
 }
@@ -38,21 +41,23 @@ const styles = StyleSheet.create({
   logo: {
     width: 15,
     height: 5,
-    marginTop: 4,
-    marginBottom: 3,
+    marginTop: 20,
     padding: 60,
     borderColor: 'black',
     borderWidth: 2.5,
     borderRadius: 200 / 2,
     alignItem: 'center',
   },
-
-  result: {
+  videoText: {
     justifyContent: 'flex-start',
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 20,
-    padding: 2,
+    fontSize: 30,
+    padding: 12,
     textAlign: 'center',
   },
+  video: {
+    marginBottom: 100,
+    paddingBottom: 120
+  }
 });
