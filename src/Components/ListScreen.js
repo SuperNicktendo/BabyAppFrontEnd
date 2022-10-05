@@ -92,10 +92,10 @@ export default function ListScreen({navigation}) {
       <TouchableOpacity onPress={() => navigation.navigate('Home')}>
         <Image source={logo} style={styles.logo} />
       </TouchableOpacity>
-      <Text style={styles.listText}>Weekly Food and Sleep data</Text>
+      <Text style={styles.listText}>Weekly Feed and Sleep data</Text>
 
       <Text style={styles.babyText}>
-        Select child and log a feed or sleep entry
+        Select which child's feed/sleep data to view
       </Text>
 
       {items ? (
