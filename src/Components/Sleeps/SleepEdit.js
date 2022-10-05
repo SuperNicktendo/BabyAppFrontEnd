@@ -42,12 +42,12 @@ export default function SleepEdit({route, navigation}) {
     navigation.navigate('List');
   };
 
-  const deleteSingleSleep = async () => {
+  const deleteSingleSleep = () => {
+    deleteSleep(item.id);
     navigation.navigate('List');
-    await deleteSleep(item.id);
     
     
-    
+   
   };
 
   return (
