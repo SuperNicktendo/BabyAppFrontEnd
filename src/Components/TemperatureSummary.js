@@ -89,7 +89,7 @@ export default function TemperatureScreen({navigation}) {
           setItems={setItems}
         />
       ) : (
-        <Text style={styles.loadingText}>Loading...</Text>
+        <Text style={styles.loadingText}></Text>
       )}
 
       {temperatureArray.length ? (
@@ -110,7 +110,7 @@ export default function TemperatureScreen({navigation}) {
           })}
         </ScrollView>
       ) : (
-        <Text>loading...</Text>
+        <Text></Text>
       )}
     </View>
   );

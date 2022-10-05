@@ -116,7 +116,7 @@ export default function ListScreen({navigation}) {
         <ScrollView style={styles.scrollStyle}>
           <Timetable
             hourHeight={20}
-            columnWidth={100}
+            columnWidth={50}
             items={items1}
             cardComponent={SleepCard}
             range={range}
