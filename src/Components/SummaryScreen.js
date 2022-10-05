@@ -195,7 +195,8 @@ export default function SummaryScreen({navigation}) {
       totalTime = 0;
 
       filteredSleeps.forEach(sleep => {
-        difference = dayjs(sleep.endTime).diff(dayjs(sleep.startTime), 'hour');
+        difference =
+          dayjs(sleep.endTime).diff(dayjs(sleep.startTime), 'minutes') / 60;
 
         totalTime += difference;
       });
@@ -220,15 +221,44 @@ export default function SummaryScreen({navigation}) {
           dayjs(sleep.startTime).diff(dayjs(), 'day') > -6 &&
           sleep.sleepType === 'NAP',
       );
-      totalNapTime = 0;
 
-      filteredNaps.forEach(nap => {
-        difference = dayjs(nap.endTime).diff(dayjs(nap.startTime), 'hour');
+      // totalNapTime = 0;
 
-        totalNapTime += difference;
+      const daysLabels = chartDays;
+
+      const daysObject = daysLabels.map(day => {
+        const tempObj = {};
+        tempObj[day] = 0;
+        return tempObj;
       });
-      averageNapTime = totalNapTime / 7;
-      setAvgNapTime(averageNapTime.toFixed(2));
+
+      const totalNapsByDay = filteredNaps.forEach(nap => {
+        for (let i = 0; i < 7; i++) {
+          if (
+            moment(nap.startTime).format('ddd') == Object.keys(daysObject[i])
+          ) {
+            daysObject[i][Object.keys(daysObject[i])[0]] +=
+              dayjs(nap.endTime).diff(dayjs(nap.startTime), 'minutes') / 60;
+          }
+        }
+      });
+      console.log('total naps per day', daysObject);
+      const valueList = [];
+      for (let i = 0; i < 7; i++) {
+        const value = Object.values(daysObject[i]);
+        valueList.push(value);
+      }
+      console.log('value list', valueList);
+
+      const flattenedValueList = valueList.flatMap(num => num);
+      console.log('flat', flattenedValueList);
+
+      const totalNapTime = flattenedValueList.reduce(
+        (prev, curr) => prev + curr,
+        0,
+      );
+      const overallNapTime = totalNapTime / 7;
+      setAvgNapTime(overallNapTime.toFixed(2));
     });
   };
 
@@ -251,7 +281,8 @@ export default function SummaryScreen({navigation}) {
       totalNightTime = 0;
 
       filteredNights.forEach(night => {
-        difference = dayjs(night.endTime).diff(dayjs(night.startTime), 'hour');
+        difference =
+          dayjs(night.endTime).diff(dayjs(night.startTime), 'minutes') / 60;
         totalNightTime += difference;
       });
       averageNightTime = totalNightTime / 7;
@@ -322,6 +353,7 @@ export default function SummaryScreen({navigation}) {
 
       {items ? (
         <DropDownPicker
+          placeholder="Select child"
           style={styles.selector}
           open={openDropDown}
           value={baby}
@@ -340,28 +372,34 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.summaryText}>Total Average Sleep per Day:</Text>
           <Text style={styles.result}>{avgTotalSleep} hours</Text>
 
-          <Text style={styles.summaryText}>Total Nap Time per Day:</Text>
+          <Text style={styles.summaryText}>
+            Total Average Nap Time per Day:
+          </Text>
           <Text style={styles.result}>{avgNapTime} hours</Text>
 
-          <Text style={styles.summaryText}>Total Night Sleep per Day:</Text>
+          <Text style={styles.summaryText}>
+            Total Average Night Sleep per Day:
+          </Text>
           <Text style={styles.result}>{avgNightTime} hours</Text>
         </View>
 
-        <Text style={styles.summaryText}>Average Wake Time</Text>
+        <Text style={styles.summaryHeader}>Wake Up Times</Text>
         {lineGraphData.length ? (
           <SleepGraph data={lineGraphData} labels={chartDays} />
         ) : (
-          <Text>loading...</Text>
+          <Text></Text>
         )}
 
         <View style={styles.summaryContainer2}>
-          <Text style={styles.summaryHeader2}>7 Day Feed Summary</Text>
+          <Text style={styles.summaryHeader}>7 Day Feed Summary</Text>
 
-          <Text style={styles.result}>Average Bottles per Day</Text>
-          <Text style={styles.summaryText}>{feedNumber / daysWithData}</Text>
+          <Text style={styles.summaryText}>Average Bottles per Day</Text>
+          <Text style={styles.result}>
+            {(feedNumber / daysWithData).toFixed(1)}
+          </Text>
 
-          <Text style={styles.result}>Average Amount per Day</Text>
-          <Text style={styles.summaryText}>
+          <Text style={styles.summaryText}>Average Amount per Day</Text>
+          <Text style={styles.result}>
             {(feeds / daysWithData).toFixed(2)} oz
           </Text>
 
@@ -374,11 +412,11 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.result}>{timeBetweenFeeds} hours</Text>
         </View>
 
-        <Text style={styles.summaryText}>Total Feed Volume</Text>
+        <Text style={styles.summaryHeader}>Total Feed Volume</Text>
         {chartValueFeed ? (
           <FeedChart data={chartValueFeed} labels={chartDays} />
         ) : (
-          <Text>loading...</Text>
+          <Text></Text>
         )}
       </ScrollView>
     </View>
@@ -435,7 +473,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 25,
     textAlign: 'center',
-    marginBottom: 2,
+    marginBottom: 10,
+    textDecorationLine: 'underline',
   },
   summaryHeader2: {
     color: '#fff',
@@ -449,6 +488,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     padding: 3,
+    textAlign: 'center',
   },
   result: {
     justifyContent: 'flex-start',

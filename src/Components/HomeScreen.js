@@ -31,7 +31,7 @@ export default function HomeScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headertext}>App Name</Text>
+      <Text style={styles.headertext}>Wah-Wah</Text>
       <TouchableOpacity onPress={() => navigation.navigate('Babies')}>
         <Image source={logo} style={styles.logo} />
       </TouchableOpacity>

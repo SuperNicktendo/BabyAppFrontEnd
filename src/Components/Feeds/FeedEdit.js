@@ -28,13 +28,13 @@ export default function FeedEdit({route, navigation}) {
         id: item.babyId,
       },
     };
-    updateFeed(item.babyId, newFeed);
+    await updateFeed(item.babyId, newFeed);
     navigation.navigate('List');
   };
 
   const deleteSingleFeed = async () => {
-    deleteFeed(item.id);
     navigation.navigate('List');
+    await deleteFeed(item.id);
   };
 
   return (

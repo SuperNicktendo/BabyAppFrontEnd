@@ -36,7 +36,6 @@ export default function ListScreen({navigation}) {
         });
         setItems(tempBabies);
         makeBabyData();
-        
       });
     } catch (err) {
       console.log('CATCH STATEMENT RAN FOR THE USE EFFECT IN BABY SCREEN.JS');
@@ -51,7 +50,6 @@ export default function ListScreen({navigation}) {
 
     return cleanState;
   }, [navigation]);
-
 
   // Chart
   const [from] = React.useState(moment().subtract(7, 'days').toDate());
@@ -102,6 +100,7 @@ export default function ListScreen({navigation}) {
 
       {items ? (
         <DropDownPicker
+          placeholder="Select child"
           open={openDropDown}
           value={baby}
           items={items}

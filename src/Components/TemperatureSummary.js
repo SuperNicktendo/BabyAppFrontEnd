@@ -14,20 +14,19 @@ import moment from 'moment';
 import {getBabies} from '../Services/BabyService.js';
 import {deleteTemp} from '../Services/TemperatureService';
 
-
 export default function TemperatureScreen({navigation}) {
   // Dropdown
   const isFocused = useIsFocused();
   const [data, setData] = useState(null);
   const [items, setItems] = useState(null);
-  const [openDropDown, setOpenDropDown] = useState(false); 
+  const [openDropDown, setOpenDropDown] = useState(false);
   const [temperatureArray, setTemperatureArray] = React.useState([]);
   const [baby, setBaby] = useState(null);
 
   // selecter data
   useEffect(() => {
     try {
-      setTemperatureArray([])
+      setTemperatureArray([]);
       getBabies().then(result => {
         setData(result);
         tempBabies = result.map((baby, index) => {
@@ -36,8 +35,7 @@ export default function TemperatureScreen({navigation}) {
         setItems(tempBabies);
         makeBabyData();
       });
-    } catch (err) {
-    }
+    } catch (err) {}
   }, [isFocused, baby]);
 
   React.useEffect(() => {
@@ -50,26 +48,28 @@ export default function TemperatureScreen({navigation}) {
   }, [navigation]);
 
   const makeBabyData = () => {
-    if(baby != null && baby != undefined){
-    let temps = items[baby].baby.temperatures.map( temperature => {
-      return {
-        time: temperature.time,
-        id: temperature.id,
-        babyId: baby,
-        temperature: temperature.temperature
-      };
-    })
-   
-    setTemperatureArray(temps.sort((a, b) => moment(a.time, 'DD-MM-YYYY').diff(moment(b.time, 'DD-MM-YYYY'))))
-  }};
+    if (baby != null && baby != undefined) {
+      let temps = items[baby].baby.temperatures.map(temperature => {
+        return {
+          time: temperature.time,
+          id: temperature.id,
+          babyId: baby,
+          temperature: temperature.temperature,
+        };
+      });
 
+      setTemperatureArray(
+        temps.sort((a, b) =>
+          moment(a.time, 'DD-MM-YYYY').diff(moment(b.time, 'DD-MM-YYYY')),
+        ),
+      );
+    }
+  };
 
   const DeleteTemp = id => e => {
-    setTemperatureArray(temperatureArray.filter(temp => temp.id !== id))
-    deleteTemp(id)
-  }
-  
-
+    setTemperatureArray(temperatureArray.filter(temp => temp.id !== id));
+    deleteTemp(id);
+  };
 
   return (
     <View style={styles.container}>
@@ -78,9 +78,9 @@ export default function TemperatureScreen({navigation}) {
       </TouchableOpacity>
       <Text style={styles.listText}>Temperature data</Text>
 
-  
       {items ? (
         <DropDownPicker
+          placeholder="Select child"
           open={openDropDown}
           value={baby}
           items={items}
@@ -92,24 +92,26 @@ export default function TemperatureScreen({navigation}) {
         <Text style={styles.loadingText}>Loading...</Text>
       )}
 
-
-       { temperatureArray.length ? <ScrollView>
-          
-        {temperatureArray.map((temp, index) => {
-        return (
-          <View  style={styles.summaryContainer1}>
-                <Text style={styles.summaryText} >{moment(temp.time).format("ddd/DD/MMM HH:MM")} : {temp.temperature}°C</Text>
-
+      {temperatureArray.length ? (
+        <ScrollView>
+          {temperatureArray.map((temp, index) => {
+            return (
+              <View style={styles.summaryContainer1}>
+                <Text style={styles.summaryText}>
+                  {moment(temp.time).format('ddd/DD/MMM HH:MM')} :{' '}
+                  {temp.temperature}°C
+                </Text>
 
                 <TouchableOpacity index={index} onPress={DeleteTemp(temp.id)}>
-                <Text>Delete</Text>
+                  <Text>Delete</Text>
                 </TouchableOpacity>
-          </View>  
-                
-                )})}
-        </ScrollView>: <Text>loading...</Text>}
-
-
+              </View>
+            );
+          })}
+        </ScrollView>
+      ) : (
+        <Text>loading...</Text>
+      )}
     </View>
   );
 }
@@ -196,11 +198,12 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#fff',
     borderRadius: 10,
-    marginTop:10,
-  },summaryText: {
+    marginTop: 10,
+  },
+  summaryText: {
     justifyContent: 'flex-start',
     color: '#fff',
     fontWeight: 'bold',
     padding: 3,
-  }
+  },
 });

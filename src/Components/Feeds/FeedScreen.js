@@ -22,7 +22,7 @@ export default function FeedScreen({route, navigation}) {
       },
     };
     postFeed(newFeed);
-    navigation.navigate('List');
+    navigation.navigate('Babies');
   };
 
   return (
@@ -53,7 +53,7 @@ export default function FeedScreen({route, navigation}) {
       </>
 
       <Text style={styles.foodText2}>
-        {moment(date).utcOffset('+0100').format('MMM Do, h:mm a')} oz
+        {moment(date).utcOffset('+0100').format('MMM Do, h:mm a')}
       </Text>
 
       <VerticalSlider
