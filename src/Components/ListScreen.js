@@ -28,7 +28,6 @@ export default function ListScreen({navigation}) {
   // selecter data
   useEffect( () => {
     try {
-      setBaby(null);
       setItems1(null);
       setItems(null)
         getBabies().then(result => {
