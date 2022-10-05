@@ -12,6 +12,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {useIsFocused} from '@react-navigation/native';
 import moment from 'moment';
 import {getBabies} from '../Services/BabyService.js';
+import {deleteTemp} from '../Services/TemperatureService';
 
 
 export default function TemperatureScreen({navigation}) {
@@ -62,6 +63,14 @@ export default function TemperatureScreen({navigation}) {
     setTemperatureArray(temps.sort((a, b) => moment(a.time, 'DD-MM-YYYY').diff(moment(b.time, 'DD-MM-YYYY'))))
   }};
 
+
+  const DeleteTemp = id => e => {
+    setTemperatureArray(temperatureArray.filter(temp => temp.id !== id))
+    deleteTemp(id)
+  }
+  
+
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -86,11 +95,15 @@ export default function TemperatureScreen({navigation}) {
 
        { temperatureArray.length ? <ScrollView>
           
-        {temperatureArray.map((temp) => {
+        {temperatureArray.map((temp, index) => {
         return (
-          <View style={styles.summaryContainer1}>
+          <View  style={styles.summaryContainer1}>
                 <Text style={styles.summaryText} >{moment(temp.time).format("ddd/DD/MMM HH:MM")} : {temp.temperature}°C</Text>
-          
+
+
+                <TouchableOpacity index={index} onPress={DeleteTemp(temp.id)}>
+                <Text>Delete</Text>
+                </TouchableOpacity>
           </View>  
                 
                 )})}
