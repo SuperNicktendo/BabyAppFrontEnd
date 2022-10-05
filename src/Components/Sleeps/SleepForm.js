@@ -83,6 +83,7 @@ export default function SleepForm({navigation, baby}) {
       <Text style={styles.sleepFormText3}>What type of sleep was it?</Text>
 
       <DropDownPicker
+      placeholder='Choose a sleep type'
         open={openDropDown}
         value={sleepValue}
         items={items}

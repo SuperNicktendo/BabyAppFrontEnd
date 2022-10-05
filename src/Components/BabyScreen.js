@@ -37,6 +37,7 @@ export default function BabyScreen({navigation}) {
 
       {items ? (
         <DropDownPicker
+          placeholder="Select child"
           open={openDropDown}
           value={baby}
           items={items}

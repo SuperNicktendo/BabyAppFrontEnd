@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     marginTop: 5,
-    fontSize: 30,
+    fontSize: 50,
     textAlign: 'center',
-    paddingBottom: 7,
+    paddingBottom: 25,
   },
   homeText: {
     color: '#fff',
