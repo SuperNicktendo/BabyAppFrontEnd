@@ -32,9 +32,11 @@ export default function FeedEdit({route, navigation}) {
     navigation.navigate('List');
   };
 
-  const deleteSingleFeed = async () => {
+  const deleteSingleFeed =  () => {
     navigation.navigate('List');
-    await deleteFeed(item.id);
+    deleteFeed(item.id);
+  
+    
   };
 
   return (

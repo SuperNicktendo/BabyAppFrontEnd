@@ -46,6 +46,7 @@ export default function ListScreen({navigation}) {
     const cleanState = navigation.addListener('blur', () => {
       setBaby(null);
       setItems1(null);
+      setItems(null)
     });
 
     return cleanState;
