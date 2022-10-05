@@ -92,10 +92,10 @@ export default function ListScreen({navigation}) {
       <TouchableOpacity onPress={() => navigation.navigate('Home')}>
         <Image source={logo} style={styles.logo} />
       </TouchableOpacity>
-      <Text style={styles.listText}>Weekly Food and Sleep data</Text>
+      <Text style={styles.listText}>Weekly Feed and Sleep data</Text>
 
       <Text style={styles.babyText}>
-        Select child and log a feed or sleep entry
+        Select which child's feed/sleep data to view
       </Text>
 
       {items ? (
@@ -116,7 +116,7 @@ export default function ListScreen({navigation}) {
         <ScrollView style={styles.scrollStyle}>
           <Timetable
             hourHeight={20}
-            columnWidth={100}
+            columnWidth={50}
             items={items1}
             cardComponent={SleepCard}
             range={range}
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     fontSize: 15,
     textAlign: 'center',
-    paddingVertical: 190,
+    paddingVertical: 160,
     paddingHorizontal: 130,
     marginBottom: 10,
     borderWidth: 3,
