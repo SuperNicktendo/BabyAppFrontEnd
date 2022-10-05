@@ -29,8 +29,8 @@ export default function SleepForm({navigation, baby}) {
         id: baby,
       },
     };
-    postSleep(tempSleep);
-    navigation.navigate('List');
+    await postSleep(tempSleep);
+    navigation.navigate('Babies');
   };
 
   return (

@@ -22,7 +22,7 @@ export default function FeedScreen({route, navigation}) {
       },
     };
     postFeed(newFeed);
-    navigation.navigate('List');
+    navigation.navigate('Babies');
   };
 
   return (
