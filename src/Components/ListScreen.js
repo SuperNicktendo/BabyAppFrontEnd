@@ -26,10 +26,12 @@ export default function ListScreen({navigation}) {
   const [items1, setItems1] = React.useState([]);
   const [baby, setBaby] = useState(null);
   // selecter data
-  useEffect(() => {
+  useEffect( () => {
     try {
+      setBaby(null);
       setItems1(null);
-      getBabies().then(result => {
+      setItems(null)
+        getBabies().then(result => {
         setData(result);
         tempBabies = result.map((baby, index) => {
           return {label: baby.name, value: index, baby: baby};
