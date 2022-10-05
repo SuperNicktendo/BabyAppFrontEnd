@@ -33,8 +33,9 @@ export default function FeedEdit({route, navigation}) {
   };
 
   const deleteSingleFeed =  () => {
-    deleteFeed(item.id);
     navigation.navigate('List');
+    deleteFeed(item.id);
+  
     
   };
 
