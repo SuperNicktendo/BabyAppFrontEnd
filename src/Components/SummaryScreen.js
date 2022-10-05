@@ -370,22 +370,36 @@ export default function SummaryScreen({navigation}) {
         <View style={styles.summaryContainer1}>
           <Text style={styles.summaryHeader}>7 Day Sleep Summary</Text>
           <Text style={styles.summaryText}>Total Average Sleep per Day:</Text>
-          <Text style={styles.result}>{avgTotalSleep} hours</Text>
+          {lineGraphData.length ? (
+            <Text style={styles.result}>{avgTotalSleep} hours</Text>
+          ) : (
+            <Text />
+          )}
 
           <Text style={styles.summaryText}>
             Total Average Nap Time per Day:
           </Text>
-          <Text style={styles.result}>{avgNapTime} hours</Text>
+          {lineGraphData.length ? (
+            <Text style={styles.result}>{avgNapTime} hours</Text>
+          ) : (
+            <Text />
+          )}
 
           <Text style={styles.summaryText}>
             Total Average Night Sleep per Day:
           </Text>
-          <Text style={styles.result}>{avgNightTime} hours</Text>
+          {lineGraphData.length ? (
+            <Text style={styles.result}>{avgNightTime} hours</Text>
+          ) : (
+            <Text />
+          )}
         </View>
 
-        <Text style={styles.summaryHeader}>Wake Up Times</Text>
         {lineGraphData.length ? (
-          <SleepGraph data={lineGraphData} labels={chartDays} />
+          <View>
+            <Text style={styles.summaryHeader}>Wake Up Times</Text>
+            <SleepGraph data={lineGraphData} labels={chartDays} />
+          </View>
         ) : (
           <Text></Text>
         )}
@@ -394,27 +408,46 @@ export default function SummaryScreen({navigation}) {
           <Text style={styles.summaryHeader}>7 Day Feed Summary</Text>
 
           <Text style={styles.summaryText}>Average Bottles per Day</Text>
-          <Text style={styles.result}>
-            {(feedNumber / daysWithData).toFixed(1)}
-          </Text>
+          {daysWithData ? (
+            <Text style={styles.result}>
+              {(feedNumber / daysWithData).toFixed(1)}
+            </Text>
+          ) : (
+            <Text></Text>
+          )}
 
           <Text style={styles.summaryText}>Average Amount per Day</Text>
-          <Text style={styles.result}>
-            {(feeds / daysWithData).toFixed(2)} oz
-          </Text>
+          {daysWithData ? (
+            <Text style={styles.result}>
+              {(feeds / daysWithData).toFixed(2)} oz
+            </Text>
+          ) : (
+            <Text></Text>
+          )}
 
           <Text style={styles.summaryText}>Average Amount per Bottle</Text>
-          <Text style={styles.result}>
-            {(feeds / feedNumber).toFixed(2)} oz
-          </Text>
+          {daysWithData ? (
+            <Text style={styles.result}>
+              {(feeds / feedNumber).toFixed(2)} oz
+            </Text>
+          ) : (
+            <Text></Text>
+          )}
 
           <Text style={styles.summaryText}>Average Time Between Bottle</Text>
-          <Text style={styles.result}>{timeBetweenFeeds} hours</Text>
+          {daysWithData ? (
+            <Text style={styles.result}>{timeBetweenFeeds} hours</Text>
+          ) : (
+            <Text></Text>
+          )}
         </View>
 
-        <Text style={styles.summaryHeader}>Total Feed Volume</Text>
         {chartValueFeed ? (
-          <FeedChart data={chartValueFeed} labels={chartDays} />
+          <View>
+            <Text style={styles.summaryHeader}>Total Feed Volume</Text>
+
+            <FeedChart data={chartValueFeed} labels={chartDays} />
+          </View>
         ) : (
           <Text></Text>
         )}
@@ -452,7 +485,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4F6C73',
     marginBottom: 5,
     alignItems: 'center',
-    paddingBottom: 10,
+    padding: 10,
     borderWidth: 3,
     borderColor: '#fff',
     borderRadius: 10,
