@@ -25,7 +25,7 @@ export default function TemperatureScreen({route, navigation}){
             }
           }
        await postTemp(newTemp)
-        navigation.navigate('List')
+        navigation.navigate('Babies')
     }
 
     return (
