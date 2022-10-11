@@ -99,7 +99,7 @@ export default function TemperatureScreen({navigation}) {
               <View style={styles.summaryContainer1}>
                 <Text style={styles.summaryText}>
                   {moment(temp.time).format('ddd/DD/MMM HH:MM')} :{' '}
-                  {temp.temperature}°C
+                  {temp.temperature.toFixed(2)}°C
                 </Text>
 
                 <TouchableOpacity index={index} onPress={DeleteTemp(temp.id)}>
